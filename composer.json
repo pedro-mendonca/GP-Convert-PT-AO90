@@ -50,7 +50,6 @@
   },
   "scripts-descriptions": {
     "lint": "Runs all available code linting (PHP_CodeSniffer, JS and MD lint).",
-    "compile": "Compile all JavaScript",
     "phpcs-i": "Log PHPCS debug information.",
     "lint:php": "Runs the PHP code sniffer.",
     "format:php": "Runs the PHP code sniffer and automatically fix errors.",
