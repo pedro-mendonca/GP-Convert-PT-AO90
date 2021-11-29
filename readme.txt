@@ -13,8 +13,6 @@ GlotPress language tool to convert text according to the Portuguese Language Ort
 
 == Description ==
 
-GlotPress language tool to convert text according to the Portuguese Language Orthographic Agreement of 1990 (PT AO90).
-
 This plugins customizes the default behavior of GlotPress Portuguese (Portugal) Locales, allows you to use automatically convert the approved/current strings in Portuguese (Portugal AO90) to its variant of Portuguese (Portugal).
 
 Only translations whose conversion are different from the original translation are set in the Variant translation table.
