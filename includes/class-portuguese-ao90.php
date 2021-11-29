@@ -49,38 +49,9 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			}
 
 			/**
-			 * Test.
-			 */
-			add_action( 'admin_notices', array( self::class, 'test' ) );
-
-			/**
 			 * Load replace pairs.
 			 */
 			add_action( 'gp_translation_saved', array( self::class, 'queue_translation_for_conversion' ), 5 );
-
-		}
-
-
-		/**
-		 * Render GlotPress not found admin notice.
-		 *
-		 * @return void
-		 */
-		public static function test() {
-
-			$text        = 'Activá-lo ou activá-la. Contactar a contacto. Bom aspecto!';
-			$string_ao90 = Convert_PT_AO90\convert_pt_ao90( $text );
-
-			?>
-			<div class="notice notice-error is-dismissible">
-				<p style="color: red;">
-					<?php echo $text; ?>
-				</p>
-				<p style="color: green;">
-					<?php echo $string_ao90; ?>
-				</p>
-			</div>
-			<?php
 
 		}
 
