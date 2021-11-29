@@ -1,0 +1,8 @@
+includes:
+	- vendor/szepeviktor/phpstan-wordpress/extension.neon
+parameters:
+	level: 9
+	inferPrivatePropertyTypeFromConstructor: true
+	paths:
+		- gp-convert-pt-ao90.php
+		- includes/

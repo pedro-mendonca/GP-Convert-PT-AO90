@@ -1,0 +1,33 @@
+{
+	"requires": true,
+	"lockfileVersion": 1,
+	"name": "gp-convert-pt-ao90",
+	"version": "1.0.0",
+	"description": "GlotPress language tool to convert text according to the Portuguese Language Orthographic Agreement of 1990 (PT AO90).",
+	"author": "Pedro Mendonça",
+	"license": "GPL-2.0-or-later",
+	"keywords": [
+		"WordPress",
+		"i18n",
+		"l10n",
+		"GlotPress",
+		"translation",
+		"Portuguese",
+		"AO90"
+	],
+	"homepage": "https://github.com/pedro-mendonca/GP-Convert-PT-AO90#readme",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/pedro-mendonca/GP-Convert-PT-AO90.git"
+	},
+	"bugs": {
+		"url": "https://github.com/pedro-mendonca/GP-Convert-PT-AO90/issues"
+	},
+	"devDependencies": {
+      "@wordpress/scripts": "^19.2.2"
+    },
+    "scripts": {
+      "lint:md:docs": "wp-scripts lint-md-docs",
+      "lint:pkg-json": "wp-scripts lint-pkg-json"
+    }
+}
