@@ -121,7 +121,6 @@ Portuguese_AO90::init();
 
 /**
  * TODO:
- * Verificar todas as conversões do core (contacto, redirecci...)
  * Read only, com reject propagado à variante.
  * Comportamento da biblioteca, null/false
  */
