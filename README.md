@@ -29,7 +29,7 @@ This plugin was heavily inspired by the [Serbian Latin](https://meta.trac.wordpr
 
 The language conversion uses the open source tool [Convert PT AO90](https://github.com/pedro-mendonca/Convert-PT-AO90) to replace entire words from a prebuilt list.
 
-# Features
+## Features
 
 * Check for active GlotPress.
 * Check for existent `pt` root and `pt-ao90` variant translation sets.
