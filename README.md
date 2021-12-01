@@ -45,6 +45,8 @@ The language conversion uses the open source tool [Convert PT AO90](https://gith
   * Locale = `pt-ao90`;
   * Slug = `default`;
 
+## Frequently Asked Questions
+
 ### Can I contribute to this plugin?
 
 Sure! You are welcome to report any issues or add feature suggestions on the [GitHub repository](https://github.com/pedro-mendonca/GP-Convert-PT-AO90).
