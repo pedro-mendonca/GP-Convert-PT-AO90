@@ -17,15 +17,29 @@ GlotPress language tool to convert text according to the Portuguese Language Ort
 
 ## Description
 
-This plugins customizes the default behavior of GlotPress Portuguese (Portugal) Locales, allows you to use automatically convert the approved/current strings in Portuguese (Portugal AO90) to its variant of Portuguese (Portugal).
+This plugins customizes the default behavior of GlotPress Portuguese (Portugal) Locales, allowing you to automatically convert the approved/current strings in Portuguese (Portugal) to its variant of Portuguese (Portugal AO90).
 
-Only translations whose conversion are different from the original translation are set in the Variant translation table.
+Keep the Portuguese (Portugal) root translations and the Portuguese (Portugal AO90) variant translations automatically converted and synced in your GlotPress install.
 
-The strings where there is no conversion needed remain untranslated on the Variant, falling back to the root Locale.
+Only translations whose conversion are different from the original root translation are added to the variant translation set.
+
+The strings that don't need any conversion remain untranslated on the variant, falling back to the root Locale.
+
+This plugin was heavily inspired by the [Serbian Latin](https://meta.trac.wordpress.org/ticket/5471) solution for transliteration of Serbian Cyrillic locale from [translate.wordpress.org](https://meta.trac.wordpress.org/browser/sites/trunk/wordpress.org/public_html/wp-content/plugins/wporg-gp-customizations/inc/locales/class-serbian-latin.php?rev=10360).
+
+The language conversion uses the open source tool [Convert PT AO90](https://github.com/pedro-mendonca/Convert-PT-AO90) to replace entire words from a prebuilt list.
+
+# Features
+
+* Check for active GlotPress.
+* Check for existent `pt` root and `pt-ao90` variant translation sets.
+* Convert `current` Portuguese (Portugal) root translations and add to the Portuguese (Portugal AO90) variant translations.
+* Sync `current`, `rejected`, `fuzzy`, `old` translations between root and variant locales.
+* Obsoletes `current` variant translation if a new root translation (same `original_id`) is added and doesn't need conversion.
 
 ## Requirements
 
-* GlotPress
+* GlotPress 3.x with variants support
 
 * Locale 'pt-ao90':
   * Locale = `pt-ao90`;
@@ -40,3 +54,8 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 ### 1.0.0
 
 * Initial release.
+* Check for active GlotPress.
+* Check for existent `pt` root and `pt-ao90` variant translation sets.
+* Convert `current` Portuguese (Portugal) root translations and add to the Portuguese (Portugal AO90) variant translations.
+* Sync `current`, `rejected`, `fuzzy`, `old` translations between root and variant locales.
+* Obsoletes `current` variant translation if a new root translation (same `original_id`) is added and doesn't need conversion.
