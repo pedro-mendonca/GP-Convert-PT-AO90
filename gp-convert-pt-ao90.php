@@ -1,6 +1,6 @@
 <?php
 /**
- * GP Convert PT AO90
+ * Convert PT AO90 for GlotPress
  *
  * Heavily inspired by the Serbian Latin solution for transliteration of Serbian Cyrillic locale from translate.wordpress.org.
  * https://meta.trac.wordpress.org/ticket/5471
@@ -14,7 +14,7 @@
  * @license           GPL-2.0-or-later
  *
  * @wordpress-plugin
- * Plugin Name:       GP Convert PT AO90
+ * Plugin Name:       Convert PT AO90 for GlotPress
  * Plugin URI:        https://wordpress.org/plugins/gp-convert-pt-ao90/
  * GitHub Plugin URI: https://github.com/pedro-mendonca/GP-Convert-PT-AO90
  * Description:       GlotPress language tool to convert text according to the Portuguese Language Orthographic Agreement of 1990 (PT AO90).

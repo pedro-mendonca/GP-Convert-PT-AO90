@@ -1,4 +1,4 @@
-# GP Convert PT AO90
+# Convert PT AO90 for GlotPress
 
 GlotPress language tool to convert text according to the Portuguese Language Orthographic Agreement of 1990 (PT AO90).
 

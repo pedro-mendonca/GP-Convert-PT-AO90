@@ -1,4 +1,4 @@
-=== GP Convert PT AO90 ===
+=== Convert PT AO90 for GlotPress ===
 Contributors: pedromendonca
 Donate link: https://github.com/sponsors/pedro-mendonca
 Tags: localization, translation, glotpress, ao90, portuguese
