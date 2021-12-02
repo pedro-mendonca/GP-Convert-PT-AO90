@@ -261,7 +261,6 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			if ( ! $variant_translation ) {
 				return;
 			}
-			$variant_translation->set_as_current();
 
 			gp_clean_translation_set_cache( $variant_set->id ); // @phpstan-ignore-line
 
