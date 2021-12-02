@@ -289,7 +289,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				'no-limit',
 				array(
 					'original_id' => $translation->original_id, // @phpstan-ignore-line
-					'status'      => $all ? 'either' : null,
+					'status'      => $all ? 'either' : 'current',
 				)
 			);
 
