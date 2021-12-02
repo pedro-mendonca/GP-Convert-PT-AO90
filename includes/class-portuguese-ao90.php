@@ -223,8 +223,8 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				// Create translation on the variant set.
 				self::create( $translation, $project, $variant_set );
 			} else {
-				// Set status of the translation on the variant set.
-				self::set_status( $translation, $project, $variant_set );
+				// Delete translation on the variant set.
+				self::delete( $translation, $project, $variant_set );
 			}
 
 		}
@@ -232,7 +232,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 		/**
 		 * Create translation on the variant set, if the conversion changes the root translation.
-		 * Also sets the previous variant set translation to old if the new translation remains unchanged with the conversion.
+		 * Also deletes any previous variant set translation if the new translation remains unchanged with the conversion.
 		 *
 		 * @since 1.0.0
 		 *
@@ -244,36 +244,14 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 */
 		public static function create( $translation, $project, $variant_set ) {
 
-			/**
-			 * TODO: Reuse converted old strings if exist to avoid unnecessary duplicates.
-			 * Might be a feature of GlotPress core.
-			 */
-
 			$translation_changed = self::convert_translation( $translation, $variant_set );
 
 			// Check if the conversion produces changes.
 			if ( ! $translation_changed ) {
 
-				// Get existing translations on the variant translation set for the original_id.
-				$variant_translations = GP::$translation->for_translation( // @phpstan-ignore-line
-					$project,
-					$variant_set,
-					'no-limit',
-					array(
-						'original_id' => $translation->original_id, // @phpstan-ignore-line
-					)
-				);
+				// Deletes any existent mathing conversions.
+				self::delete( $translation, $project, $variant_set );
 
-				// Obsolete any current, waiting or fuzzy for the original_id of the variant translation set.
-				foreach ( $variant_translations as $variant_translation ) {
-					$variant_translation = GP::$translation->get( $variant_translation ); // @phpstan-ignore-line
-					if ( ! $variant_translation ) {
-						continue;
-					}
-					$variant_translation->set_status( 'old' );
-				}
-
-				gp_clean_translation_set_cache( $variant_set->id ); // @phpstan-ignore-line
 				return;
 
 			}
@@ -291,8 +269,8 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 
 		/**
-		 * Set the status of the pt_PT_ao90 (pt-ao90/default) variant translation as the matching Portuguese (pt/default) root translation.
-		 * If the root is set as old, rejected or fuzzy, set the matching variant transaltion with the same status.
+		 * Delete the pt_PT_ao90 (pt-ao90/default) variant translation if the matching Portuguese (pt/default) root translation has no conversion.
+		 * Keeping no history for a read-only variant makes it lighter.
 		 *
 		 * @since 1.0.0
 		 *
@@ -302,15 +280,16 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 *
 		 * @return void
 		 */
-		public static function set_status( $translation, $project, $variant_set ) {
+		public static function delete( $translation, $project, $variant_set ) {
 
 			// Get existing translations on the variant translation set for the original_id.
-			$variant_translations = GP::$translation->for_translation(  // @phpstan-ignore-line
+			$variant_translations = GP::$translation->for_translation( // @phpstan-ignore-line
 				$project,
 				$variant_set,
 				'no-limit',
 				array(
 					'original_id' => $translation->original_id, // @phpstan-ignore-line
+					'status'      => 'either',
 				)
 			);
 
@@ -320,7 +299,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				if ( ! $variant_translation ) {
 					continue;
 				}
-				$variant_translation->set_status( $translation->status ); // @phpstan-ignore-line
+				$variant_translation->delete(); // @phpstan-ignore-line
 			}
 
 			gp_clean_translation_set_cache( $variant_set->id ); // @phpstan-ignore-line
