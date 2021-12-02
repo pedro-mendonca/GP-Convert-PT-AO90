@@ -276,7 +276,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 * @param object $translation   \GP_Translation  Created/updated translation.
 		 * @param object $project       \GP_Project  GlotPress project.
 		 * @param object $variant_set   \GP_Translation_Set  GlotPress variant translation set.
-		 * @param bool $all             Delete all translations or just the last for performance. Defaults to false.
+		 * @param bool   $all           Delete all translations or just the last for performance. Defaults to false.
 		 *
 		 * @return void
 		 */
