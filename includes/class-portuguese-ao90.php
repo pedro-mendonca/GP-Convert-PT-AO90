@@ -299,7 +299,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				if ( ! $variant_translation ) {
 					continue;
 				}
-				$variant_translation->delete(); // @phpstan-ignore-line
+				$variant_translation->delete();
 			}
 
 			gp_clean_translation_set_cache( $variant_set->id ); // @phpstan-ignore-line
