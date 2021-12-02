@@ -115,9 +115,3 @@ require_once GP_CONVERT_PT_AO90_DIR_PATH . 'vendor/autoload.php';
 
 // Initialize the plugin.
 Portuguese_AO90::init();
-
-/**
- * TODO:
- * Read only, com reject propagado à variante.
- * Comportamento da biblioteca, null/false
- */
