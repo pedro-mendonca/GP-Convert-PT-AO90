@@ -19,7 +19,7 @@
  * GitHub Plugin URI: https://github.com/pedro-mendonca/GP-Convert-PT-AO90
  * Description:       GlotPress language tool to convert text according to the Portuguese Language Orthographic Agreement of 1990 (PT AO90).
  * Version:           1.0.0
- * Requires at least: 4.9
+ * Requires at least: 5.3
  * Tested up to:      5.8
  * Requires PHP:      7.2
  * Author:            Pedro Mendonça
