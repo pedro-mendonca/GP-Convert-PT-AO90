@@ -90,7 +90,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 					printf(
 						/* translators: 1: Plugin name. 2: Error message. */
 						esc_html__( '%1$s: %2$s', 'gp-convert-pt-ao90' ),
-						'<b>' . esc_html_x( 'GP Convert PT AO90', 'Plugin name', 'gp-convert-pt-ao90' ) . '</b>',
+						'<b>' . esc_html_x( 'Convert PT AO90 for GlotPress', 'Plugin name', 'gp-convert-pt-ao90' ) . '</b>',
 						esc_html__( 'GlotPress not found. Please install and activate it.', 'gp-convert-pt-ao90' )
 					);
 					?>
@@ -153,7 +153,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 					printf(
 						/* translators: 1: Plugin name. 2: Error message. */
 						esc_html__( '%1$s: %2$s', 'gp-convert-pt-ao90' ),
-						'<b>' . esc_html_x( 'GP Convert PT AO90', 'Plugin name', 'gp-convert-pt-ao90' ) . '</b>',
+						'<b>' . esc_html_x( 'Convert PT AO90 for GlotPress', 'Plugin name', 'gp-convert-pt-ao90' ) . '</b>',
 						esc_html__( 'Locale not found. Please check if your GlotPress version has the Locale "pt-ao90".', 'gp-convert-pt-ao90' )
 					);
 					?>

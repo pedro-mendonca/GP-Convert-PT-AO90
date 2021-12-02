@@ -47,26 +47,23 @@ if ( ! function_exists( 'get_plugin_data' ) ) {
 $gp_convert_pt_ao90_data = get_plugin_data( __FILE__, false, false );
 
 
-// Set GP Convert PT AO90 plugin version.
+// Set Convert PT AO90 for GlotPress plugin version.
 if ( ! defined( 'GP_CONVERT_PT_AO90_VERSION' ) ) {
 	define( 'GP_CONVERT_PT_AO90_VERSION', $gp_convert_pt_ao90_data['Version'] );
 }
 
-// Set GP Convert PT AO90 required PHP version. Needed for PHP compatibility check for WordPress < 5.1.
+// Set Convert PT AO90 for GlotPress required PHP version. Needed for PHP compatibility check for WordPress < 5.1.
 if ( ! defined( 'GP_CONVERT_PT_AO90_REQUIRED_PHP' ) ) {
 	define( 'GP_CONVERT_PT_AO90_REQUIRED_PHP', $gp_convert_pt_ao90_data['RequiresPHP'] );
 }
 
-// Set GP Convert PT AO90 transients prefix.
-define( 'GP_CONVERT_PT_AO90_TRANSIENTS_PREFIX', 'gp_convert_pt_ao90_' );
-
-// Set GP Convert PT AO90 plugin URL.
+// Set Convert PT AO90 for GlotPress plugin URL.
 define( 'GP_CONVERT_PT_AO90_DIR_URL', plugin_dir_url( __FILE__ ) );
 
-// Set GP Convert PT AO90 plugin filesystem path.
+// Set Convert PT AO90 for GlotPress plugin filesystem path.
 define( 'GP_CONVERT_PT_AO90_DIR_PATH', plugin_dir_path( __FILE__ ) );
 
-// Set GP Convert PT AO90 file path.
+// Set Convert PT AO90 for GlotPress file path.
 define( 'GP_CONVERT_PT_AO90_FILE', plugin_basename( __FILE__ ) );
 
 

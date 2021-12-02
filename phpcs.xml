@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<ruleset name="GP Convert PT AO90">
-	<description>A custom set of PHPCS rules for GP Convert PT AO90.</description>
+<ruleset name="Convert PT AO90 for GlotPress">
+	<description>A custom set of PHPCS rules for Convert PT AO90 for GlotPress.</description>
 
 	<!-- Files to check. -->
 	<file>.</file>

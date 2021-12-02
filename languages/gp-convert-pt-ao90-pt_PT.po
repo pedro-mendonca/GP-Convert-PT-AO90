@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: GP Convert PT AO90\n"
+"Project-Id-Version: Convert PT AO90 for GlotPress\n"
 "Report-Msgid-Bugs-To: https://github.com/pedro-mendonca/GP-Convert-PT-AO90/issues\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2021-11-29 11:08+0000\n"
+"PO-Revision-Date: 2021-12-02 18:31+0000\n"
 "Last-Translator: Pedro Mendonça <ped.gaspar@gmail.com>\n"
 "Language-Team: Pedro Mendonça <ped.gaspar@gmail.com>\n"
 "Language: pt_PT\n"
@@ -23,29 +23,27 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-1: vendor\n"
 
 #. translators: 1: Plugin name. 2: Error message.
-#: includes/class-portuguese-ao90.php:117
-#: includes/class-portuguese-ao90.php:176
+#: includes/class-portuguese-ao90.php:92 includes/class-portuguese-ao90.php:155
 #, php-format
 msgid "%1$s: %2$s"
 msgstr "%1$s: %2$s"
 
-#: includes/class-portuguese-ao90.php:118
-#: includes/class-portuguese-ao90.php:177
+#: includes/class-portuguese-ao90.php:93 includes/class-portuguese-ao90.php:156
 msgctxt "Plugin name"
-msgid "GP Convert PT AO90"
-msgstr "GP Convert PT AO90"
+msgid "Convert PT AO90 for GlotPress"
+msgstr "Convert PT AO90 for GlotPress"
 
-#: includes/class-portuguese-ao90.php:119
+#: includes/class-portuguese-ao90.php:94
 msgid "GlotPress not found. Please install and activate it."
 msgstr "GlotPress não encontrado. Por favor, instale-o e active-o."
 
-#: includes/class-portuguese-ao90.php:178
+#: includes/class-portuguese-ao90.php:157
 msgid "Locale not found. Please check if your GlotPress version has the Locale \"pt-ao90\"."
 msgstr "Locale não encontrado. Por favor, verifique se a sua versão do GlotPress tem o Locale \"pt-ao90\"."
 
 #. Plugin Name of the plugin/theme
-msgid "GP Convert PT AO90"
-msgstr "GP Convert PT AO90"
+msgid "Convert PT AO90 for GlotPress"
+msgstr "Convert PT AO90 for GlotPress"
 
 #. Plugin URI of the plugin/theme
 msgid "https://wordpress.org/plugins/gp-convert-pt-ao90/"
