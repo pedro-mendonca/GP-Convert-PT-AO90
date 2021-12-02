@@ -37,11 +37,11 @@ The language conversion uses the open source tool [Convert PT AO90](https://gith
 
 *   GlotPress
 
-*   Translation set (root): Portuguese (Portugal)
+*   Translation set (root): `Portuguese (Portugal)`
        * Locale = `pt`;
        * Slug = `default`;
 
-*   Translation set (variant): Portuguese (Portugal, AO90)
+*   Translation set (variant): `Portuguese (Portugal, AO90)`
        * Locale = `pt-ao90`;
        * Slug = `default`;
 
