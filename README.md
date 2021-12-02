@@ -34,8 +34,8 @@ The language conversion uses the open source tool [Convert PT AO90](https://gith
 * Check for active GlotPress.
 * Check for existent `pt` root and `pt-ao90` variant translation sets.
 * Convert `current` Portuguese (Portugal) root translations and add to the Portuguese (Portugal AO90) variant translations.
-* Sync `current`, `rejected`, `fuzzy`, `old` translations between root and variant locales.
-* Obsoletes `current` variant translation if a new root translation (same `original_id`) is added and doesn't need conversion.
+* Delete variant unused translations instead of keeping as `rejected`, `fuzzy`, `old`.
+* Delete `current` variant translation if a new root translation (same `original_id`) is added and doesn't need conversion.
 
 ## Requirements
 
@@ -52,6 +52,10 @@ The language conversion uses the open source tool [Convert PT AO90](https://gith
 Sure! You are welcome to report any issues or add feature suggestions on the [GitHub repository](https://github.com/pedro-mendonca/GP-Convert-PT-AO90).
 
 ## Changelog
+
+### Unreleased
+
+* Delete not used variant translations instead of keeping as old. As the variant is intended to be read-only, all the translation work and history is kept on the root variant.
 
 ### 1.0.0
 
