@@ -224,7 +224,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				self::create( $translation, $project, $variant_set );
 			} else {
 				// Delete translation on the variant set.
-				self::delete( $translation, $project, $variant_set );
+				self::delete( $translation, $project, $variant_set, true );
 			}
 
 		}
@@ -250,7 +250,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			if ( ! $translation_changed ) {
 
 				// Deletes any existent mathing conversions.
-				self::delete( $translation, $project, $variant_set );
+				self::delete( $translation, $project, $variant_set, false );
 
 				return;
 
@@ -276,10 +276,11 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 * @param object $translation   \GP_Translation  Created/updated translation.
 		 * @param object $project       \GP_Project  GlotPress project.
 		 * @param object $variant_set   \GP_Translation_Set  GlotPress variant translation set.
+		 * @param bool $all             Delete all translations or just the last for performance. Defaults to false.
 		 *
 		 * @return void
 		 */
-		public static function delete( $translation, $project, $variant_set ) {
+		public static function delete( $translation, $project, $variant_set, $all = false ) {
 
 			// Get existing translations on the variant translation set for the original_id.
 			$variant_translations = GP::$translation->for_translation( // @phpstan-ignore-line
@@ -288,7 +289,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				'no-limit',
 				array(
 					'original_id' => $translation->original_id, // @phpstan-ignore-line
-					'status'      => 'either',
+					'status'      => $all ? 'either' : null,
 				)
 			);
 
