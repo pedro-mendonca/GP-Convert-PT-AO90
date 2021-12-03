@@ -63,4 +63,4 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 * Check for active GlotPress.
 * Check for existent `pt` root and `pt-ao90` variant translation sets.
 * Convert `current` Portuguese (Portugal) root translations and add to the Portuguese (Portugal, AO90) variant translations.
-* Delete unused variant translations instead of keeping as old. As the variant is intended to be read-only, all the translation work and history is kept on the root variant.
+* Delete unused variant translations instead of keeping as old. As the variant is intended to be read-only, all the translation work and history is kept on the root set.
