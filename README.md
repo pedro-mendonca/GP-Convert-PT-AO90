@@ -69,7 +69,7 @@ With this tool, the translators can continue to provide both Locales with the mi
 No(t yet). This is a working proof of concept, it works on any GlotPress, but isn't running on [translate.wp.org](https://translate.wp.org) (GlotPress based) at the moment.  
 Hopefully it will, or at least a clone of this, as this is an open source tool.  
 
-### Should this feature be a part of GlorPress itself?
+### Should this feature be a part of GlotPress itself?
 
 No. And yes.
 The relationship between root/variant depend on each team that uses GlotPress.  
