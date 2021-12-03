@@ -1,6 +1,6 @@
 # Convert PT AO90 for GlotPress
 
-GlotPress language tool to convert text according to the Portuguese Language Orthographic Agreement of 1990 (PT AO90).
+Language tool for GlotPress to convert text according to the Portuguese Language Orthographic Agreement of 1990 (PT AO90).
 
 [![WordPress Plugin Version](https://img.shields.io/wordpress/plugin/v/gp-convert-pt-ao90?label=Plugin%20Version&logo=wordpress)](https://wordpress.org/plugins/gp-convert-pt-ao90/)
 [![WordPress Plugin Rating](https://img.shields.io/wordpress/plugin/stars/gp-convert-pt-ao90?label=Plugin%20Rating&logo=wordpress)](https://wordpress.org/support/plugin/gp-convert-pt-ao90/reviews/)
@@ -17,7 +17,7 @@ GlotPress language tool to convert text according to the Portuguese Language Ort
 
 ## Description
 
-This plugins customizes the default behavior of GlotPress Portuguese (Portugal) Locales, allowing you to automatically convert the approved/current strings in Portuguese (Portugal) to its variant of Portuguese (Portugal, AO90).
+This plugin for GlotPress customizes the default behavior of the Portuguese (Portugal) Locales, allowing you to automatically convert the approved/current strings in Portuguese (Portugal) to its variant of Portuguese (Portugal, AO90).
 
 Keep the Portuguese (Portugal) root translations and the Portuguese (Portugal, AO90) variant translations automatically converted and synced in your GlotPress install.
 

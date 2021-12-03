@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Convert PT AO90 for GlotPress\n"
 "Report-Msgid-Bugs-To: https://github.com/pedro-mendonca/GP-Convert-PT-AO90/issues\n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: 2021-12-02 18:31+0000\n"
+"POT-Creation-Date: 2021-12-03 12:05+0000\n"
+"PO-Revision-Date: 2021-12-03 12:06+0000\n"
 "Last-Translator: Pedro Mendonça <ped.gaspar@gmail.com>\n"
 "Language-Team: Pedro Mendonça <ped.gaspar@gmail.com>\n"
 "Language: pt_PT\n"
@@ -50,8 +50,8 @@ msgid "https://wordpress.org/plugins/gp-convert-pt-ao90/"
 msgstr "https://pt.wordpress.org/plugins/gp-convert-pt-ao90/"
 
 #. Description of the plugin/theme
-msgid "GlotPress language tool to convert text according to the Portuguese Language Orthographic Agreement of 1990 (PT AO90)."
-msgstr "Ferramenta do GlotPress para converter texto em português para a grafia do Acordo Ortográfico de Língua Portuguesa de 1990 (PT AO90)."
+msgid "Language tool for GlotPress to convert text according to the Portuguese Language Orthographic Agreement of 1990 (PT AO90)."
+msgstr "Ferramenta para o GlotPress para converter texto em português para a grafia do Acordo Ortográfico de Língua Portuguesa de 1990 (PT AO90)."
 
 #. Author of the plugin/theme
 msgid "Pedro Mendonça"
@@ -60,3 +60,6 @@ msgstr "Pedro Mendonça"
 #. Author URI of the plugin/theme
 msgid "https://profiles.wordpress.org/pedromendonca/"
 msgstr "https://profiles.wordpress.org/pedromendonca/"
+
+#~ msgid "GlotPress language tool to convert text according to the Portuguese Language Orthographic Agreement of 1990 (PT AO90)."
+#~ msgstr "Ferramenta do GlotPress para converter texto em português para a grafia do Acordo Ortográfico de Língua Portuguesa de 1990 (PT AO90)."

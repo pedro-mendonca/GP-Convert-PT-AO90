@@ -49,7 +49,7 @@ msgid "https://wordpress.org/plugins/gp-convert-pt-ao90/"
 msgstr ""
 
 #. Description of the plugin/theme
-msgid "GlotPress language tool to convert text according to the Portuguese Language Orthographic Agreement of 1990 (PT AO90)."
+msgid "Language tool for GlotPress to convert text according to the Portuguese Language Orthographic Agreement of 1990 (PT AO90)."
 msgstr ""
 
 #. Author of the plugin/theme
