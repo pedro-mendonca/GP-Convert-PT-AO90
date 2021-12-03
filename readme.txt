@@ -47,6 +47,29 @@ The language conversion uses the open source tool [Convert PT AO90](https://gith
 
 == Frequently Asked Questions ==
 
+= I want my WordPress in Portuguese (Portugal, AO90), does this plugin help?
+No! To use your WordPress in Portuguese (Portugal AO90) you must go to your Settings and select it in the Language field. You can also use the plugin [PT AO90](https://wordpress.org/plugins/pt-ao90/) to make sure your site falls back to Portuguese (Portugal) instead of English if there is no translation to Portuguese (Portugal, AO90) for your theme or plugins.
+
+= So what does this plugin really do, after all?
+It extends the translation platform GlotPress used to translate WordPress projects, instead of having both Locales separate.
+Since GlotPress 3.x there is a new Variants feature, enabling some Locales to be a variant of a root Locale. With this, comes fallback.
+If a translation doesn't exist on the variant, it assumes its root translation.
+This plugin links both Portuguese Locales in a way that you only need to focus in translating and manage consistency on the root Portuguese (Portugal), knowing that the variant is being automatically converted and synced with no human action needed.
+With this tool, the translators can continue to provide both Locales with the minimum effort.
+
+= Does this means that translations are now converted automatically on translate.wp.org?
+No(t yet). This is a working proof of concept, it works on any GlotPress, but isn't running on [translate.wp.org](https://translate.wp.org) (GlotPress based) at the moment.
+Hopefully it will, or at least a clone of this, as this is an open source tool.
+
+= Should this feature be a part of GlorPress itself?
+No. And yes.
+The relationship between root/variant depend on each team that uses GlotPress.
+Depending on how the translation team decides to work. It's useful if automatic conversion is wanted.
+For teams that want a root/variant to work automatically, than yes, GlotPress could integrate this optional feature of setting a specific pair of root/variant automatically converted with some custom hookable process, and turning the variant read-only.
+This is not an exclusive need of the Portuguese Locales, this is surely useful for other Locales as well.
+What should not be a part of GlotPress core is the actual Portuguese conversion, that is plugin territory.
+This plugin is intended to be a proof of concept to use and test this workflow.
+
 = Can I contribute to this plugin? =
 Sure! You are welcome to report any issues or add feature suggestions on the [GitHub repository](https://github.com/pedro-mendonca/GP-Convert-PT-AO90).
 
