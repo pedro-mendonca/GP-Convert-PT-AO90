@@ -48,10 +48,11 @@ The language conversion uses the open source tool [Convert PT AO90](https://gith
 == Frequently Asked Questions ==
 
 = I want my WordPress in Portuguese (Portugal, AO90), does this plugin help?
-No! To use your WordPress in Portuguese (Portugal AO90) you must go to your Settings and select it in the Language field. You can also use the plugin [PT AO90](https://wordpress.org/plugins/pt-ao90/) to make sure your site falls back to Portuguese (Portugal) instead of English if there is no translation to Portuguese (Portugal, AO90) for your theme or plugins.
+No! To use your WordPress in Portuguese (Portugal AO90) you must go to your Settings and select it in the Language field.
+You can also use the plugin [PT AO90](https://wordpress.org/plugins/pt-ao90/) to make sure your site falls back to Portuguese (Portugal) instead of English if there is no translation to Portuguese (Portugal, AO90) for your theme or plugins.
 
 = So what does this plugin really do, after all?
-It extends the translation platform GlotPress used to translate WordPress projects, instead of having both Locales separate.
+It extends the translation platform GlotPress used to translate WordPress projects.
 Since GlotPress 3.x there is a new Variants feature, enabling some Locales to be a variant of a root Locale. With this, comes fallback.
 If a translation doesn't exist on the variant, it assumes its root translation.
 This plugin links both Portuguese Locales in a way that you only need to focus in translating and manage consistency on the root Portuguese (Portugal), knowing that the variant is being automatically converted and synced with no human action needed.
