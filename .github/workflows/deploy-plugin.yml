@@ -14,10 +14,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2.4.0
 
-    - name: Get the version
-      id: get_version
-      run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
-
     - name: Set up PHP
       uses: shivammathur/setup-php@2.15.0
       with:
@@ -43,21 +39,8 @@ jobs:
       run: echo "${PWD}/vendor/bin" >> $GITHUB_PATH
 
     - name: WordPress.org Plugin Deploy
-      id: deploy
       uses: 10up/action-wordpress-plugin-deploy@2.0.0
-      with:
-        generate-zip: true
       env:
         SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
         SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
         SLUG: gp-convert-pt-ao90
-
-    - name: Upload release asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ github.event.release.upload_url }}
-        asset_path: ${{ steps.deploy.outputs.zip-path }}
-        asset_name: gp-convert-pt-ao90.${{ steps.get_version.outputs.VERSION }}.zip
-        asset_content_type: application/zip
