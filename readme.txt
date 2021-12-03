@@ -59,7 +59,7 @@ This plugin links both Portuguese Locales in a way that you only need to focus i
 With this tool, the translators can continue to provide both Locales with the minimum effort.
 
 = Does this means that translations are now converted automatically on translate.wp.org?
-No(t yet). This is a working proof of concept, it works on any GlotPress, but isn't running on [translate.wp.org](https://translate.wp.org) (GlotPress based) at the moment.
+No(t yet). This is a working proof of concept, it works on any GlotPress 3.x, but isn't running on [translate.wp.org](https://translate.wp.org) (GlotPress based) at the moment.
 Hopefully it will, or at least a clone of this, as this is an open source tool.
 
 = Should this feature be a part of GlotPress itself?
