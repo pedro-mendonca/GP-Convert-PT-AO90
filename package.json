@@ -24,10 +24,10 @@
 		"url": "https://github.com/pedro-mendonca/GP-Convert-PT-AO90/issues"
 	},
 	"devDependencies": {
-      "@wordpress/scripts": "^22.0.1"
-    },
-    "scripts": {
-      "lint:md:docs": "wp-scripts lint-md-docs",
-      "lint:pkg-json": "wp-scripts lint-pkg-json"
-    }
+		"@wordpress/scripts": "^22.0.1"
+	},
+	"scripts": {
+		"lint:md:docs": "wp-scripts lint-md-docs",
+		"lint:pkg-json": "wp-scripts lint-pkg-json"
+	}
 }

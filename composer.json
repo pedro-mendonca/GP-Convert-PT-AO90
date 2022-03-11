@@ -23,7 +23,10 @@
     "sirbrillig/phpcs-variable-analysis": "^2.11.2"
   },
   "config": {
-    "optimize-autoloader": true
+    "optimize-autoloader": true,
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
   },
     "scripts": {
     "lint": [
