@@ -35,7 +35,7 @@ The language conversion uses the open source tool [Convert PT AO90](https://gith
 
 == Requirements ==
 
-*   GlotPress
+*   [GlotPress 3.0.0-alpha](https://github.com/GlotPress/GlotPress/releases/tag/3.0.0-alpha.4) with Variants support.
 
 *   Translation set (root): `Portuguese (Portugal)`
        * Locale = `pt`;
@@ -70,6 +70,10 @@ For teams that want a root/variant to work automatically, than yes, GlotPress co
 This is not an exclusive need of the Portuguese Locales, this is surely useful for other Locales as well.
 What should not be a part of GlotPress core is the actual Portuguese conversion, that is plugin territory.
 This plugin is intended to be a proof of concept to use and test this workflow.
+
+= What versions of GlotPress are compatible with this plugin?
+The Variants feature was introduced in [GlotPress 3.0.0-alpha](https://github.com/GlotPress/GlotPress/releases/tag/3.0.0-alpha.4).
+Later, on [GlotPress 3.0.0-beta](https://github.com/GlotPress/GlotPress/releases/tag/3.0.0-beta.1) the Variants feature [was removed temporarily](https://github.com/GlotPress/GlotPress/pull/1327), so for now the GlotPress alpha version is the only Variants compatible version, and you must install it for this plugin to do its magic.
 
 = Can I contribute to this plugin? =
 Sure! You are welcome to report any issues or add feature suggestions on the [GitHub repository](https://github.com/pedro-mendonca/GP-Convert-PT-AO90).
