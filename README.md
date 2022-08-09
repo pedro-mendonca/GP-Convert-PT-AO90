@@ -81,7 +81,6 @@ This plugin is intended to be a proof of concept to use and test this workflow.
 
 ### What versions of GlotPress are compatible with this plugin?
 
-GlotPress alpha version, and later removed temporarily on beta version.  
 The Variants feature was introduced in [GlotPress 3.0.0-alpha](https://github.com/GlotPress/GlotPress/releases/tag/3.0.0-alpha.4).  
 Later, on [GlotPress 3.0.0-beta](https://github.com/GlotPress/GlotPress/releases/tag/3.0.0-beta.1) the Variants feature [was removed temporarily](https://github.com/GlotPress/GlotPress/pull/1327), so for now the GlotPress alpha version is the only Variants compatible version, and you must install it for this plugin to do its magic.  
 
@@ -90,6 +89,17 @@ Later, on [GlotPress 3.0.0-beta](https://github.com/GlotPress/GlotPress/releases
 Sure! You are welcome to report any issues or add feature suggestions on the [GitHub repository](https://github.com/pedro-mendonca/GP-Convert-PT-AO90).
 
 ## Changelog
+
+### 1.1.0
+
+* Update the actual [Convert-PT-AO90](https://github.com/pedro-mendonca/Convert-PT-AO90) tool to v1.3.
+* Rebuild replace pairs with half the size.
+* Improve performance by using only lowercase replace pairs.
+* Fix matching words starting with an accented vowel.
+* Remove wrong replace pairs about cardinal points (lowercased since 1945).
+* Add some more replace pairs.
+* Update dependencies.
+* Tested up to WP 6.0.
 
 ### 1.0.0
 
