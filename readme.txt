@@ -17,7 +17,7 @@ This plugin for GlotPress customizes the default behavior of the Portuguese (Por
 
 It keeps the Portuguese (Portugal) root translations automatically converted and synced with its Portuguese (Portugal, AO90) variant translations within your GlotPress install.
 
-The only translations added to the variant translation set are those which are different from the root translation.
+The only translations added to the Portuguese (Portugal, AO90) variant translation set are those which are different from the Portuguese (Portugal) root translation.
 
 The strings that don't need any conversion remain untranslated on the variant, falling back to the root Locale.
 
