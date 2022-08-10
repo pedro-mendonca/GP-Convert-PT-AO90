@@ -15,7 +15,7 @@ Language tool for GlotPress to convert text according to the Portuguese Language
 
 This plugin for GlotPress customizes the default behavior of the Portuguese (Portugal) Locales, allowing you to automatically convert the approved/current strings in Portuguese (Portugal) to its variant of Portuguese (Portugal, AO90).
 
-It keeps the Portuguese (Portugal) root translations and the Portuguese (Portugal, AO90) variant translations automatically converted and synced in your GlotPress install.
+It keeps the Portuguese (Portugal) root translations automatically converted and synced with its Portuguese (Portugal, AO90) variant translations within your GlotPress install.
 
 The only translations added to the variant translation set are those which are different from the root translation.
 
