@@ -2,7 +2,7 @@
 	"requires": true,
 	"lockfileVersion": 1,
 	"name": "gp-convert-pt-ao90",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"description": "GlotPress language tool to convert text according to the Portuguese Language Orthographic Agreement of 1990 (PT AO90).",
 	"author": "Pedro Mendonça",
 	"license": "GPL-2.0-or-later",

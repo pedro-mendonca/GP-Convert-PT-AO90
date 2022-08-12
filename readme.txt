@@ -5,7 +5,7 @@ Tags: localization, translation, glotpress, ao90, portuguese
 Requires at least: 5.3
 Tested up to: 6.0
 Requires PHP: 7.2
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -79,6 +79,12 @@ Later, on [GlotPress 3.0.0-beta](https://github.com/GlotPress/GlotPress/releases
 Sure! You are welcome to report any issues or add feature suggestions on the [GitHub repository](https://github.com/pedro-mendonca/GP-Convert-PT-AO90).
 
 == Changelog ==
+
+*   Fix matching for exact words with titlecase on the replace pairs.
+
+= 1.1.1 =
+*   Update the actual [Convert-PT-AO90](https://github.com/pedro-mendonca/Convert-PT-AO90) tool to v1.3.1.
+*   Fix matching for words with exact case on the replace pairs.
 
 = 1.1.0 =
 *   Update the actual [Convert-PT-AO90](https://github.com/pedro-mendonca/Convert-PT-AO90) tool to v1.3.
