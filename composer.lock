@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0924b7194be86dfcc409e10607ec0903",
+    "content-hash": "565dbb976c0ffe546126a257ea1c3157",
     "packages": [
         {
             "name": "pedro-mendonca/convert-pt-ao90",
-            "version": "1.3.0",
+            "version": "1.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pedro-mendonca/Convert-PT-AO90.git",
-                "reference": "c44da98d44dc7e3ac221a6ad46871dbae0620fff"
+                "reference": "d1261a6160977b455888f81a5fd87d5cfead5f9b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pedro-mendonca/Convert-PT-AO90/zipball/c44da98d44dc7e3ac221a6ad46871dbae0620fff",
-                "reference": "c44da98d44dc7e3ac221a6ad46871dbae0620fff",
+                "url": "https://api.github.com/repos/pedro-mendonca/Convert-PT-AO90/zipball/d1261a6160977b455888f81a5fd87d5cfead5f9b",
+                "reference": "d1261a6160977b455888f81a5fd87d5cfead5f9b",
                 "shasum": ""
             },
             "require": {
@@ -51,7 +51,7 @@
             "description": "Open source language tool to convert Portuguese to AO90.",
             "support": {
                 "issues": "https://github.com/pedro-mendonca/Convert-PT-AO90/issues",
-                "source": "https://github.com/pedro-mendonca/Convert-PT-AO90/tree/1.3.0"
+                "source": "https://github.com/pedro-mendonca/Convert-PT-AO90/tree/1.3.1"
             },
             "funding": [
                 {
@@ -59,7 +59,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-08-09T21:01:36+00:00"
+            "time": "2022-08-12T14:56:21+00:00"
         }
     ],
     "packages-dev": [
