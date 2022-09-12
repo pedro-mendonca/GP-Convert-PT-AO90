@@ -62,6 +62,13 @@
 		</properties>
 	</rule>
 
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<!-- Set the Text Domain. -->
+			<property name="text_domain" type="array" value="gp-convert-pt-ao90"/>
+		</properties>
+	</rule>
+
 	<!-- VariableAnalysis. -->
 	<rule ref="VariableAnalysis"/>
 
