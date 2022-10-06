@@ -27,6 +27,7 @@
 		"@wordpress/scripts": "^24.3.0"
 	},
 	"scripts": {
+		"lint:css": "wp-scripts lint-style",
 		"lint:md:docs": "wp-scripts lint-md-docs",
 		"lint:pkg-json": "wp-scripts lint-pkg-json"
 	}

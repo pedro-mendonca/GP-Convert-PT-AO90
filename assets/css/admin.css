@@ -1,0 +1,6 @@
+/* Highlight conversion difference. */
+.translation-text ins {
+	background-color: #68de7c;
+	text-decoration: none;
+	display: inline-block;
+}

@@ -39,6 +39,7 @@
       "@lint:php",
       "@compat:php",
       "@lint:phpstan",
+      "@lint:css",
       "@lint:md:docs",
       "@lint:pkg-json"
     ],
@@ -53,6 +54,7 @@
     "compat:php": "phpcs -v --standard=phpcompat.xml",
     "lint:phpstan": "phpstan analyse -c phpstan.neon --memory-limit=1G",
     "lint:phpmd": "phpmd . text phpmd.xml",
+    "lint:css": "npm run lint:css",
     "lint:md:docs": "npm run lint:md:docs",
     "lint:pkg-json": "npm run lint:pkg-json",
     "scripts-list": "composer run-script --list"
@@ -65,6 +67,7 @@
     "compat:php": "Runs the PHPCompatibilityWP code sniffer.",
     "lint:phpstan": "Runs the PHPStan code static analysis.",
     "lint:phpmd": "Runs the PHPMD code static analysis.",
+    "lint:css": "Run npm CSS linter.",
     "lint:md:docs": "Run npm MD linter.",
     "lint:pkg-json": "Run npm package.json linter.",
     "scripts-list": "List all Composer scripts.",
