@@ -319,10 +319,10 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param \GP_Translation $translation       Created/updated translation.
-		 * @param \GP_Project $project               GlotPress project.
+		 * @param \GP_Translation     $translation   Created/updated translation.
+		 * @param \GP_Project         $project       GlotPress project.
 		 * @param \GP_Translation_Set $variant_set   GlotPress variant translation set.
-		 * @param bool $all                          Delete all translations or just the last for performance. Defaults to false.
+		 * @param bool                $all           Delete all translations or just the last for performance. Defaults to false.
 		 *
 		 * @return void
 		 */
@@ -358,7 +358,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param \GP_Translation $translation       GlotPress translation.
+		 * @param \GP_Translation     $translation   GlotPress translation.
 		 * @param \GP_Translation_Set $variant_set   GlotPress variant set.
 		 *
 		 * @return object|false   Returns a converted translation, or false if the result remains unchanged.
