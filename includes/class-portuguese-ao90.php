@@ -74,6 +74,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 		}
 
+
 		/**
 		 * Render GlotPress not found admin notice.
 		 *
@@ -99,6 +100,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			<?php
 
 		}
+
 
 		/**
 		 * Check if Locale exist in GlotPress.
@@ -127,7 +129,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			// Locale slug for Portuguese (Portugal, AO90).
 			$locale_slug = 'pt-ao90';
 
-			$locale = GP_Locales::by_slug( $locale_slug ); // @phpstan-ignore-lines
+			$locale = GP_Locales::by_slug( $locale_slug );
 
 			if ( null === $locale ) {
 				add_action( 'admin_notices', array( self::class, 'notice_locale_not_found' ) );
@@ -136,6 +138,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			return $locale;
 
 		}
+
 
 		/**
 		 * Render Locale not found admin notice.
@@ -168,7 +171,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param object $translation   \GP_Translation Created/updated translation.
+		 * @param \GP_Translation $translation   Created/updated translation.
 		 *
 		 * @return void
 		 */
@@ -195,13 +198,13 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			 * Locale: 'pt'
 			 * Slug: 'default'
 			 */
-			$root_set = GP::$translation_set->get( $translation->translation_set_id ); // @phpstan-ignore-line
-			if ( ! $root_set || $root_locale['locale'] !== $root_set->locale || $root_locale['slug'] !== $root_set->slug ) {
+			$root_set = GP::$translation_set->get( $translation->translation_set_id );
+			if ( ! $root_set || $root_locale['locale'] !== $root_set->locale || $root_locale['slug'] !== $root_set->slug ) { // @phpstan-ignore-line
 				return;
 			}
 
 			// Get translation original.
-			$original = GP::$original->get( $translation->original_id ); // @phpstan-ignore-line
+			$original = GP::$original->get( $translation->original_id );
 			if ( ! $original ) {
 				return;
 			}
@@ -216,10 +219,13 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				return;
 			}
 
-			$project = GP::$project->get( $variant_set->project_id ); // @phpstan-ignore-line
+			$project = GP::$project->get( $variant_set->project_id );
+			if ( ! $project ) {
+				return;
+			}
 
 			// Process if root translation is set to current without warnings.
-			if ( 'current' === $translation->status && empty( $translation->warnings ) ) { // @phpstan-ignore-line
+			if ( 'current' === $translation->status && empty( $translation->warnings ) ) {
 				// Create translation on the variant set.
 				self::create( $translation, $project, $variant_set );
 			} else {
@@ -236,9 +242,9 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param object $translation   \GP_Translation  Created/updated translation.
-		 * @param object $project       \GP_Project  GlotPress project.
-		 * @param object $variant_set   \GP_Translation_Set  GlotPress translation set of the variant.
+		 * @param \GP_Translation     $translation   Created/updated translation.
+		 * @param \GP_Project         $project       GlotPress project.
+		 * @param \GP_Translation_Set $variant_set   GlotPress translation set of the variant.
 		 *
 		 * @return void
 		 */
@@ -257,12 +263,12 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			}
 
 			// Add converted translation to the variant translation set and set as current.
-			$variant_translation = GP::$translation->create( $translation_changed ); // @phpstan-ignore-line
+			$variant_translation = GP::$translation->create( $translation_changed );
 			if ( ! $variant_translation ) {
 				return;
 			}
 
-			gp_clean_translation_set_cache( $variant_set->id ); // @phpstan-ignore-line
+			gp_clean_translation_set_cache( $variant_set->id );
 
 		}
 
@@ -273,36 +279,36 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param object $translation   \GP_Translation  Created/updated translation.
-		 * @param object $project       \GP_Project  GlotPress project.
-		 * @param object $variant_set   \GP_Translation_Set  GlotPress variant translation set.
-		 * @param bool   $all           Delete all translations or just the last for performance. Defaults to false.
+		 * @param \GP_Translation $translation       Created/updated translation.
+		 * @param \GP_Project $project               GlotPress project.
+		 * @param \GP_Translation_Set $variant_set   GlotPress variant translation set.
+		 * @param bool $all                          Delete all translations or just the last for performance. Defaults to false.
 		 *
 		 * @return void
 		 */
 		public static function delete( $translation, $project, $variant_set, $all = false ) {
 
 			// Get existing translations on the variant translation set for the original_id.
-			$variant_translations = GP::$translation->for_translation( // @phpstan-ignore-line
+			$variant_translations = GP::$translation->for_translation(
 				$project,
 				$variant_set,
 				'no-limit',
 				array(
-					'original_id' => $translation->original_id, // @phpstan-ignore-line
+					'original_id' => $translation->original_id,
 					'status'      => $all ? 'either' : 'current',
 				)
 			);
 
 			// Set the status of the variant translation set as the root translation set for the same original_id.
 			foreach ( $variant_translations as $variant_translation ) {
-				$variant_translation = GP::$translation->get( $variant_translation ); // @phpstan-ignore-line
+				$variant_translation = GP::$translation->get( $variant_translation );
 				if ( ! $variant_translation ) {
 					continue;
 				}
 				$variant_translation->delete();
 			}
 
-			gp_clean_translation_set_cache( $variant_set->id ); // @phpstan-ignore-line
+			gp_clean_translation_set_cache( $variant_set->id );
 
 		}
 
@@ -312,18 +318,18 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param object $translation   \GP_Translation  GlotPress translation.
-		 * @param object $variant_set   \GP_Translation_Set  GlotPress variant set.
+		 * @param \GP_Translation $translation       GlotPress translation.
+		 * @param \GP_Translation_Set $variant_set   GlotPress variant set.
 		 *
 		 * @return object|false   Returns a converted translation, or false if the result remains unchanged.
 		 */
 		public static function convert_translation( $translation, $variant_set ) {
 
-			$locale = GP_Locales::by_slug( $variant_set->locale ); // @phpstan-ignore-line
+			$locale = GP_Locales::by_slug( $variant_set->locale );
 
-			$translation_ao90                     = new GP_Translation( $translation->fields() ); // @phpstan-ignore-line
-			$translation_ao90->translation_set_id = $variant_set->id; // @phpstan-ignore-line
-			$translation_ao90->status             = 'current'; // @phpstan-ignore-line
+			$translation_ao90                     = new GP_Translation( $translation->fields() );
+			$translation_ao90->translation_set_id = $variant_set->id;
+			$translation_ao90->status             = 'current';
 
 			$translation_changed = false;
 

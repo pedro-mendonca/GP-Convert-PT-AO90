@@ -3,6 +3,9 @@ includes:
 parameters:
 	level: 9
 	inferPrivatePropertyTypeFromConstructor: true
+	scanFiles:
+		# GlotPress Stubs
+		- %rootDir%/../../pedro-mendonca/glotpress-stubs/glotpress-stubs.php
 	paths:
 		- gp-convert-pt-ao90.php
 		- includes/

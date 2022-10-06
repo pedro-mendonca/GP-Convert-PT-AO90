@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6edd4126aa3a7bd8f682c48fdb103d0b",
+    "content-hash": "31b588d2daa72ef8d2355dd95ec2a589",
     "packages": [
         {
             "name": "pedro-mendonca/convert-pt-ao90",
@@ -333,17 +333,63 @@
             "time": "2022-09-08T19:30:37+00:00"
         },
         {
-            "name": "php-stubs/wordpress-stubs",
-            "version": "v6.0.2",
+            "name": "pedro-mendonca/glotpress-stubs",
+            "version": "3.0.0-alpha.4",
             "source": {
                 "type": "git",
-                "url": "https://github.com/php-stubs/wordpress-stubs.git",
-                "reference": "8f696e429e375ef40a841ecf5ac686ff7437b4dc"
+                "url": "https://github.com/pedro-mendonca/glotpress-stubs.git",
+                "reference": "0299e4a546ca1e1ca2b30a18490a6019a0d70351"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-stubs/wordpress-stubs/zipball/8f696e429e375ef40a841ecf5ac686ff7437b4dc",
-                "reference": "8f696e429e375ef40a841ecf5ac686ff7437b4dc",
+                "url": "https://api.github.com/repos/pedro-mendonca/glotpress-stubs/zipball/0299e4a546ca1e1ca2b30a18490a6019a0d70351",
+                "reference": "0299e4a546ca1e1ca2b30a18490a6019a0d70351",
+                "shasum": ""
+            },
+            "require": {
+                "php-stubs/wordpress-stubs": "^5.8"
+            },
+            "require-dev": {
+                "php": ">=7.1",
+                "php-stubs/generator": "^0.8.0"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "GlotPress function and class declaration stubs for static analysis. ",
+            "homepage": "https://github.com/pedro-mendonca/glotpress-stubs",
+            "keywords": [
+                "PHPStan",
+                "glotpress",
+                "static analysis",
+                "wordpress"
+            ],
+            "support": {
+                "issues": "https://github.com/pedro-mendonca/glotpress-stubs/issues",
+                "source": "https://github.com/pedro-mendonca/glotpress-stubs/tree/3.0.0-alpha.4"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/pedro-mendonca",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-12-16T16:30:40+00:00"
+        },
+        {
+            "name": "php-stubs/wordpress-stubs",
+            "version": "v5.9.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-stubs/wordpress-stubs.git",
+                "reference": "2c18dbfc59b69949b4a4b7dbc096a684f19aaf95"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-stubs/wordpress-stubs/zipball/2c18dbfc59b69949b4a4b7dbc096a684f19aaf95",
+                "reference": "2c18dbfc59b69949b4a4b7dbc096a684f19aaf95",
                 "shasum": ""
             },
             "replace": {
@@ -375,9 +421,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-stubs/wordpress-stubs/issues",
-                "source": "https://github.com/php-stubs/wordpress-stubs/tree/v6.0.2"
+                "source": "https://github.com/php-stubs/wordpress-stubs/tree/v5.9.4"
             },
-            "time": "2022-09-30T17:24:55+00:00"
+            "time": "2022-09-30T17:24:17+00:00"
         },
         {
             "name": "phpcompatibility/php-compatibility",
@@ -1816,7 +1862,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "pedro-mendonca/glotpress-stubs": 15
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
