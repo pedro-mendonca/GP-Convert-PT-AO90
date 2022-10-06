@@ -71,5 +71,14 @@ define( 'GP_CONVERT_PT_AO90_FILE', plugin_basename( __FILE__ ) );
 // Include Composer autoload.
 require_once GP_CONVERT_PT_AO90_DIR_PATH . 'vendor/autoload.php';
 
-// Initialize the plugin.
-Portuguese_AO90::init();
+
+
+/**
+ * Initialize the plugin.
+ *
+ * @return void
+ */
+function gp_convert_pt_ao90_init() {
+	Portuguese_AO90::init();
+}
+add_action( 'plugins_loaded', __NAMESPACE__ . '\gp_convert_pt_ao90_init' );
