@@ -48,6 +48,9 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				return;
 			}
 
+			// Register and enqueue plugin style sheet.
+			add_action( 'wp_enqueue_scripts', array( self::class, 'register_plugin_styles' ) );
+
 			/**
 			 * Converts a Portuguese (pt/default) translation to PT AO90 into the pt_PT_ao90 (pt-ao90/default) translation set.
 			 */
