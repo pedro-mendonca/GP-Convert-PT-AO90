@@ -6,3 +6,6 @@ parameters:
 	paths:
 		- gp-convert-pt-ao90.php
 		- includes/
+	bootstrapFiles:
+		# PHPStan bootstrap file.
+		- tests/phpstan/bootstrap.php
