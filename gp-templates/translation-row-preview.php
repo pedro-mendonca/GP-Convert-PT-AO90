@@ -51,15 +51,31 @@ $priority_char = array(
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo $missing_text;
 		elseif ( ! $translation->plural ) :
-			echo '<span class="translation-text">' . esc_translation( $translation->translations[0] ) . '</span>';
+			$singular_translation = esc_translation( $translation->translations[0] );
+			// Check if has root.
+			if ( isset( $translation->root_id ) ) {
+				$singular_translation = GP_Convert_PT_AO90\Portuguese_AO90::highlight_diff( esc_translation( $translation->root_translation_0 ), esc_translation( $translation->translations[0] ) );
+			}
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo '<span class="translation-text">' . $singular_translation . '</span>';
 		else :
 		?>
 			<ul>
-				<?php foreach ( $translation->translations as $current_translation ) : ?>
+				<?php foreach ( $translation->translations as $key => $current_translation ) : ?>
 					<li>
 					<?php
-					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-					echo gp_is_empty_string( $current_translation ) ? $missing_text : '<span class="translation-text">' . esc_translation( $current_translation ) . '</span>';
+					if ( gp_is_empty_string( $current_translation ) ) {
+						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						echo $missing_text;
+					} else {
+						$plural_translation = esc_translation( $current_translation );
+						 // Check if has root.
+						if ( isset( $translation->root_id ) ) {
+							$plural_translation = GP_Convert_PT_AO90\Portuguese_AO90::highlight_diff( esc_translation( $translation->{ 'root_translation_' . $key } ), esc_translation( $current_translation ) );
+						}
+						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						echo '<span class="translation-text">' . $plural_translation . '</span>';
+					}
 					?>
 					</li>
 				<?php endforeach; ?>

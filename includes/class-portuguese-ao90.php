@@ -404,6 +404,58 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 		}
 
+
+		/**
+		 * Highlight the differences between the root and converted variant translations.
+		 *
+		 * @since 1.2.0
+		 *
+		 * @param string $root_translation      Root translation string to compare.
+		 * @param string $variant_translation   Variant translation string to compare.
+		 *
+		 * @return string   Root translation if translations are equivalent, or HTML with conversion differences highlighted.
+		 */
+		public static function highlight_diff( $root_translation, $variant_translation ) {
+
+			/**
+			 * Create the text diff using wp_text_diff().
+			 * Ref: https://developer.wordpress.org/reference/functions/wp_text_diff/
+			 */
+			$conversion_diff = wp_text_diff( $root_translation, $variant_translation );
+			if ( empty( $conversion_diff ) ) {
+				// Return root translation.
+				return $root_translation;
+			}
+
+			// Extract newstring from the table.
+			preg_match( '/<td class=\'diff-addedline\'>((.|\n)*?)\n<\/td>/', $conversion_diff, $conversion_diff_changes );
+			$conversion_diff_highlighted = preg_replace( '/(<span((.|\n)*?)<\/span>)/', '', $conversion_diff_changes[1] );
+
+			return htmlspecialchars_decode( $conversion_diff_highlighted );
+
+		}
+
+
+		/**
+		 * Register and enqueue style sheet.
+		 *
+		 * @since 1.2.0
+		 *
+		 * @return void
+		 */
+		public static function register_plugin_styles() {
+
+			wp_register_style(
+				'gp-convert-pt-ao90',
+				GP_CONVERT_PT_AO90_DIR_URL . 'assets/css/admin.css',
+				array(),
+				GP_CONVERT_PT_AO90_VERSION
+			);
+
+			gp_enqueue_styles( 'gp-convert-pt-ao90' );
+
+		}
+
 	}
 
 }

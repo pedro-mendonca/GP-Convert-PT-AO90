@@ -32,6 +32,7 @@ The language conversion uses the open source tool [Convert PT AO90](https://gith
 *   Convert `current` Portuguese (Portugal) root translations and add to the Portuguese (Portugal, AO90) variant translations.
 *   Delete variant unused translations instead of keeping as `rejected`, `fuzzy`, `old`.
 *   Delete `current` variant translation if a new root translation (same `original_id`) is added and doesn't need conversion.
+*   Highlight the differences in the automatic converted texts using `wp_text_diff()`.
 
 == Requirements ==
 
@@ -79,6 +80,9 @@ Later, on [GlotPress 3.0.0-beta](https://github.com/GlotPress/GlotPress/releases
 Sure! You are welcome to report any issues or add feature suggestions on the [GitHub repository](https://github.com/pedro-mendonca/GP-Convert-PT-AO90).
 
 == Changelog ==
+
+= 1.2.0 =
+*   Highlight the differences in the automatic converted texts using `wp_text_diff()`.
 
 = 1.1.1 =
 *   Update the actual [Convert-PT-AO90](https://github.com/pedro-mendonca/Convert-PT-AO90) tool to v1.3.1.
