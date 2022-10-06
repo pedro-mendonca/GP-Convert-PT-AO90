@@ -52,6 +52,11 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			add_action( 'wp_enqueue_scripts', array( self::class, 'register_plugin_styles' ) );
 
 			/**
+			 * Get GP-Convert-PT-AO90 templates.
+			 */
+			add_filter( 'gp_tmpl_load_locations', array( self::class, 'template_load_locations' ), 10, 4 );
+
+			/**
 			 * Converts a Portuguese (pt/default) translation to PT AO90 into the pt_PT_ao90 (pt-ao90/default) translation set.
 			 */
 			add_action( 'gp_translation_saved', array( self::class, 'queue_translation_for_conversion' ) );
@@ -168,6 +173,38 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			<?php
 
 		}
+
+
+		/**
+		 * Get GP-Convert-PT-AO90 templates.
+		 *
+		 * @since 1.2.0
+		 *
+		 * @param array<int,string> $locations       File paths of template locations.
+		 * @param string            $template        The template name.
+		 * @param array<int,string> $args            Arguments passed to the template.
+		 * @param string|null       $template_path   Priority template location, if any.
+		 *
+		 * @return array<int,string>   Template location.
+		 */
+		public static function template_load_locations( $locations, $template, $args, $template_path ) {
+
+			// Destroy.
+			unset( $args, $template_path );
+
+			$gp_templates = array(
+				'translation-row-preview',
+			);
+
+			if ( in_array( $template, $gp_templates, true ) ) {
+				$locations = array(
+					GP_CONVERT_PT_AO90_DIR_PATH . 'gp-templates/',
+				);
+			}
+
+			return $locations;
+		}
+
 
 		/**
 		 * Converts Portuguese (pt/default) translation to PT AO90 into the pt_PT_ao90 (pt-ao90/default) translation set.
