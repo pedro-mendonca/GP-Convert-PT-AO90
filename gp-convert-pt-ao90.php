@@ -68,49 +68,6 @@ define( 'GP_CONVERT_PT_AO90_DIR_PATH', plugin_dir_path( __FILE__ ) );
 define( 'GP_CONVERT_PT_AO90_FILE', plugin_basename( __FILE__ ) );
 
 
-/**
- * Register classes autoloader function.
- *
- * @since 1.0.0
- *
- * @param callable(string): void
- */
-spl_autoload_register( __NAMESPACE__ . '\gp_convert_pt_ao90_class_autoload' );
-
-
-/**
- * Class autoloader.
- *
- * @since 1.0.0
- *
- * @param string $class_name  Classe name.
- *
- * @return void
- */
-function gp_convert_pt_ao90_class_autoload( $class_name ) {
-
-	$project_namespace = __NAMESPACE__ . '\\';
-
-	// Check if class is in the project namespace.
-	if ( 0 !== strncmp( $project_namespace, $class_name, strlen( $project_namespace ) ) ) {
-		return;
-	}
-
-	// Set class file full path.
-	$class = sprintf(
-		'%sincludes/class-%s.php',
-		GP_CONVERT_PT_AO90_DIR_PATH,
-		str_replace( '_', '-', strtolower( str_replace( $project_namespace, '', $class_name ) ) )
-	);
-
-	if ( ! is_file( $class ) ) {
-		return;
-	}
-
-	require_once $class;
-}
-
-
 // Include Composer autoload.
 require_once GP_CONVERT_PT_AO90_DIR_PATH . 'vendor/autoload.php';
 
