@@ -420,16 +420,24 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			/**
 			 * Create the text diff using wp_text_diff().
 			 * Ref: https://developer.wordpress.org/reference/functions/wp_text_diff/
+			 *
+			 * Undocumented argument 'diff_threshold', passed to WP_Text_Diff_Renderer_Table to be able to diff changes like 'Update' -> 'Updated'.
+			 * https://github.com/WordPress/wordpress-develop/blob/e5a0d1364d31d82d7746b06f28a1df28accac85b/src/wp-includes/class-wp-text-diff-renderer-table.php#L39
 			 */
-			$conversion_diff = wp_text_diff( $root_translation, $variant_translation );
+			$args = array(
+				'diff_threshold' => 1,
+			);
+
+			$conversion_diff = wp_text_diff( $root_translation, $variant_translation, $args );
 			if ( empty( $conversion_diff ) ) {
 				// Return root translation.
 				return $root_translation;
 			}
 
 			// Extract newstring from the table.
-			preg_match( '/<td class=\'diff-addedline\'>((.|\n)*?)\n<\/td>/', $conversion_diff, $conversion_diff_changes );
-			$conversion_diff_highlighted = preg_replace( '/(<span((.|\n)*?)<\/span>)/', '', $conversion_diff_changes[1] );
+			preg_match( '/Added: <\/span>(.*)\n*<\/td>\n*<\/tr>\n*<\/tbody>\n*<\/table>$/', $conversion_diff, $conversion_diff_changes );
+
+			$conversion_diff_highlighted = $conversion_diff_changes[1];
 
 			return htmlspecialchars_decode( $conversion_diff_highlighted );
 
