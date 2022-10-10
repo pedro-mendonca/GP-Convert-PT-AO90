@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "31b588d2daa72ef8d2355dd95ec2a589",
+    "content-hash": "99a819054ecd6bef8b5f7e7931e991be",
     "packages": [
         {
             "name": "pedro-mendonca/convert-pt-ao90",
@@ -334,24 +334,24 @@
         },
         {
             "name": "pedro-mendonca/glotpress-stubs",
-            "version": "3.0.0-alpha.4",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pedro-mendonca/glotpress-stubs.git",
-                "reference": "0299e4a546ca1e1ca2b30a18490a6019a0d70351"
+                "reference": "5d476857121177141a51ec808c8842c363c2a986"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pedro-mendonca/glotpress-stubs/zipball/0299e4a546ca1e1ca2b30a18490a6019a0d70351",
-                "reference": "0299e4a546ca1e1ca2b30a18490a6019a0d70351",
+                "url": "https://api.github.com/repos/pedro-mendonca/glotpress-stubs/zipball/5d476857121177141a51ec808c8842c363c2a986",
+                "reference": "5d476857121177141a51ec808c8842c363c2a986",
                 "shasum": ""
             },
             "require": {
-                "php-stubs/wordpress-stubs": "^5.8"
+                "php-stubs/wordpress-stubs": "^5.9"
             },
             "require-dev": {
-                "php": ">=7.1",
-                "php-stubs/generator": "^0.8.0"
+                "php": "^7.2",
+                "php-stubs/generator": "^0.8.1"
             },
             "type": "library",
             "notification-url": "https://packagist.org/downloads/",
@@ -368,7 +368,7 @@
             ],
             "support": {
                 "issues": "https://github.com/pedro-mendonca/glotpress-stubs/issues",
-                "source": "https://github.com/pedro-mendonca/glotpress-stubs/tree/3.0.0-alpha.4"
+                "source": "https://github.com/pedro-mendonca/glotpress-stubs/tree/3.0.0"
             },
             "funding": [
                 {
@@ -376,7 +376,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-12-16T16:30:40+00:00"
+            "time": "2022-04-11T08:03:50+00:00"
         },
         {
             "name": "php-stubs/wordpress-stubs",
@@ -1862,9 +1862,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "pedro-mendonca/glotpress-stubs": 15
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
