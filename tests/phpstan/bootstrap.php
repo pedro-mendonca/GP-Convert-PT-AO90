@@ -6,6 +6,11 @@
  */
 
 // Set plugin version.
+if ( ! defined( 'WPINC' ) ) {
+	define( 'WPINC', 'wp-includes' ); // phpcs:ignore.
+}
+
+// Set plugin version.
 if ( ! defined( 'GP_CONVERT_PT_AO90_VERSION' ) ) {
 	define( 'GP_CONVERT_PT_AO90_VERSION', '1.2.0' );
 }

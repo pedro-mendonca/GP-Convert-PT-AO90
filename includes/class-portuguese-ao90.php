@@ -408,6 +408,9 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		/**
 		 * Highlight the differences between the root and converted variant translations.
 		 *
+		 * Create the text diff inspired on wp_text_diff() but removing the unecessary table HTML.
+		 * Ref: https://developer.wordpress.org/reference/functions/wp_text_diff/
+		 *
 		 * @since 1.2.0
 		 *
 		 * @param string $root_translation      Root translation string to compare.
@@ -418,28 +421,73 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		public static function highlight_diff( $root_translation, $variant_translation ) {
 
 			/**
-			 * Create the text diff using wp_text_diff().
-			 * Ref: https://developer.wordpress.org/reference/functions/wp_text_diff/
-			 *
 			 * Undocumented argument 'diff_threshold', passed to WP_Text_Diff_Renderer_Table to be able to diff changes like 'Update' -> 'Updated'.
 			 * https://github.com/WordPress/wordpress-develop/blob/e5a0d1364d31d82d7746b06f28a1df28accac85b/src/wp-includes/class-wp-text-diff-renderer-table.php#L39
 			 */
 			$args = array(
-				'diff_threshold' => 1,
+				'diff_threshold'  => 1,
+				'show_split_view' => false,
 			);
 
-			$conversion_diff = wp_text_diff( $root_translation, $variant_translation, $args );
-			if ( empty( $conversion_diff ) ) {
+			if ( ! class_exists( 'WP_Text_Diff_Renderer_Table', false ) ) {
+				require ABSPATH . WPINC . '/wp-diff.php';
+			}
+
+			$root_lines    = explode( "\n", $root_translation );
+			$variant_lines = explode( "\n", $variant_translation );
+			$text_diff     = new \Text_Diff( 'auto', array( $root_lines, $variant_lines ) );
+			$renderer      = new \WP_Text_Diff_Renderer_Table( $args );
+			$diff          = $renderer->render( $text_diff );
+
+			if ( ! $diff ) {
 				// Return root translation.
 				return $root_translation;
 			}
 
-			// Extract newstring from the table.
-			preg_match( '/Added: <\/span>(.*)\n*<\/td>\n*<\/tr>\n*<\/tbody>\n*<\/table>$/', $conversion_diff, $conversion_diff_changes );
+			if ( count( $variant_lines ) > 1 ) {
+				$diff = preg_replace(
+					array(
+						// Remove HTML row opening tags of lines with no conversion changes.
+						'/<tr><td class=\'diff-context\'><span class=\'screen-reader-text\'>.*<\/span>/',
+						// Remove entire HTML rows of root translations lines before conversion.
+						'/<tr><td class=\'diff-deletedline\'>.*\n*<\/td><\/tr>/',
+						// Remove HTML row opening tags of variant translations after conversion.
+						'/<tr><td class=\'diff-addedline\'><span aria-hidden=\'true\' class=\'dashicons dashicons-plus\'><\/span><span class=\'screen-reader-text\'>.*<\/span>/',
+						// Remove table rows closing tags.
+						'/\n*<\/td><\/tr>\n*/',
+						// Remove the last new line.
+						'/\n$/',
+					),
+					array(
+						'',
+						'',
+						'',
+						"\n",
+						'',
+					),
+					$diff
+				);
+			} else {
+				$diff = preg_replace(
+					array(
+						// Remove entire HTML rows of root translations lines before conversion.
+						'/<tr><td class=\'diff-deletedline\'>.*\n*<\/td><\/tr>/',
+						// Remove HTML row opening tags of variant translations after conversion.
+						'/<tr><td class=\'diff-addedline\'><span aria-hidden=\'true\' class=\'dashicons dashicons-plus\'><\/span><span class=\'screen-reader-text\'>.*<\/span>/',
+						// Remove table rows closing tags.
+						'/\n<\/td><\/tr>\n/',
+					),
+					array( '', '' ),
+					$diff
+				);
+			}
 
-			$conversion_diff_highlighted = $conversion_diff_changes[1];
+			if ( is_null( $diff ) ) {
+				// If an error ocurr, return root translation.
+				return $root_translation;
+			}
 
-			return htmlspecialchars_decode( $conversion_diff_highlighted );
+			return htmlspecialchars_decode( $diff );
 
 		}
 

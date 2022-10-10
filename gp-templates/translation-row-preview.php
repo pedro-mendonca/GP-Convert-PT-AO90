@@ -54,7 +54,7 @@ $priority_char = array(
 			$singular_translation = esc_translation( $translation->translations[0] );
 			// Check if has root.
 			if ( isset( $translation->root_id ) ) {
-				$singular_translation = GP_Convert_PT_AO90\Portuguese_AO90::highlight_diff( esc_translation( $translation->root_translation_0 ), esc_translation( $translation->translations[0] ) );
+				$singular_translation = prepare_original( GP_Convert_PT_AO90\Portuguese_AO90::highlight_diff( esc_translation( $translation->root_translation_0 ), esc_translation( $translation->translations[0] ) ) );
 			}
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo '<span class="translation-text">' . $singular_translation . '</span>';
@@ -71,7 +71,7 @@ $priority_char = array(
 						$plural_translation = esc_translation( $current_translation );
 						 // Check if has root.
 						if ( isset( $translation->root_id ) ) {
-							$plural_translation = GP_Convert_PT_AO90\Portuguese_AO90::highlight_diff( esc_translation( $translation->{ 'root_translation_' . $key } ), esc_translation( $current_translation ) );
+							$plural_translation = prepare_original( GP_Convert_PT_AO90\Portuguese_AO90::highlight_diff( esc_translation( $translation->{ 'root_translation_' . $key } ), esc_translation( $current_translation ) ) );
 						}
 						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 						echo '<span class="translation-text">' . $plural_translation . '</span>';
