@@ -79,6 +79,11 @@ Later, on [GlotPress 3.0.0-beta](https://github.com/GlotPress/GlotPress/releases
 = Can I contribute to this plugin? =
 Sure! You are welcome to report any issues or add feature suggestions on the [GitHub repository](https://github.com/pedro-mendonca/GP-Convert-PT-AO90).
 
+== Screenshots ==
+
+1. Translation table with gray root translations and green automatically converted strings, with highlighted conversion diffs
+2. Variant translation table only with green automatically converted strings, with highlighted conversion diffs
+
 == Changelog ==
 
 = 1.2.1 =
