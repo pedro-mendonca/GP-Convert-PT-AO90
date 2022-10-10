@@ -384,12 +384,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-stubs/wordpress-stubs.git",
-                "reference": "2c18dbfc59b69949b4a4b7dbc096a684f19aaf95"
+                "reference": "3e481f4c8195fb3ca9e3e4e52e5305bf59c74cdb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-stubs/wordpress-stubs/zipball/2c18dbfc59b69949b4a4b7dbc096a684f19aaf95",
-                "reference": "2c18dbfc59b69949b4a4b7dbc096a684f19aaf95",
+                "url": "https://api.github.com/repos/php-stubs/wordpress-stubs/zipball/3e481f4c8195fb3ca9e3e4e52e5305bf59c74cdb",
+                "reference": "3e481f4c8195fb3ca9e3e4e52e5305bf59c74cdb",
                 "shasum": ""
             },
             "replace": {
@@ -423,7 +423,7 @@
                 "issues": "https://github.com/php-stubs/wordpress-stubs/issues",
                 "source": "https://github.com/php-stubs/wordpress-stubs/tree/v5.9.4"
             },
-            "time": "2022-09-30T17:24:17+00:00"
+            "time": "2022-09-30T17:45:35+00:00"
         },
         {
             "name": "phpcompatibility/php-compatibility",

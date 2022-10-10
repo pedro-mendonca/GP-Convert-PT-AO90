@@ -91,6 +91,10 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 
 ## Changelog
 
+### 1.2.1
+
+* Fix missing version number.
+
 ### 1.2.0
 
 * Highlight the differences in the automatically converted texts.
