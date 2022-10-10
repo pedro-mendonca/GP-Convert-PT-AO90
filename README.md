@@ -101,6 +101,10 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 
 ## Changelog
 
+### 1.2.2
+
+* Add prepare to print out to root translation preview row.
+
 ### 1.2.1
 
 * Fix missing version number.
