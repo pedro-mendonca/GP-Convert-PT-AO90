@@ -48,6 +48,14 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				return;
 			}
 
+			// Register and enqueue plugin style sheet.
+			add_action( 'wp_enqueue_scripts', array( self::class, 'register_plugin_styles' ) );
+
+			/**
+			 * Get GP-Convert-PT-AO90 templates.
+			 */
+			add_filter( 'gp_tmpl_load_locations', array( self::class, 'template_load_locations' ), 10, 4 );
+
 			/**
 			 * Converts a Portuguese (pt/default) translation to PT AO90 into the pt_PT_ao90 (pt-ao90/default) translation set.
 			 */
@@ -74,6 +82,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 		}
 
+
 		/**
 		 * Render GlotPress not found admin notice.
 		 *
@@ -99,6 +108,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			<?php
 
 		}
+
 
 		/**
 		 * Check if Locale exist in GlotPress.
@@ -127,7 +137,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			// Locale slug for Portuguese (Portugal, AO90).
 			$locale_slug = 'pt-ao90';
 
-			$locale = GP_Locales::by_slug( $locale_slug ); // @phpstan-ignore-lines
+			$locale = GP_Locales::by_slug( $locale_slug );
 
 			if ( null === $locale ) {
 				add_action( 'admin_notices', array( self::class, 'notice_locale_not_found' ) );
@@ -136,6 +146,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			return $locale;
 
 		}
+
 
 		/**
 		 * Render Locale not found admin notice.
@@ -163,12 +174,44 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 		}
 
+
+		/**
+		 * Get GP-Convert-PT-AO90 templates.
+		 *
+		 * @since 1.2.0
+		 *
+		 * @param array<int,string> $locations       File paths of template locations.
+		 * @param string            $template        The template name.
+		 * @param array<int,string> $args            Arguments passed to the template.
+		 * @param string|null       $template_path   Priority template location, if any.
+		 *
+		 * @return array<int,string>   Template location.
+		 */
+		public static function template_load_locations( $locations, $template, $args, $template_path ) {
+
+			// Destroy.
+			unset( $args, $template_path );
+
+			$gp_templates = array(
+				'translation-row-preview',
+			);
+
+			if ( in_array( $template, $gp_templates, true ) ) {
+				$locations = array(
+					GP_CONVERT_PT_AO90_DIR_PATH . 'gp-templates/',
+				);
+			}
+
+			return $locations;
+		}
+
+
 		/**
 		 * Converts Portuguese (pt/default) translation to PT AO90 into the pt_PT_ao90 (pt-ao90/default) translation set.
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param object $translation   \GP_Translation Created/updated translation.
+		 * @param \GP_Translation $translation   Created/updated translation.
 		 *
 		 * @return void
 		 */
@@ -195,13 +238,13 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			 * Locale: 'pt'
 			 * Slug: 'default'
 			 */
-			$root_set = GP::$translation_set->get( $translation->translation_set_id ); // @phpstan-ignore-line
-			if ( ! $root_set || $root_locale['locale'] !== $root_set->locale || $root_locale['slug'] !== $root_set->slug ) {
+			$root_set = GP::$translation_set->get( $translation->translation_set_id );
+			if ( ! $root_set || $root_locale['locale'] !== $root_set->locale || $root_locale['slug'] !== $root_set->slug ) { // @phpstan-ignore-line
 				return;
 			}
 
 			// Get translation original.
-			$original = GP::$original->get( $translation->original_id ); // @phpstan-ignore-line
+			$original = GP::$original->get( $translation->original_id );
 			if ( ! $original ) {
 				return;
 			}
@@ -216,10 +259,13 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				return;
 			}
 
-			$project = GP::$project->get( $variant_set->project_id ); // @phpstan-ignore-line
+			$project = GP::$project->get( $variant_set->project_id );
+			if ( ! $project ) {
+				return;
+			}
 
 			// Process if root translation is set to current without warnings.
-			if ( 'current' === $translation->status && empty( $translation->warnings ) ) { // @phpstan-ignore-line
+			if ( 'current' === $translation->status && empty( $translation->warnings ) ) {
 				// Create translation on the variant set.
 				self::create( $translation, $project, $variant_set );
 			} else {
@@ -236,9 +282,9 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param object $translation   \GP_Translation  Created/updated translation.
-		 * @param object $project       \GP_Project  GlotPress project.
-		 * @param object $variant_set   \GP_Translation_Set  GlotPress translation set of the variant.
+		 * @param \GP_Translation     $translation   Created/updated translation.
+		 * @param \GP_Project         $project       GlotPress project.
+		 * @param \GP_Translation_Set $variant_set   GlotPress translation set of the variant.
 		 *
 		 * @return void
 		 */
@@ -257,12 +303,12 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			}
 
 			// Add converted translation to the variant translation set and set as current.
-			$variant_translation = GP::$translation->create( $translation_changed ); // @phpstan-ignore-line
+			$variant_translation = GP::$translation->create( $translation_changed );
 			if ( ! $variant_translation ) {
 				return;
 			}
 
-			gp_clean_translation_set_cache( $variant_set->id ); // @phpstan-ignore-line
+			gp_clean_translation_set_cache( $variant_set->id );
 
 		}
 
@@ -273,36 +319,36 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param object $translation   \GP_Translation  Created/updated translation.
-		 * @param object $project       \GP_Project  GlotPress project.
-		 * @param object $variant_set   \GP_Translation_Set  GlotPress variant translation set.
-		 * @param bool   $all           Delete all translations or just the last for performance. Defaults to false.
+		 * @param \GP_Translation     $translation   Created/updated translation.
+		 * @param \GP_Project         $project       GlotPress project.
+		 * @param \GP_Translation_Set $variant_set   GlotPress variant translation set.
+		 * @param bool                $all           Delete all translations or just the last for performance. Defaults to false.
 		 *
 		 * @return void
 		 */
 		public static function delete( $translation, $project, $variant_set, $all = false ) {
 
 			// Get existing translations on the variant translation set for the original_id.
-			$variant_translations = GP::$translation->for_translation( // @phpstan-ignore-line
+			$variant_translations = GP::$translation->for_translation(
 				$project,
 				$variant_set,
 				'no-limit',
 				array(
-					'original_id' => $translation->original_id, // @phpstan-ignore-line
+					'original_id' => $translation->original_id,
 					'status'      => $all ? 'either' : 'current',
 				)
 			);
 
 			// Set the status of the variant translation set as the root translation set for the same original_id.
 			foreach ( $variant_translations as $variant_translation ) {
-				$variant_translation = GP::$translation->get( $variant_translation ); // @phpstan-ignore-line
+				$variant_translation = GP::$translation->get( $variant_translation );
 				if ( ! $variant_translation ) {
 					continue;
 				}
 				$variant_translation->delete();
 			}
 
-			gp_clean_translation_set_cache( $variant_set->id ); // @phpstan-ignore-line
+			gp_clean_translation_set_cache( $variant_set->id );
 
 		}
 
@@ -312,18 +358,18 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param object $translation   \GP_Translation  GlotPress translation.
-		 * @param object $variant_set   \GP_Translation_Set  GlotPress variant set.
+		 * @param \GP_Translation     $translation   GlotPress translation.
+		 * @param \GP_Translation_Set $variant_set   GlotPress variant set.
 		 *
 		 * @return object|false   Returns a converted translation, or false if the result remains unchanged.
 		 */
 		public static function convert_translation( $translation, $variant_set ) {
 
-			$locale = GP_Locales::by_slug( $variant_set->locale ); // @phpstan-ignore-line
+			$locale = GP_Locales::by_slug( $variant_set->locale );
 
-			$translation_ao90                     = new GP_Translation( $translation->fields() ); // @phpstan-ignore-line
-			$translation_ao90->translation_set_id = $variant_set->id; // @phpstan-ignore-line
-			$translation_ao90->status             = 'current'; // @phpstan-ignore-line
+			$translation_ao90                     = new GP_Translation( $translation->fields() );
+			$translation_ao90->translation_set_id = $variant_set->id;
+			$translation_ao90->status             = 'current';
 
 			$translation_changed = false;
 
@@ -355,6 +401,114 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			}
 
 			return $translation_ao90;
+
+		}
+
+
+		/**
+		 * Highlight the differences between the root and converted variant translations.
+		 *
+		 * Create the text diff inspired on wp_text_diff() but removing the unecessary table HTML.
+		 * Ref: https://developer.wordpress.org/reference/functions/wp_text_diff/
+		 *
+		 * @since 1.2.0
+		 *
+		 * @param string $root_translation      Root translation string to compare.
+		 * @param string $variant_translation   Variant translation string to compare.
+		 *
+		 * @return string   Root translation if translations are equivalent, or HTML with conversion differences highlighted.
+		 */
+		public static function highlight_diff( $root_translation, $variant_translation ) {
+
+			/**
+			 * Undocumented argument 'diff_threshold', passed to WP_Text_Diff_Renderer_Table to be able to diff changes like 'Update' -> 'Updated'.
+			 * https://github.com/WordPress/wordpress-develop/blob/e5a0d1364d31d82d7746b06f28a1df28accac85b/src/wp-includes/class-wp-text-diff-renderer-table.php#L39
+			 */
+			$args = array(
+				'diff_threshold'  => 1,
+				'show_split_view' => false,
+			);
+
+			if ( ! class_exists( 'WP_Text_Diff_Renderer_Table', false ) ) {
+				require ABSPATH . WPINC . '/wp-diff.php';
+			}
+
+			$root_lines    = explode( "\n", $root_translation );
+			$variant_lines = explode( "\n", $variant_translation );
+			$text_diff     = new \Text_Diff( 'auto', array( $root_lines, $variant_lines ) );
+			$renderer      = new \WP_Text_Diff_Renderer_Table( $args );
+			$diff          = $renderer->render( $text_diff );
+
+			if ( ! $diff ) {
+				// Return root translation.
+				return $root_translation;
+			}
+
+			if ( count( $variant_lines ) > 1 ) {
+				$diff = preg_replace(
+					array(
+						// Remove HTML row opening tags of lines with no conversion changes.
+						'/<tr><td class=\'diff-context\'><span class=\'screen-reader-text\'>.*<\/span>/',
+						// Remove entire HTML rows of root translations lines before conversion.
+						'/<tr><td class=\'diff-deletedline\'>.*\n*<\/td><\/tr>/',
+						// Remove HTML row opening tags of variant translations after conversion.
+						'/<tr><td class=\'diff-addedline\'><span aria-hidden=\'true\' class=\'dashicons dashicons-plus\'><\/span><span class=\'screen-reader-text\'>.*<\/span>/',
+						// Remove table rows closing tags.
+						'/\n*<\/td><\/tr>\n*/',
+						// Remove the last new line.
+						'/\n$/',
+					),
+					array(
+						'',
+						'',
+						'',
+						"\n",
+						'',
+					),
+					$diff
+				);
+			} else {
+				$diff = preg_replace(
+					array(
+						// Remove entire HTML rows of root translations lines before conversion.
+						'/<tr><td class=\'diff-deletedline\'>.*\n*<\/td><\/tr>/',
+						// Remove HTML row opening tags of variant translations after conversion.
+						'/<tr><td class=\'diff-addedline\'><span aria-hidden=\'true\' class=\'dashicons dashicons-plus\'><\/span><span class=\'screen-reader-text\'>.*<\/span>/',
+						// Remove table rows closing tags.
+						'/\n<\/td><\/tr>\n/',
+					),
+					array( '', '' ),
+					$diff
+				);
+			}
+
+			if ( is_null( $diff ) ) {
+				// If an error ocurr, return root translation.
+				return $root_translation;
+			}
+
+			return htmlspecialchars_decode( $diff );
+
+		}
+
+
+		/**
+		 * Register and enqueue style sheet.
+		 *
+		 * @since 1.2.0
+		 *
+		 * @return void
+		 */
+		public static function register_plugin_styles() {
+
+			wp_register_style(
+				'gp-convert-pt-ao90',
+				GP_CONVERT_PT_AO90_DIR_URL . 'assets/css/admin.css',
+				array(),
+				GP_CONVERT_PT_AO90_VERSION
+			);
+
+			gp_enqueue_styles( 'gp-convert-pt-ao90' );
 
 		}
 
