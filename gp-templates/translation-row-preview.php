@@ -68,7 +68,8 @@ $priority_char = array(
 
 		$missing_text = "<span class='missing'>$edit_text</span>";
 		if ( ! count( array_filter( $translation->translations, 'gp_is_not_null' ) ) ) {
-			echo esc_html( $missing_text );
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo $missing_text;
 		} elseif ( ! $translation->plural ) {
 			$singular_translation = esc_translation( $translation->translations[0] );
 			// Check if has root.
@@ -84,7 +85,8 @@ $priority_char = array(
 					<small><?php esc_html_e( 'Singular:', 'glotpress' ); ?></small><br>
 					<?php
 					if ( ! isset( $translation->translations[0] ) || gp_is_empty_string( $translation->translations[0] ) ) {
-						echo esc_html( $missing_text );
+						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						echo $missing_text;
 					} else {
 						$singular_translation = esc_translation( $translation->translations[0] );
 						// Check if has root.
@@ -100,7 +102,8 @@ $priority_char = array(
 					<small><?php esc_html_e( 'Plural:', 'glotpress' ); ?></small><br>
 					<?php
 					if ( ! isset( $translation->translations[1] ) || gp_is_empty_string( $translation->translations[1] ) ) {
-						echo esc_html( $missing_text );
+						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						echo $missing_text;
 					} else {
 						$singular_translation = esc_translation( $translation->translations[1] );
 						// Check if has root.
@@ -133,7 +136,8 @@ $priority_char = array(
 						</small><br>
 						<?php
 						if ( ! isset( $translation->translations[ $plural_index ] ) || gp_is_empty_string( $translation->translations[ $plural_index ] ) ) {
-							echo esc_html( $missing_text );
+							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+							echo $missing_text;
 						} else {
 							$plural_translation = esc_translation( $translation->translations[ $plural_index ] );
 							 // Check if has root.
