@@ -101,6 +101,10 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 
 ## Changelog
 
+### 1.2.4
+
+* Fix HTML escaping.
+
 ### 1.2.3
 
 * Add plurals to original text in the translation row preview.

@@ -5,7 +5,7 @@ Tags: localization, translation, glotpress, ao90, portuguese
 Requires at least: 5.3
 Tested up to: 6.0
 Requires PHP: 7.2
-Stable tag: 1.2.3
+Stable tag: 1.2.4
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,9 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 2. Variant translation table only with green automatically converted strings, with highlighted conversion diffs
 
 == Changelog ==
+
+= 1.2.4 =
+*   Fix HTML escaping.
 
 = 1.2.3 =
 *   Add plurals to original text in the translation row preview.
