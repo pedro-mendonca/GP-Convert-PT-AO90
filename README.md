@@ -101,6 +101,10 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 
 ## Changelog
 
+### Unreleased
+
+* Use own CSS that is still missing on GlotPress 3.0.0-alpha.4
+
 ### 1.2.4
 
 * Fix HTML escaping.
