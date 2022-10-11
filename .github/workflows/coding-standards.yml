@@ -8,11 +8,14 @@ on:
     paths:
       # Any change to a PHP or Markdown file should run checks.
       - '**.php'
+      - '**.*css'
       - '**.md'
       # These files configure NPM. Changes could affect the outcome.
       - 'package*.json'
       # These files configure Composer. Changes could affect the outcome.
       - 'composer.*'
+      # This file configures Stylelint. Changes could affect the outcome.
+      - '.stylelintrc.json'
       # This file configures Markdownlint. Changes could affect the outcome.
       - '.markdownlint.json'
       # This file configures PHPCS. Changes could affect the outcome.
@@ -78,6 +81,40 @@ jobs:
 
       - name: Show PHPCS results in PR
         run: cs2pr ./phpcs-report.xml
+
+  # Runs the CSS/SCSS coding standards checks.
+  #
+  # CSS violations are not currently reported inline with annotations.
+  #
+  # Performs the following steps:
+  # - Checks out the repository.
+  # - Installs NodeJS 16 with caching for NPM.
+  # - Logs updated debug information.
+  # - Installs NPM dependencies using install-changed to hash the `package.json` file.
+  # - Run the WordPress Stylelint checks.
+  css-cs:
+    name: CSS/SCSS coding standards
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: npm
+
+      - name: Log debug information
+        run: |
+          npm --version
+          node --version
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run CSS/SCSS Lint
+        run: npm run lint:css
 
   # Runs the Markdown coding standards checks.
   #
