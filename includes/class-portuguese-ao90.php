@@ -501,9 +501,12 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 */
 		public static function register_plugin_styles() {
 
+			// Check if SCRIPT_DEBUG is true.
+			$suffix = SCRIPT_DEBUG ? '' : '.min'; // @phpstan-ignore-line
+
 			wp_register_style(
 				'gp-convert-pt-ao90',
-				GP_CONVERT_PT_AO90_DIR_URL . 'assets/css/admin.css',
+				GP_CONVERT_PT_AO90_DIR_URL . 'assets/css/admin' . $suffix . '.css',
 				array(),
 				GP_CONVERT_PT_AO90_VERSION
 			);
