@@ -22,7 +22,7 @@ if ( ! defined( 'GP_CONVERT_PT_AO90_VERSION' ) ) {
 
 // Set plugin required PHP version. Needed for PHP compatibility check for WordPress < 7.2.
 if ( ! defined( 'GP_CONVERT_PT_AO90_REQUIRED_PHP' ) ) {
-	define( 'GP_CONVERT_PT_AO90_REQUIRED_PHP', '7.2' );
+	define( 'GP_CONVERT_PT_AO90_REQUIRED_PHP', '7.4' );
 }
 
 // Require plugin main file.

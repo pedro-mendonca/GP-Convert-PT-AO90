@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4d95924508ead36fc15c2ac64e6354f2",
+    "content-hash": "b83a8343804756c20d660ef13881e2cf",
     "packages": [
         {
             "name": "pedro-mendonca/convert-pt-ao90",
@@ -1870,7 +1870,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.2"
+        "php": ">=7.4"
     },
     "platform-dev": [],
     "plugin-api-version": "2.3.0"
