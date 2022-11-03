@@ -4,31 +4,31 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b83a8343804756c20d660ef13881e2cf",
+    "content-hash": "b40a2354f3e4a638bf01c65af88fdba9",
     "packages": [
         {
             "name": "pedro-mendonca/convert-pt-ao90",
-            "version": "1.3.1",
+            "version": "1.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pedro-mendonca/Convert-PT-AO90.git",
-                "reference": "d1261a6160977b455888f81a5fd87d5cfead5f9b"
+                "reference": "b4197d5d9c23e48e0451dcdd9d649f67bf0b3c86"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pedro-mendonca/Convert-PT-AO90/zipball/d1261a6160977b455888f81a5fd87d5cfead5f9b",
-                "reference": "d1261a6160977b455888f81a5fd87d5cfead5f9b",
+                "url": "https://api.github.com/repos/pedro-mendonca/Convert-PT-AO90/zipball/b4197d5d9c23e48e0451dcdd9d649f67bf0b3c86",
+                "reference": "b4197d5d9c23e48e0451dcdd9d649f67bf0b3c86",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.2"
+                "php": ">=7.4"
             },
             "require-dev": {
                 "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
-                "phpcompatibility/phpcompatibility-wp": "^2.1.3",
-                "phpmd/phpmd": "^2.12.0",
-                "sirbrillig/phpcs-variable-analysis": "^2.11.4",
-                "szepeviktor/phpstan-wordpress": "^1.1.2",
+                "phpcompatibility/phpcompatibility-wp": "^2.1.4",
+                "phpmd/phpmd": "^2.13.0",
+                "sirbrillig/phpcs-variable-analysis": "^2.11.9",
+                "szepeviktor/phpstan-wordpress": "^1.1.3",
                 "wp-coding-standards/wpcs": "^2.3.0"
             },
             "type": "library",
@@ -51,7 +51,7 @@
             "description": "Open source language tool to convert Portuguese to AO90.",
             "support": {
                 "issues": "https://github.com/pedro-mendonca/Convert-PT-AO90/issues",
-                "source": "https://github.com/pedro-mendonca/Convert-PT-AO90/tree/1.3.1"
+                "source": "https://github.com/pedro-mendonca/Convert-PT-AO90/tree/1.3.2"
             },
             "funding": [
                 {
@@ -59,7 +59,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-08-12T14:56:21+00:00"
+            "time": "2022-11-03T15:52:17+00:00"
         }
     ],
     "packages-dev": [
