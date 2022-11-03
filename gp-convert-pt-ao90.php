@@ -21,7 +21,7 @@
  * Description:       Language tool for GlotPress to convert text according to the Portuguese Language Orthographic Agreement of 1990 (PT AO90).
  * Version:           1.2.4
  * Requires at least: 5.3
- * Tested up to:      6.0
+ * Tested up to:      6.1
  * Requires PHP:      7.2
  * Author:            Pedro Mendonça
  * Author URI:        https://profiles.wordpress.org/pedromendonca/
