@@ -101,9 +101,14 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 
 ## Changelog
 
-### Unreleased
+### 1.2.5
 
 * Use own CSS that is still missing on GlotPress 3.0.0-alpha.4
+* Update the actual [Convert-PT-AO90](https://github.com/pedro-mendonca/Convert-PT-AO90) tool to v1.3.2.
+* Add some more replace pairs.
+* Update dependencies.
+* Tested up to WP 6.1.
+* Tested only on supported PHP versions (7.4+).
 
 ### 1.2.4
 

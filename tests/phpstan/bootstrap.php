@@ -17,7 +17,7 @@ if ( ! defined( 'SCRIPT_DEBUG' ) ) {
 
 // Set plugin version.
 if ( ! defined( 'GP_CONVERT_PT_AO90_VERSION' ) ) {
-	define( 'GP_CONVERT_PT_AO90_VERSION', '1.2.0' );
+	define( 'GP_CONVERT_PT_AO90_VERSION', '1.2.5' );
 }
 
 // Set plugin required PHP version. Needed for PHP compatibility check for WordPress < 7.2.
