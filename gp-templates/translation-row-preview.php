@@ -70,7 +70,7 @@ $priority_char = array(
 		if ( ! count( array_filter( $translation->translations, 'gp_is_not_null' ) ) ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo $missing_text;
-		} elseif ( ! $translation->plural ) {
+		} elseif ( ! $translation->plural || 1 === $locale->nplurals ) {
 			$singular_translation = esc_translation( $translation->translations[0] );
 			// Check if has root.
 			if ( isset( $translation->root_id ) ) {
