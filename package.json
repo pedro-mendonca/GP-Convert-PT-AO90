@@ -26,7 +26,7 @@
 	"devDependencies": {
 		"@wordpress/scripts": "^25.0.0",
 		"node-sass": "^8.0.0",
-		"postcss-cli": "^10.0.0"
+		"postcss-cli": "^10.1.0"
 	},
 	"scripts": {
 		"build": "npm run compile:css & npm run build:css",
