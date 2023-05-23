@@ -502,7 +502,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		public static function register_plugin_styles() {
 
 			// Check if SCRIPT_DEBUG is true.
-			$suffix = SCRIPT_DEBUG ? '' : '.min'; // @phpstan-ignore-line
+			$suffix = SCRIPT_DEBUG ? '' : '.min';
 
 			wp_register_style(
 				'gp-convert-pt-ao90',
