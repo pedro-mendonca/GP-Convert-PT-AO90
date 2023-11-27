@@ -32,16 +32,7 @@
 	<arg name="colors"/>
 
 	<!-- Include the WordPress Coding Standards. -->
-	<rule ref="WordPress">
-
-		<exclude name="WordPress.CodeAnalysis.AssignmentInCondition"/>
-		<exclude name="WordPress.Security.EscapeOutput.OutputNotEscaped"/>
-		<exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fopen"/>
-		<exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fclose"/>
-		<exclude name="WordPress.PHP.DevelopmentFunctions.error_log_print_r"/>
-		<exclude name="Squiz.PHP.DisallowMultipleAssignments.FoundInControlStructure"/>
-
-	</rule>
+	<rule ref="WordPress" />
 
 	<rule ref="WordPress.WP.DeprecatedFunctions">
 		<properties>
