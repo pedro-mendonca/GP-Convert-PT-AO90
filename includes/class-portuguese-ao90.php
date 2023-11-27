@@ -60,7 +60,6 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			 * Converts a Portuguese (pt/default) translation to PT AO90 into the pt_PT_ao90 (pt-ao90/default) translation set.
 			 */
 			add_action( 'gp_translation_saved', array( self::class, 'queue_translation_for_conversion' ) );
-
 		}
 
 
@@ -79,7 +78,6 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			}
 
 			return true;
-
 		}
 
 
@@ -106,7 +104,6 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				</p>
 			</div>
 			<?php
-
 		}
 
 
@@ -144,7 +141,6 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			}
 
 			return $locale;
-
 		}
 
 
@@ -171,7 +167,6 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				</p>
 			</div>
 			<?php
-
 		}
 
 
@@ -272,7 +267,6 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				// Delete translation on the variant set.
 				self::delete( $translation, $project, $variant_set, true );
 			}
-
 		}
 
 
@@ -309,7 +303,6 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			}
 
 			gp_clean_translation_set_cache( $variant_set->id );
-
 		}
 
 
@@ -349,7 +342,6 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			}
 
 			gp_clean_translation_set_cache( $variant_set->id );
-
 		}
 
 
@@ -401,7 +393,6 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			}
 
 			return $translation_ao90;
-
 		}
 
 
@@ -488,7 +479,6 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			}
 
 			return htmlspecialchars_decode( $diff );
-
 		}
 
 
@@ -512,9 +502,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			);
 
 			gp_enqueue_styles( 'gp-convert-pt-ao90' );
-
 		}
-
 	}
 
 }
