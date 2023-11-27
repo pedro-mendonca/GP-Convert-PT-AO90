@@ -188,6 +188,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			unset( $args, $template_path );
 
 			$gp_templates = array(
+				'translation-row',
 				'translation-row-preview',
 			);
 
