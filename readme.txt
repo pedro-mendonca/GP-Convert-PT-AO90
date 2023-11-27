@@ -3,7 +3,7 @@ Contributors: pedromendonca
 Donate link: https://github.com/sponsors/pedro-mendonca
 Tags: localization, translation, glotpress, ao90, portuguese
 Requires at least: 5.3
-Tested up to: 6.1
+Tested up to: 6.4
 Requires PHP: 7.4
 Stable tag: 1.2.5
 License: GPLv2
@@ -103,6 +103,7 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 = Unreleased =
 
 *   Add filter 'gp_convert_pt_ao90_edit' to allow disable editing and make the Variant read-only.
+*   Tested up to WP 6.4.
 
 = 1.2.5 =
 *   Use own CSS that is still missing on GlotPress 3.0.0-alpha.4

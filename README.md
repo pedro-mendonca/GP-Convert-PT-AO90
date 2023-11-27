@@ -119,6 +119,7 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 ### Unreleased
 
 * Add filter 'gp_convert_pt_ao90_edit' to allow disable editing and make the Variant read-only.
+* Tested up to WP 6.4.
 
 ### 1.2.5
 
