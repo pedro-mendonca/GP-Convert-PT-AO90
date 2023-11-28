@@ -52,6 +52,11 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			add_action( 'wp_enqueue_scripts', array( self::class, 'register_plugin_styles' ) );
 
 			/**
+			 * Customize permissions on specific templates to make the Variant read-only.
+			 */
+			add_action( 'gp_pre_tmpl_load', array( self::class, 'pre_template_load' ), 10, 2 );
+
+			/**
 			 * Get GP-Convert-PT-AO90 templates.
 			 */
 			add_filter( 'gp_tmpl_load_locations', array( self::class, 'template_load_locations' ), 10, 4 );
@@ -167,6 +172,37 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				</p>
 			</div>
 			<?php
+		}
+
+
+		/**
+		 * Customize permissions on specific templates to make the Variant read-only.
+		 *
+		 * @since 1.6.0
+		 *
+		 * @param string            $template   The template name.
+		 * @param array<int,string> $args       Arguments passed to the template.
+		 *
+		 * @return void
+		 */
+		public static function pre_template_load( $template, &$args ) {
+
+			// Check if the the Variant is read-only.
+			if ( isset( $args['locale_slug'] ) && $args['locale_slug'] === 'pt-ao90' && GP_CONVERT_PT_AO90_EDIT === false ) {
+
+				// Customize $args on 'translations' template, and also on 'translation-row' to override the $can_approve_translation before loading 'translation-row'.
+				if ( $template === 'translations' || $template === 'translation-row' ) {
+
+					// Disable all the translation editing for the Variant.
+					$args['can_edit']                = false; // Disable translation editor.
+					$args['can_write']               = false; // Disable write priority on translation-row-editor-meta.
+					$args['can_approve']             = false; // Disable bulk translations approval, set the appropriate colspan for the table.
+					$args['can_approve_translation'] = false; // Disable single translation approval.
+					$args['can_import_current']      = false; // Disable translations import as 'current'.
+					$args['can_import_waiting']      = false; // Disable translations import as 'waiting'.
+
+				}
+			}
 		}
 
 
