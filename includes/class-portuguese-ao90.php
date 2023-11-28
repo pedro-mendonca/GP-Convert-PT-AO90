@@ -52,6 +52,11 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			add_action( 'wp_enqueue_scripts', array( self::class, 'register_plugin_styles' ) );
 
 			/**
+			 * Customize permissions on specific templates to make the Variant read-only.
+			 */
+			add_action( 'gp_pre_tmpl_load', array( self::class, 'pre_template_load' ), 10, 2 );
+
+			/**
 			 * Get GP-Convert-PT-AO90 templates.
 			 */
 			add_filter( 'gp_tmpl_load_locations', array( self::class, 'template_load_locations' ), 10, 4 );
@@ -60,7 +65,6 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			 * Converts a Portuguese (pt/default) translation to PT AO90 into the pt_PT_ao90 (pt-ao90/default) translation set.
 			 */
 			add_action( 'gp_translation_saved', array( self::class, 'queue_translation_for_conversion' ) );
-
 		}
 
 
@@ -79,7 +83,6 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			}
 
 			return true;
-
 		}
 
 
@@ -106,7 +109,6 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				</p>
 			</div>
 			<?php
-
 		}
 
 
@@ -139,12 +141,11 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 			$locale = GP_Locales::by_slug( $locale_slug );
 
-			if ( null === $locale ) {
+			if ( is_null( $locale ) ) {
 				add_action( 'admin_notices', array( self::class, 'notice_locale_not_found' ) );
 			}
 
 			return $locale;
-
 		}
 
 
@@ -171,7 +172,37 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				</p>
 			</div>
 			<?php
+		}
 
+
+		/**
+		 * Customize permissions on specific templates to make the Variant read-only.
+		 *
+		 * @since 1.6.0
+		 *
+		 * @param string            $template   The template name.
+		 * @param array<int,string> $args       Arguments passed to the template.
+		 *
+		 * @return void
+		 */
+		public static function pre_template_load( $template, &$args ) {
+
+			// Check if the the Variant is read-only.
+			if ( isset( $args['locale_slug'] ) && $args['locale_slug'] === 'pt-ao90' && GP_CONVERT_PT_AO90_EDIT === false ) {
+
+				// Customize $args on 'translations' template, and also on 'translation-row' to override the $can_approve_translation before loading 'translation-row'.
+				if ( $template === 'translations' || $template === 'translation-row' ) {
+
+					// Disable all the translation editing for the Variant.
+					$args['can_edit']                = false; // Disable translation editor.
+					$args['can_write']               = false; // Disable write priority on translation-row-editor-meta.
+					$args['can_approve']             = false; // Disable bulk translations approval, set the appropriate colspan for the table.
+					$args['can_approve_translation'] = false; // Disable single translation approval.
+					$args['can_import_current']      = false; // Disable translations import as 'current'.
+					$args['can_import_waiting']      = false; // Disable translations import as 'waiting'.
+
+				}
+			}
 		}
 
 
@@ -265,14 +296,13 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			}
 
 			// Process if root translation is set to current without warnings.
-			if ( 'current' === $translation->status && empty( $translation->warnings ) ) {
+			if ( $translation->status === 'current' && empty( $translation->warnings ) ) {
 				// Create translation on the variant set.
 				self::create( $translation, $project, $variant_set );
 			} else {
 				// Delete translation on the variant set.
 				self::delete( $translation, $project, $variant_set, true );
 			}
-
 		}
 
 
@@ -309,7 +339,6 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			}
 
 			gp_clean_translation_set_cache( $variant_set->id );
-
 		}
 
 
@@ -349,7 +378,6 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			}
 
 			gp_clean_translation_set_cache( $variant_set->id );
-
 		}
 
 
@@ -376,7 +404,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			for ( $i = 0; $i < $locale->nplurals; $i++ ) {
 
 				// Skip if plural don't exist.
-				if ( null === $translation->{"translation_{$i}"} ) {
+				if ( is_null( $translation->{"translation_{$i}"} ) ) {
 					continue;
 				}
 
@@ -401,7 +429,6 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			}
 
 			return $translation_ao90;
-
 		}
 
 
@@ -488,7 +515,6 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			}
 
 			return htmlspecialchars_decode( $diff );
-
 		}
 
 
@@ -512,9 +538,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			);
 
 			gp_enqueue_styles( 'gp-convert-pt-ao90' );
-
 		}
-
 	}
 
 }

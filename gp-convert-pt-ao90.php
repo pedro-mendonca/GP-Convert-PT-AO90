@@ -21,7 +21,7 @@
  * Description:       Language tool for GlotPress to convert text according to the Portuguese Language Orthographic Agreement of 1990 (PT AO90).
  * Version:           1.2.5
  * Requires at least: 5.3
- * Tested up to:      6.1
+ * Tested up to:      6.4
  * Requires PHP:      7.4
  * Author:            Pedro Mendonça
  * Author URI:        https://profiles.wordpress.org/pedromendonca/
@@ -67,11 +67,16 @@ define( 'GP_CONVERT_PT_AO90_DIR_PATH', plugin_dir_path( __FILE__ ) );
 // Set Convert PT AO90 for GlotPress file path.
 define( 'GP_CONVERT_PT_AO90_FILE', plugin_basename( __FILE__ ) );
 
+/**
+ * Disable editing translations for PT AO90.
+ * add_filter( 'gp_convert_pt_ao90_edit', '__return_false' );
+ */
+
+// Define the PT AO90 Locale Variant as writable. Set to false to make it read-only.
+define( 'GP_CONVERT_PT_AO90_EDIT', apply_filters( 'gp_convert_pt_ao90_edit', true ) );
 
 // Include Composer autoload.
 require_once GP_CONVERT_PT_AO90_DIR_PATH . 'vendor/autoload.php';
-
-
 
 /**
  * Initialize the plugin.

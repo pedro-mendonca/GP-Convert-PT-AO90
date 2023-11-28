@@ -21,6 +21,8 @@ This plugin for GlotPress customizes the default behavior of the Portuguese (Por
 
 It keeps the Portuguese (Portugal) root translations automatically converted and synced with its Portuguese (Portugal, AO90) variant translations within your GlotPress install.
 
+Optionally it's possible to disable the Portuguese (Portugal, AO90) variant translations editing, approval and importing, making it read-only.
+
 The only translations added to the Portuguese (Portugal, AO90) variant translation set are those which are different from the Portuguese (Portugal) root translation.
 
 The strings that don't need any conversion remain untranslated on the variant, falling back to the root Locale.
@@ -37,6 +39,7 @@ The language conversion uses the open source tool [Convert PT AO90](https://gith
 * Delete variant unused translations instead of keeping as `rejected`, `fuzzy`, `old`.
 * Delete `current` variant translation if a new root translation (same `original_id`) is added and doesn't need conversion.
 * Highlight the differences in the automatically converted texts.
+* Read-only mode: Use the filter `gp_convert_pt_ao90_edit` to disable editing, approval and importing translations in the `pt-ao90` variant.
 
 ## Requirements
 
@@ -51,6 +54,18 @@ The language conversion uses the open source tool [Convert PT AO90](https://gith
   * Slug = `default`;
 
 ## Frequently Asked Questions
+
+### Is it possible to make the variant Portuguese (Portugal, AO90) read-only?
+
+As translations are automatically converted from the root Locale Portuguese (Portugal), you can make the variant read-only by disabling users to edit, approve and import translations into the variant.
+To make the Variant PT AO90 read-only, you can use the filter as follows:
+
+```php
+/**
+ * Disable editing translations for PT AO90.
+ */
+add_filter( 'gp_convert_pt_ao90_edit', '__return_false' );
+```
 
 ### I want my WordPress in Portuguese (Portugal, AO90), does this plugin help?
 
@@ -100,6 +115,11 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
    ![screenshot-2](./.wordpress-org/screenshot-2.png)
 
 ## Changelog
+
+### Unreleased
+
+* New read-only mode: Use the new filter `gp_convert_pt_ao90_edit` to optionally disable editing, approval and importing translations in the `pt-ao90` variant.
+* Tested up to WP 6.4.
 
 ### 1.2.5
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Template for the preview part of a single translation row in a translation set display
+ * Template for the preview part of a single translation row in a translation set display.
  *
  * @package    GlotPress
  * @subpackage Templates
