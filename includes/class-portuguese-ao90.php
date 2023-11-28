@@ -136,7 +136,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 			$locale = GP_Locales::by_slug( $locale_slug );
 
-			if ( null === $locale ) {
+			if ( is_null( $locale ) ) {
 				add_action( 'admin_notices', array( self::class, 'notice_locale_not_found' ) );
 			}
 
@@ -261,7 +261,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			}
 
 			// Process if root translation is set to current without warnings.
-			if ( 'current' === $translation->status && empty( $translation->warnings ) ) {
+			if ( $translation->status === 'current' && empty( $translation->warnings ) ) {
 				// Create translation on the variant set.
 				self::create( $translation, $project, $variant_set );
 			} else {
@@ -369,7 +369,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			for ( $i = 0; $i < $locale->nplurals; $i++ ) {
 
 				// Skip if plural don't exist.
-				if ( null === $translation->{"translation_{$i}"} ) {
+				if ( is_null( $translation->{"translation_{$i}"} ) ) {
 					continue;
 				}
 
