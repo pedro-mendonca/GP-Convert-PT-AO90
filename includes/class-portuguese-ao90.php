@@ -180,8 +180,8 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 *
 		 * @since 1.3.0
 		 *
-		 * @param string            $template   The template name.
-		 * @param array<int,string> $args       Arguments passed to the template.
+		 * @param string               $template   The template name.
+		 * @param array<string,string> $args       Arguments passed to the template.
 		 *
 		 * @return void
 		 */
@@ -211,10 +211,10 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 *
 		 * @since 1.2.0
 		 *
-		 * @param array<int,string> $locations       File paths of template locations.
-		 * @param string            $template        The template name.
-		 * @param array<int,string> $args            Arguments passed to the template.
-		 * @param string|null       $template_path   Priority template location, if any.
+		 * @param array<int,string>    $locations       File paths of template locations.
+		 * @param string               $template        The template name.
+		 * @param array<string,string> $args            Arguments passed to the template.
+		 * @param string|null          $template_path   Priority template location, if any.
 		 *
 		 * @return array<int,string>   Template location.
 		 */
