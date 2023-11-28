@@ -21,7 +21,7 @@ This plugin for GlotPress customizes the default behavior of the Portuguese (Por
 
 It keeps the Portuguese (Portugal) root translations automatically converted and synced with its Portuguese (Portugal, AO90) variant translations within your GlotPress install.
 
-Optionally it's possible to disable the Portuguese (Portugal, AO90) variant translations, making it read-only.
+Optionally it's possible to disable the Portuguese (Portugal, AO90) variant translations editing, approval and importing, making it read-only.
 
 The only translations added to the Portuguese (Portugal, AO90) variant translation set are those which are different from the Portuguese (Portugal) root translation.
 
@@ -39,7 +39,7 @@ The language conversion uses the open source tool [Convert PT AO90](https://gith
 * Delete variant unused translations instead of keeping as `rejected`, `fuzzy`, `old`.
 * Delete `current` variant translation if a new root translation (same `original_id`) is added and doesn't need conversion.
 * Highlight the differences in the automatically converted texts.
-* Use the filter `gp_convert_pt_ao90_edit` to disallow editing translations in the `pt-ao90` variant, making it read-only.
+* Read-only mode: Use the filter `gp_convert_pt_ao90_edit` to disable editing, approval and importing translations in the `pt-ao90` variant.
 
 ## Requirements
 
@@ -57,9 +57,8 @@ The language conversion uses the open source tool [Convert PT AO90](https://gith
 
 ### Is it possible to make the variant Portuguese (Portugal, AO90) read-only?
 
-As the translations are automatically converted from the root Locale Portuguese (Portugal), you can disable the users to submit translations to the variant.
-As translations are automatically converted from the root Locale Portuguese (Portugal), you can disable the possibility for users to submit translations for the variant, making it a read-only Locale.
-To disable editing translations for PT AO90, you can use the filter as follows:
+As translations are automatically converted from the root Locale Portuguese (Portugal), you can make the variant read-only by disabling users to edit, approve and import translations into the variant.
+To make the Variant PT AO90 read-only, you can use the filter as follows:
 
 ```php
 /**
@@ -119,7 +118,7 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 
 ### Unreleased
 
-* Add filter 'gp_convert_pt_ao90_edit' to allow disable editing and make the Variant read-only.
+* New read-only mode: Use the new filter `gp_convert_pt_ao90_edit` to optionally disable editing, approval and importing translations in the `pt-ao90` variant.
 * Tested up to WP 6.4.
 
 ### 1.2.5
