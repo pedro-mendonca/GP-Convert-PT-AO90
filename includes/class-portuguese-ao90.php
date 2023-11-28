@@ -178,7 +178,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		/**
 		 * Customize permissions on specific templates to make the Variant read-only.
 		 *
-		 * @since 1.6.0
+		 * @since 1.3.0
 		 *
 		 * @param string            $template   The template name.
 		 * @param array<int,string> $args       Arguments passed to the template.
