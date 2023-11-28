@@ -32,7 +32,9 @@
 	<arg name="colors"/>
 
 	<!-- Include the WordPress Coding Standards. -->
-	<rule ref="WordPress" />
+	<rule ref="WordPress">
+		<exclude name="WordPress.PHP.YodaConditions.NotYoda"/>
+	</rule>
 
 	<rule ref="WordPress.WP.DeprecatedFunctions">
 		<properties>
@@ -53,6 +55,9 @@
 			<property name="prefixes" type="array" value="gp_convert_pt_ao90"/>
 		</properties>
 	</rule>
+
+	<!-- Disallow Yoda conditions in the codebase. -->
+	<rule ref="Generic.ControlStructures.DisallowYodaConditions"/>
 
 	<rule ref="WordPress.WP.I18n">
 		<properties>
