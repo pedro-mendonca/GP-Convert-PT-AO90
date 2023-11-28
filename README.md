@@ -116,6 +116,12 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 
 ## Changelog
 
+### 1.3.1
+
+* Add Lock icon in to the Variant name in it's read-only.
+* Fix error on Constant setup.
+* Remove dotfiles and rulesets from release.
+
 ### 1.3.0
 
 * New read-only mode: Use the new filter `gp_convert_pt_ao90_edit` to optionally disable editing, approval and importing translations in the `pt-ao90` variant.
