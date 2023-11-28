@@ -116,6 +116,10 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 
 ## Changelog
 
+### 1.3.2
+
+* Improve CSS loading.
+
 ### 1.3.1
 
 * Add Lock icon in to the Variant name in it's read-only.
