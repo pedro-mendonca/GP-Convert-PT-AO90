@@ -11,12 +11,14 @@
 /.gitignore            export-ignore
 /.markdownlint.json    export-ignore
 /.markdownlintignore   export-ignore
+.stylelintignore       export-ignore
+.stylelintrc.json      export-ignore
 /composer.json         export-ignore
 /composer.lock         export-ignore
 /package-lock.json     export-ignore
 /package.json          export-ignore
-/phpcompat.xml         export-ignore
-/phpcs.xml             export-ignore
-/phpmd.xml             export-ignore
+/phpcompat.xml.dist    export-ignore
+/phpcs.xml.dist        export-ignore
+/phpmd.xml.dist        export-ignore
 /phpstan.neon          export-ignore
 /README.md             export-ignore
