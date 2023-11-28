@@ -55,7 +55,7 @@ The language conversion uses the open source tool [Convert PT AO90](https://gith
 
 ## Frequently Asked Questions
 
-### Is this possible to make the variant Portuguese (Portugal, AO90) read-only?
+### Is it possible to make the variant Portuguese (Portugal, AO90) read-only?
 
 As the translations are automatically converted from the root Locale Portuguese (Portugal), you can disable the users to submit translations to the variant.
 As translations are automatically converted from the root Locale Portuguese (Portugal), you can disable the possibility for users to submit translations for the variant, making it a read-only Locale.
