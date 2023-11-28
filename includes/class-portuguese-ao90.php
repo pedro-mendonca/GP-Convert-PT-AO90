@@ -57,6 +57,11 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			add_action( 'gp_pre_tmpl_load', array( self::class, 'pre_template_load' ), 10, 2 );
 
 			/**
+			 * Add inline CSS to show read-only mode in the Project view.
+			 */
+			add_action( 'gp_post_tmpl_load', array( self::class, 'post_template_load' ), 10, 2 );
+
+			/**
 			 * Get GP-Convert-PT-AO90 templates.
 			 */
 			add_filter( 'gp_tmpl_load_locations', array( self::class, 'template_load_locations' ), 10, 4 );
@@ -205,6 +210,27 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 					}
 				}
+			}
+		}
+
+
+		/**
+		 * Add inline CSS to show read-only mode in the Project view.
+		 *
+		 * @since 1.3.2
+		 *
+		 * @param string               $template   The template name.
+		 * @param array<string,string> $args       Arguments passed to the template.
+		 *
+		 * @return void
+		 */
+		public static function post_template_load( $template, &$args ) {
+
+			// Destroy.
+			unset( $args );
+
+			// Check if the the Variant is read-only.
+			if ( GP_CONVERT_PT_AO90_EDIT === false ) {
 
 				// Add inline CSS to show read-only mode in the Project view.
 				if ( $template === 'project' ) {
