@@ -236,7 +236,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				?>
 				<script type="text/javascript">
 				jQuery( document ).ready( function( $ ) {
-					var editable = <?php echo esc_js( GP_CONVERT_PT_AO90_EDIT ? 'true' : 'false' ); ?>;
+					var editable = <?php echo esc_js( GP_CONVERT_PT_AO90_EDIT ? 'true' : 'false' ); // @phpstan-ignore-line ?>;
 					$( 'table.gp-table.translation-sets tr td a[href$="/pt-ao90/default/"]' ).closest( 'tr' ).addClass( 'variant' ).attr( 'data-locale', 'pt-ao90' ).attr( 'data-editable', editable );
 				} );
 				</script>
@@ -397,7 +397,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			$always_create_variant_translation = true;
 
 			// If there is support for real Variants, don't always create translation in the variant, only if is different from root.
-			if ( $variants ) {
+			if ( $variants ) { // @phpstan-ignore-line
 				$always_create_variant_translation = false;
 			}
 
