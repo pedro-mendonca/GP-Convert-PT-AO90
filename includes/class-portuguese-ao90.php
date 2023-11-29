@@ -376,10 +376,11 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 
 		/**
-		 * Create translation on the variant set, if the conversion changes the root translation.
+		 * Create translation on the variant set, if the conversion changes the root translation, or, optionally, always create.
 		 * Also deletes any previous variant set translation if the new translation remains unchanged with the conversion.
 		 *
 		 * @since 1.0.0
+		 * @since 1.3.3   The new filter 'gp_convert_pt_ao90_always_create_variant_translation' allows to force create translations on the variant, even if the conversion doesn't produce any changes. This makes the variant entirely translated, without fallback to the root locale.
 		 *
 		 * @param \GP_Translation     $translation   Created/updated translation.
 		 * @param \GP_Project         $project       GlotPress project.
@@ -388,6 +389,36 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 * @return void
 		 */
 		public static function create( $translation, $project, $variant_set ) {
+
+			// TODO: Detect GlotPress version and Variants functionality.
+			$variants = true;
+
+			// If there is no support for real Variants, always create translation in the variant.
+			$always_create_variant_translation = true;
+
+			// If there is support for real Variants, don't always create translation in the variant, only if is different from root.
+			if ( $variants ) {
+				$always_create_variant_translation = false;
+			}
+
+			/**
+			 * For Real Variants:
+			 *   - GlotPress 3.0.0-alpha.4:               https://github.com/GlotPress/GlotPress/releases/tag/3.0.0-alpha.4
+			 *   - GlotPress 4.0.0-alpha.11 + Variants:   https://github.com/pedro-mendonca/GlotPress/tree/develop-with-variants
+			 * To not populate the Variant Locale with unnecessary translations, exact copies of root Locale, set to False to allow fallback translation to the Root Locale.
+			 * If you still need to have the Variant fully translated, because reasons, set to True, and all the translations will be added, equal or converted from Root Locale.
+			 *
+			 * For Pseudo Variants:
+			 *   - GlotPress current development:   https://github.com/GlotPress/GlotPress/releases/tag/4.0.0-alpha.11
+			 * In this case, it should always create the translation in the variant.
+			 *
+			 * @since 1.3.3
+			 *
+			 * @param bool $always_create_variant_translation   True to force create translations in the variant. False to only create if the conversion produces changes, falling back to real Variant.
+			 */
+			$always_create_variant_translation = apply_filters( 'gp_convert_pt_ao90_always_create_variant_translation', $always_create_variant_translation );
+
+			// TODO: Use $always_create_variant_translation.
 
 			$translation_changed = self::convert_translation( $translation, $variant_set );
 
