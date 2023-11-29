@@ -99,6 +99,10 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 
 == Changelog ==
 
+= Unreleased
+
+*   Fix Dashicons enqueue.
+
 = 1.3.2 =
 
 *   Improve CSS loading.
