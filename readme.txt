@@ -102,6 +102,7 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 = Unreleased
 
 *   Fix Dashicons enqueue.
+*   Move filter gp_convert_pt_ao90_edit to wp_loaded
 
 = 1.3.2 =
 

@@ -73,9 +73,14 @@ define( 'GP_CONVERT_PT_AO90_FILE', plugin_basename( __FILE__ ) );
  */
 
 // Define the PT AO90 Locale Variant as writable. Set to false to make it read-only.
-if ( ! defined( 'GP_CONVERT_PT_AO90_EDIT' ) ) {
-	define( 'GP_CONVERT_PT_AO90_EDIT', apply_filters( 'gp_convert_pt_ao90_edit', true ) );
-}
+add_action(
+	'wp_loaded',
+	function () {
+		if ( ! defined( 'GP_CONVERT_PT_AO90_EDIT' ) ) {
+			define( 'GP_CONVERT_PT_AO90_EDIT', apply_filters( 'gp_convert_pt_ao90_edit', true ) );
+		}
+	}
+);
 
 // Include Composer autoload.
 require_once GP_CONVERT_PT_AO90_DIR_PATH . 'vendor/autoload.php';
