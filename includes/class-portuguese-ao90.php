@@ -586,7 +586,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				GP_CONVERT_PT_AO90_VERSION
 			);
 
-			gp_enqueue_styles( 'gp-convert-pt-ao90' );
+			gp_enqueue_styles( array( 'gp-convert-pt-ao90', 'dashicons' ) );
 		}
 	}
 
