@@ -229,28 +229,48 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			// Destroy.
 			unset( $args );
 
-			// Check if the the Variant is read-only.
-			if ( GP_CONVERT_PT_AO90_EDIT === false ) {
+			// Add inline CSS to show read-only mode in the Project view.
+			if ( $template === 'project' ) {
 
-				// Add inline CSS to show read-only mode in the Project view.
-				if ( $template === 'project' ) {
+				// If GlotPress doesn't have tr[data-locale] attribute, use this jQuery.
+				?>
+				<script type="text/javascript">
+				jQuery( document ).ready( function( $ ) {
+					var editable = <?php echo esc_js( GP_CONVERT_PT_AO90_EDIT ? 'true' : 'false' ); ?>;
+					$( 'table.gp-table.translation-sets tr td a[href$="/pt-ao90/default/"]' ).closest( 'tr' ).addClass( 'variant' ).attr( 'data-locale', 'pt-ao90' ).attr( 'data-editable', editable );
+				} );
+				</script>
+				<?php
 
-					?>
-					<style media="screen">
-					table.translation-sets tr[data-locale="pt-ao90"] {
-						background-color: var( --gp-color-canvas-subtle );
-						background-color: var( --gp-color-secondary-50 );
+				// CSS for variant PT AO90.
+				?>
+				<style media="screen">
+
+					table.translation-sets tr.variant td:first-child {
+						padding-left: 2em;
+						color: var( --gp-color-accent-fg );
 					}
 
-					table.translation-sets tr[data-locale="pt-ao90"] td.locale-name::after {
+					table.translation-sets tr.variant td:first-child::before {
+						content: '•';
+					}
+
+					table.translation-sets tr.variant[data-editable=false] {
+						background-color: var( --gp-color-secondary-100 );
+					}
+
+					table.translation-sets tr.variant[data-editable=false]:hover {
+						background-color: var( --gp-color-secondary-200 );
+					}
+
+					table.translation-sets tr.variant[data-editable=false] td:first-child::after {
 						font-family: dashicons;
 						content: "\f160";
 						vertical-align: middle;
-						color: var( --gp-color-accent-fg )
 					}
-					</style>
-					<?php
-				}
+
+				</style>
+				<?php
 			}
 		}
 
