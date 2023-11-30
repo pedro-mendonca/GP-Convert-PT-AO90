@@ -654,7 +654,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		/**
 		 * Check if GlotPress supports real variants.
 		 *
-		 * @since 1.4.0
+		 * @since 1.3.3
 		 *
 		 * @return bool
 		 */
