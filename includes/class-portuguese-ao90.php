@@ -69,6 +69,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 			/**
 			 * Converts a Portuguese (pt/default) translation to PT AO90 into the pt_PT_ao90 (pt-ao90/default) translation set.
+			 * The conversion is queued after saving the root translation.
 			 */
 			add_action( 'gp_translation_saved', array( self::class, 'queue_translation_for_conversion' ) );
 		}
@@ -237,7 +238,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				?>
 				<script type="text/javascript">
 				jQuery( document ).ready( function( $ ) {
-					var editable = <?php echo esc_js( GP_CONVERT_PT_AO90_EDIT ? 'true' : 'false' ); ?>;
+					var editable = <?php echo esc_js( GP_CONVERT_PT_AO90_EDIT ? 'true' : 'false' ); // @phpstan-ignore-line ?>;
 					$( 'table.gp-table.translation-sets tr td a[href$="/pt-ao90/default/"]' ).closest( 'tr' ).addClass( 'variant' ).attr( 'data-locale', 'pt-ao90' ).attr( 'data-editable', editable );
 				} );
 				</script>
@@ -308,7 +309,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 
 		/**
-		 * Converts Portuguese (pt/default) translation to PT AO90 into the pt_PT_ao90 (pt-ao90/default) translation set.
+		 * Converts the Portuguese (pt/default) translation to PT AO90 into the pt_PT_ao90 (pt-ao90/default) translation set.
 		 *
 		 * @since 1.0.0
 		 *
@@ -391,14 +392,17 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 */
 		public static function create( $translation, $project, $variant_set ) {
 
-			// TODO: Detect GlotPress version and Variants functionality.
-			$variants = true;
+			// Deletes any existent matching conversions. Only the current.
+			self::delete( $translation, $project, $variant_set, false );
+
+			// Check if GlotPress version supports the Variants functionality.
+			$supports_variants = self::supports_variants();
 
 			// If there is no support for real Variants, always create translation in the variant.
 			$always_create_variant_translation = true;
 
 			// If there is support for real Variants, don't always create translation in the variant, only if is different from root.
-			if ( $variants ) {
+			if ( $supports_variants ) {
 				$always_create_variant_translation = false;
 			}
 
@@ -419,17 +423,22 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			 */
 			$always_create_variant_translation = apply_filters( 'gp_convert_pt_ao90_always_create_variant_translation', $always_create_variant_translation );
 
-			// TODO: Use $always_create_variant_translation.
-
+			// Get the converted translation, or false if nothing changes.
 			$translation_changed = self::convert_translation( $translation, $variant_set );
 
 			// Check if the conversion produces changes.
 			if ( ! $translation_changed ) {
 
-				// Deletes any existent mathing conversions.
-				self::delete( $translation, $project, $variant_set, false );
+				// Check wether to always create variant translations or only if differ from root.
+				if ( ! $always_create_variant_translation ) {
+					return;
+				}
 
-				return;
+				// Use the unconverted translation for the variant set.
+				$translation_changed = $translation;
+
+				// Set the ID of the variant set.
+				$translation->translation_set_id = $variant_set->id;
 
 			}
 
@@ -640,7 +649,6 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 			gp_enqueue_styles( array( 'gp-convert-pt-ao90', 'dashicons' ) );
 		}
-	}
 
 
 		/**
