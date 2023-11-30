@@ -62,10 +62,6 @@ To make the Variant PT AO90 read-only, you can use the filter as follows:
 add_filter( 'gp_convert_pt_ao90_edit', '__return_false' );
 ```
 
-= I want my WordPress in Portuguese (Portugal, AO90), does this plugin help?
-No! To use your WordPress in Portuguese (Portugal AO90) you must go to your Settings and select it in the Language field.
-You can also use the plugin [PT AO90](https://wordpress.org/plugins/pt-ao90/) to make sure your site falls back to Portuguese (Portugal) instead of English if there is no translation to Portuguese (Portugal, AO90) for your theme or plugins.
-
 = Can I always save the translation to the Variant, even if is the same as the Root translation?
 Short anwser: yes!
 The Variants feature with fallback isn't released yet. The current Variants code is not ready to production, the fallback to the Root Locale isn't quite stable.
@@ -76,6 +72,10 @@ If you need a fully independent translation set, for more accurate stats or to b
  */
 add_filter( 'gp_convert_pt_ao90_always_create_variant_translation', '__return_true' );
 ```
+
+= I want my WordPress in Portuguese (Portugal, AO90), does this plugin help?
+No! To use your WordPress in Portuguese (Portugal AO90) you must go to your Settings and select it in the Language field.
+You can also use the plugin [PT AO90](https://wordpress.org/plugins/pt-ao90/) to make sure your site falls back to Portuguese (Portugal) instead of English if there is no translation to Portuguese (Portugal, AO90) for your theme or plugins.
 
 = So what does this plugin really do, after all?
 It extends the translation platform GlotPress used to translate WordPress projects.
