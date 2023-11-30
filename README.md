@@ -130,7 +130,7 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 
 ## Changelog
 
-### Unreleased
+### 1.3.3
 
 * New filter: Use `gp_convert_pt_ao90_always_create_variant_translation` to optionally always create Variant translations, making it independent of any Root fallback.
 * Fix Dashicons enqueue.
