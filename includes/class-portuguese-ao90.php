@@ -249,12 +249,16 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				<style media="screen">
 
 					table.translation-sets tr.variant td:first-child {
-						padding-left: 2em;
+						/*
+						padding-left: 1em;
+						*/
 						color: var( --gp-color-accent-fg );
 					}
 
 					table.translation-sets tr.variant td:first-child::before {
-						content: '•';
+						font-family: dashicons;
+						content: "\f139";
+						vertical-align: middle;
 					}
 
 					table.translation-sets tr.variant[data-editable=false] {
