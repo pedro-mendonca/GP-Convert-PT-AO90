@@ -36,6 +36,7 @@ The language conversion uses the open source tool [Convert PT AO90](https://gith
 *   Delete `current` variant translation if a new root translation (same `original_id`) is added and doesn't need conversion.
 *   Highlight the differences in the automatically converted texts.
 *   Read-only mode: Use the filter `gp_convert_pt_ao90_edit` to disable editing, approval and importing translations in the `pt-ao90` variant.
+*   Optionally you can always save the translations to the Variant, this overrides the fallback to the root Locale. Return `true` in the new filter `gp_convert_pt_ao90_always_create_variant_translation`.
 
 == Requirements ==
 
@@ -64,6 +65,17 @@ add_filter( 'gp_convert_pt_ao90_edit', '__return_false' );
 = I want my WordPress in Portuguese (Portugal, AO90), does this plugin help?
 No! To use your WordPress in Portuguese (Portugal AO90) you must go to your Settings and select it in the Language field.
 You can also use the plugin [PT AO90](https://wordpress.org/plugins/pt-ao90/) to make sure your site falls back to Portuguese (Portugal) instead of English if there is no translation to Portuguese (Portugal, AO90) for your theme or plugins.
+
+= Can I always save the translation to the Variant, even if is the same as the Root translation?
+Short anwser: yes!
+The Variants feature with fallback isn't released yet. The current Variants code is not ready to production, the fallback to the Root Locale isn't quite stable.
+If you need a fully independent translation set, for more accurate stats or to build complete and independent Language Packs of the Variant, you can use the filter as follows:
+```
+/**
+ * Always create the Variant translation.
+ */
+add_filter( 'gp_convert_pt_ao90_always_create_variant_translation', '__return_true' );
+```
 
 = So what does this plugin really do, after all?
 It extends the translation platform GlotPress used to translate WordPress projects.
@@ -101,8 +113,10 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 
 = Unreleased
 
+*   New filter: Use `gp_convert_pt_ao90_always_create_variant_translation` to optionally always create Variant translations, making it independent of any Root fallback.
 *   Fix Dashicons enqueue.
-*   Move filter gp_convert_pt_ao90_edit to wp_loaded
+*   Fix multiple translations being added to the Variant.
+*   Move filter gp_convert_pt_ao90_edit to wp_loaded.
 
 = 1.3.2 =
 
