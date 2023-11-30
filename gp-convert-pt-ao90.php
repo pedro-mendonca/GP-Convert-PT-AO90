@@ -72,6 +72,11 @@ define( 'GP_CONVERT_PT_AO90_FILE', plugin_basename( __FILE__ ) );
  * add_filter( 'gp_convert_pt_ao90_edit', '__return_false' );
  */
 
+/**
+ * Always create the Variant translation.
+ * add_filter( 'gp_convert_pt_ao90_always_create_variant_translation', '__return_true' );
+ */
+
 // Define the PT AO90 Locale Variant as writable. Set to false to make it read-only.
 add_action(
 	'wp_loaded',
