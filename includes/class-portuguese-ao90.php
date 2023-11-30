@@ -10,6 +10,7 @@
 namespace GP_Convert_PT_AO90;
 
 use GP;
+use GP_Locale;
 use GP_Locales;
 use GP_Translation;
 use Convert_PT_AO90;
@@ -641,4 +642,27 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		}
 	}
 
+
+		/**
+		 * Check if GlotPress supports real variants.
+		 *
+		 * @since 1.4.0
+		 *
+		 * @return bool
+		 */
+		public static function supports_variants() {
+
+			$locale = new GP_Locale();
+
+			if ( ! property_exists( $locale, 'variant_root' ) ) {
+				return false;
+			}
+
+			if ( ! property_exists( $locale, 'variants' ) ) {
+				return false;
+			}
+
+			return true;
+		}
+	}
 }
