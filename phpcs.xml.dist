@@ -50,10 +50,12 @@
 	-->
 
 	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
-		<properties>
+		<property name="prefixes" type="array">
 			<!-- Set the global prefix. -->
-			<property name="prefixes" type="array" value="gp_convert_pt_ao90"/>
-		</properties>
+			<element value="gp_convert_pt_ao90"/>
+			<!-- Set the GlotPress prefix. -->
+			<element value="gp"/>
+		</property>
 	</rule>
 
 	<!-- Disallow Yoda conditions in the codebase. -->
