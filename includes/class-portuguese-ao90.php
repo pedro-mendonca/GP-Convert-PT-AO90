@@ -452,6 +452,8 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				return;
 			}
 
+			do_action( 'gp_translation_saved', $variant_translation );
+
 			gp_clean_translation_set_cache( $variant_set->id );
 		}
 
