@@ -30,5 +30,11 @@ if ( ! defined( 'GP_CONVERT_PT_AO90_EDIT' ) ) {
 	define( 'GP_CONVERT_PT_AO90_EDIT', false );
 }
 
+// Define wether to highlight the conversion diffs.
+if ( ! defined( 'GP_CONVERT_PT_AO90_SHOWDIFF' ) ) {
+	define( 'GP_CONVERT_PT_AO90_SHOWDIFF', true );
+}
+
+
 // Require plugin main file.
 require_once 'gp-convert-pt-ao90.php';
