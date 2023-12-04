@@ -1,0 +1,39 @@
+/**
+ * Temporary override while GlotPress with Variants doesn't have this CSS.
+ */
+table.translations tr.preview.root-translation {
+
+	/*
+					background-color: #eee;
+					*/
+}
+
+table.translations tr td.original,
+table.translations tr td.translation {
+	width: 45%;
+	vertical-align: middle;
+}
+
+table.translations tr td.original small,
+table.translations tr td.translation small {
+	font-size: 0.75rem;
+}
+
+table.translations tr td.original ul,
+table.translations tr td.translation ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+table.translations tr td.original ul li:not(:last-child),
+table.translations tr td.translation ul li:not(:last-child) {
+	padding-bottom: 0.25em;
+	border-bottom: 1px solid #e4e4e4;
+}
+
+table.translations tr td.translation .translation-text ins {
+	background-color: #68de7c;
+	text-decoration: none;
+	display: inline-block;
+}

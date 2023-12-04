@@ -648,7 +648,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 			wp_register_style(
 				'gp-convert-pt-ao90',
-				GP_CONVERT_PT_AO90_DIR_URL . 'assets/css/admin' . $suffix . '.css',
+				GP_CONVERT_PT_AO90_DIR_URL . 'assets/css/style' . $suffix . '.css',
 				array(),
 				GP_CONVERT_PT_AO90_VERSION
 			);

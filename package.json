@@ -31,8 +31,8 @@
 	"scripts": {
 		"build": "npm run compile:css & npm run build:css",
 		"compile:css": "node-sass assets/css/ -o assets/css/ && stylelint assets/css/*.css --fix",
-		"build:css": "npm run build:css:admin",
-		"build:css:admin": "postcss assets/css/admin.css > assets/css/admin.min.css",
+		"build:css": "npm run build:css:style",
+		"build:css:style": "postcss assets/css/style.css > assets/css/style.min.css",
 		"lint:css": "wp-scripts lint-style",
 		"lint:md:docs": "wp-scripts lint-md-docs",
 		"lint:pkg-json": "wp-scripts lint-pkg-json"

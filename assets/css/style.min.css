@@ -1,0 +1,41 @@
+/**
+ * Temporary override while GlotPress with Variants doesn't have this CSS.
+ */
+table.translations tr.preview.root-translation {
+
+	/*
+					background-color: #eee;
+					*/
+}
+
+table.translations tr td.original,
+table.translations tr td.translation {
+	width: 45%;
+	vertical-align: middle;
+}
+
+table.translations tr td.original small,
+table.translations tr td.translation small {
+	font-size: 0.75rem;
+}
+
+table.translations tr td.original ul,
+table.translations tr td.translation ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+table.translations tr td.original ul li:not(:last-child),
+table.translations tr td.translation ul li:not(:last-child) {
+	padding-bottom: 0.25em;
+	border-bottom: 1px solid #e4e4e4;
+}
+
+table.translations tr td.translation .translation-text ins {
+	background-color: #68de7c;
+	text-decoration: none;
+	display: inline-block;
+}
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImFzc2V0cy9jc3Mvc3R5bGUuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBIiwiZmlsZSI6ImFzc2V0c1xcY3NzXFxzdHlsZS5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIvKipcbiAqIFRlbXBvcmFyeSBvdmVycmlkZSB3aGlsZSBHbG90UHJlc3Mgd2l0aCBWYXJpYW50cyBkb2Vzbid0IGhhdmUgdGhpcyBDU1MuXG4gKi9cbnRhYmxlLnRyYW5zbGF0aW9ucyB0ci5wcmV2aWV3LnJvb3QtdHJhbnNsYXRpb24ge1xuXG5cdC8qXG5cdFx0XHRcdFx0YmFja2dyb3VuZC1jb2xvcjogI2VlZTtcblx0XHRcdFx0XHQqL1xufVxuXG50YWJsZS50cmFuc2xhdGlvbnMgdHIgdGQub3JpZ2luYWwsXG50YWJsZS50cmFuc2xhdGlvbnMgdHIgdGQudHJhbnNsYXRpb24ge1xuXHR3aWR0aDogNDUlO1xuXHR2ZXJ0aWNhbC1hbGlnbjogbWlkZGxlO1xufVxuXG50YWJsZS50cmFuc2xhdGlvbnMgdHIgdGQub3JpZ2luYWwgc21hbGwsXG50YWJsZS50cmFuc2xhdGlvbnMgdHIgdGQudHJhbnNsYXRpb24gc21hbGwge1xuXHRmb250LXNpemU6IDAuNzVyZW07XG59XG5cbnRhYmxlLnRyYW5zbGF0aW9ucyB0ciB0ZC5vcmlnaW5hbCB1bCxcbnRhYmxlLnRyYW5zbGF0aW9ucyB0ciB0ZC50cmFuc2xhdGlvbiB1bCB7XG5cdG1hcmdpbjogMDtcblx0cGFkZGluZzogMDtcblx0bGlzdC1zdHlsZTogbm9uZTtcbn1cblxudGFibGUudHJhbnNsYXRpb25zIHRyIHRkLm9yaWdpbmFsIHVsIGxpOm5vdCg6bGFzdC1jaGlsZCksXG50YWJsZS50cmFuc2xhdGlvbnMgdHIgdGQudHJhbnNsYXRpb24gdWwgbGk6bm90KDpsYXN0LWNoaWxkKSB7XG5cdHBhZGRpbmctYm90dG9tOiAwLjI1ZW07XG5cdGJvcmRlci1ib3R0b206IDFweCBzb2xpZCAjZTRlNGU0O1xufVxuXG50YWJsZS50cmFuc2xhdGlvbnMgdHIgdGQudHJhbnNsYXRpb24gLnRyYW5zbGF0aW9uLXRleHQgaW5zIHtcblx0YmFja2dyb3VuZC1jb2xvcjogIzY4ZGU3Yztcblx0dGV4dC1kZWNvcmF0aW9uOiBub25lO1xuXHRkaXNwbGF5OiBpbmxpbmUtYmxvY2s7XG59XG4iXX0= */
