@@ -218,25 +218,10 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 				if ( isset( $args['locale_slug'] ) && $args['locale_slug'] === 'pt-ao90' ) {
 
-					$variant_set = $args['translation_set'];
-
 					$project = $args['project'];
 
-					// Get root and variant pair of Locales for conversion.
-					$locales = self::locale_root_variant();
-
-					/**
-					 * Set root Locale.
-					 */
-					$root_locale = $locales['root'];
-
-					/**
-					 * Set variant Locale.
-					 */
-					$variant_locale = $locales['variant'];
-
 					// Check if Variants are supported.
-					$args['supports_variants'] = Portuguese_AO90::supports_variants();
+					$args['supports_variants'] = self::supports_variants();
 
 					if ( ! $args['supports_variants'] ) {
 
@@ -247,10 +232,10 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 						$root_translation_set = null;
 						$has_root             = false;
 
-						$root_translation_set = GP::$translation_set->by_project_id_slug_and_locale( $project_id->id, 'default', 'pt' );
+						$root_translation_set = GP::$translation_set->by_project_id_slug_and_locale( $project->id, 'default', 'pt' );
 
 						// Only set the root translation flag if we have a valid root translation set, otherwise there's no point in querying it later.
-						if ( null !== $root_translation_set && false !== $root_translation_set ) {
+						if ( ! is_null( $root_translation_set ) && $root_translation_set !== false ) {
 							$has_root = true;
 						}
 
