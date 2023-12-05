@@ -41,10 +41,15 @@ The language conversion uses the open source tool [Convert PT AO90](https://gith
 * Highlight the differences in the automatically converted texts.
 * Read-only mode: Use the filter `gp_convert_pt_ao90_edit` to disable editing, approval and importing translations in the `pt-ao90` variant.
 * Optionally you can always save the translations to the Variant, this overrides the fallback to the root Locale. Return `true` in the new filter `gp_convert_pt_ao90_always_create_variant_translation`.
+* Conversion highlight: Use the filter `gp_convert_pt_ao90_showdiff` to optionally disable the conversion diff highlight.
+* Supports GlotPress 3.0.0-alpha.4, with the real variants and fallback feature.
+* Supports GlotPress 4.0.0 (current development), without the real variants and fallback feature.
+* Supports Traduttore for also schedule the language-pack build for the converted variant.
 
 ## Requirements
 
 * [GlotPress 3.0.0-alpha](https://github.com/GlotPress/GlotPress/releases/tag/3.0.0-alpha.4) with Variants support.
+* [GlotPress 4.0.0-alpha](https://github.com/GlotPress/GlotPress/releases/tag/4.0.0-alpha.11) without Variants support.
 
 * Translation set (root): `Portuguese (Portugal)`
   * Locale = `pt`;
@@ -132,7 +137,9 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 
 ### Unreleased
 
-* Fix schedule Traduttore build for the variant.
+* New filter: Use `gp_convert_pt_ao90_showdiff` to optionally disable the conversion diff highlight.
+* New: Supports the current GlotPress 4.0.0, without the real variants and fallback feature.
+* Fix: Schedule Traduttore build for the converted variant.
 
 ### 1.3.3
 
