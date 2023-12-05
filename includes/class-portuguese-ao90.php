@@ -13,6 +13,7 @@ use GP;
 use GP_Locale;
 use GP_Locales;
 use GP_Translation;
+use GP_Project;
 use Convert_PT_AO90;
 
 // Exit if accessed directly.
@@ -194,13 +195,13 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 */
 		public static function pre_template_load( $template, &$args ) {
 
-			// Check if the the Variant is read-only.
-			if ( GP_CONVERT_PT_AO90_EDIT === false ) {
+			if ( isset( $args['locale_slug'] ) && $args['locale_slug'] === 'pt-ao90' ) {
 
-				// Customize $args on 'translations' template, and also on 'translation-row' to override the $can_approve_translation before loading 'translation-row'.
-				if ( $template === 'translations' || $template === 'translation-row' ) {
+				// Check if the the Variant is read-only.
+				if ( GP_CONVERT_PT_AO90_EDIT === false ) {
 
-					if ( isset( $args['locale_slug'] ) && $args['locale_slug'] === 'pt-ao90' ) {
+					// Customize $args on 'translations' template, and also on 'translation-row' to override the $can_approve_translation before loading 'translation-row'.
+					if ( $template === 'translations' || $template === 'translation-row' ) {
 
 						// Disable all the translation editing for the Variant.
 						$args['can_edit']                = false; // Disable translation editor.
@@ -212,38 +213,35 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 					}
 				}
-			}
 
-			if ( $template === 'translations' ) {
+				if ( $template === 'translations' ) {
 
-				if ( isset( $args['locale_slug'] ) && $args['locale_slug'] === 'pt-ao90' ) {
+					$project = self::gp_project( $args['project'] );
 
-					$project = $args['project'];
+					if ( is_null( $project ) ) {
+						return;
+					}
 
 					// Check if Variants are supported.
-					$args['supports_variants'] = self::supports_variants();
+					$supports_variants = self::supports_variants();
 
-					if ( ! $args['supports_variants'] ) {
+					$root_translation_set = GP::$translation_set->by_project_id_slug_and_locale( $project->id, 'default', 'pt' );
 
-						if ( ! GP_CONVERT_PT_AO90_SHOWDIFF ) {
-							return;
-						}
-
-						$root_translation_set = null;
-						$has_root             = false;
-
-						$root_translation_set = GP::$translation_set->by_project_id_slug_and_locale( $project->id, 'default', 'pt' );
-
-						// Only set the root translation flag if we have a valid root translation set, otherwise there's no point in querying it later.
-						if ( ! is_null( $root_translation_set ) && $root_translation_set !== false ) {
-							$has_root = true;
-						}
-
-						$args['root_translation_set'] = $root_translation_set;
-						$args['has_root']             = $has_root;
-
-						$args['root_translations'] = GP::$translation->for_translation( $project, $root_translation_set, gp_get( 'page', 1 ) );
+					$has_root = false;
+					// Only set the root translation flag if we have a valid root translation set, otherwise there's no point in querying it later.
+					if ( ! is_null( $root_translation_set ) && $root_translation_set !== false ) {
+						$has_root = true;
 					}
+
+					$root_translations = null;
+					if ( ! $supports_variants && GP_CONVERT_PT_AO90_SHOWDIFF === true ) {
+						$root_translations = GP::$translation->for_translation( $project, $root_translation_set, gp_get( 'page', strval( $args['page'] ) ) );
+					}
+
+					$args['supports_variants']    = $supports_variants;
+					$args['has_root']             = $has_root;
+					$args['root_translation_set'] = $root_translation_set;
+					$args['root_translations']    = $root_translations;
 				}
 			}
 		}
@@ -715,7 +713,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 *
 		 * @since 1.3.4
 		 *
-		 * @return array
+		 * @return array<string,array<string,string>>
 		 */
 		public static function locale_root_variant() {
 
