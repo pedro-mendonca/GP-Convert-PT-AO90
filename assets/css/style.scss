@@ -7,19 +7,6 @@ table {
 
 		tr {
 
-			&.preview {
-
-				// Class used in Variant translations when fallingback to root.
-				// GlotPress 3.0.0-alpha.4.
-				&.root-translation {
-
-					/*
-					background-color: #eee;
-					*/
-
-				}
-			}
-
 			td {
 
 				&.original,
@@ -57,6 +44,56 @@ table {
 							background-color: #68de7c;
 							text-decoration: none;
 							display: inline-block;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	&.translation-sets {
+
+		tr {
+
+			&.variant {
+
+				&[data-editable="false"] {
+
+					background-color: var(--gp-color-secondary-100);
+
+					&:hover {
+
+						background-color: var(--gp-color-secondary-200);
+
+					}
+
+				}
+
+				td {
+
+					&:first-child {
+
+						/*
+						padding-left: 1em;
+						*/
+						color: var(--gp-color-accent-fg);
+
+						&::before {
+
+							font-family: dashicons;
+							content: "\f139";
+							vertical-align: middle;
+						}
+
+						a::after {
+
+							font-family: dashicons;
+							font-weight: 400;
+							content: "\f160";
+							vertical-align: middle;
+							text-decoration: none;
+							display: inline-block;
+
 						}
 					}
 				}

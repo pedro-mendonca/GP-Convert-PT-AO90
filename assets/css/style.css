@@ -1,13 +1,6 @@
 /**
  * Temporary override while GlotPress with Variants doesn't have this CSS.
  */
-table.translations tr.preview.root-translation {
-
-	/*
-					background-color: #eee;
-					*/
-}
-
 table.translations tr td.original,
 table.translations tr td.translation {
 	width: 45%;
@@ -34,6 +27,37 @@ table.translations tr td.translation ul li:not(:last-child) {
 
 table.translations tr td.translation .translation-text ins {
 	background-color: #68de7c;
+	text-decoration: none;
+	display: inline-block;
+}
+
+table.translation-sets tr.variant[data-editable="false"] {
+	background-color: var(--gp-color-secondary-100);
+}
+
+table.translation-sets tr.variant[data-editable="false"]:hover {
+	background-color: var(--gp-color-secondary-200);
+}
+
+table.translation-sets tr.variant td:first-child {
+
+	/*
+						padding-left: 1em;
+						*/
+	color: var(--gp-color-accent-fg);
+}
+
+table.translation-sets tr.variant td:first-child::before {
+	font-family: dashicons;
+	content: "\f139";
+	vertical-align: middle;
+}
+
+table.translation-sets tr.variant td:first-child a::after {
+	font-family: dashicons;
+	font-weight: 400;
+	content: "\f160";
+	vertical-align: middle;
 	text-decoration: none;
 	display: inline-block;
 }

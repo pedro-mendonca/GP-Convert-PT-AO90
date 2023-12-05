@@ -248,7 +248,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 
 		/**
-		 * Add inline CSS to show read-only mode in the Project view.
+		 * Add inline jQuery and CDD to show read-only mode in the Project and Translations view.
 		 *
 		 * @since 1.3.2
 		 *
@@ -259,55 +259,46 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 */
 		public static function post_template_load( $template, &$args ) {
 
-			// Destroy.
-			unset( $args );
-
-			// Add inline CSS to show read-only mode in the Project view.
+			// Add inline jQuery to show read-only mode in the Project view.
 			if ( $template === 'project' ) {
 
-				// If GlotPress doesn't have tr[data-locale] attribute, use this jQuery.
-				?>
-				<script type="text/javascript">
-				jQuery( document ).ready( function( $ ) {
-					var editable = <?php echo esc_js( GP_CONVERT_PT_AO90_EDIT ? 'true' : 'false' ); // @phpstan-ignore-line ?>;
-					$( 'table.gp-table.translation-sets tr td a[href$="/pt-ao90/default/"]' ).closest( 'tr' ).addClass( 'variant' ).attr( 'data-locale', 'pt-ao90' ).attr( 'data-editable', editable );
-				} );
-				</script>
-				<?php
+				// Check if GlotPress version supports the Variants functionality.
+				if ( ! self::supports_variants() ) {
 
-				// CSS for variant PT AO90.
-				?>
-				<style media="screen">
+					// If GlotPress doesn't have tr[data-locale] attribute, use this jQuery.
+					?>
+					<script type="text/javascript">
+					jQuery( document ).ready( function( $ ) {
+						var editable = <?php echo esc_js( GP_CONVERT_PT_AO90_EDIT ? 'true' : 'false' ); // @phpstan-ignore-line ?>;
+						$( 'table.gp-table.translation-sets tr td a[href$="/pt-ao90/default/"]' ).closest( 'tr' ).addClass( 'variant' ).attr( 'data-locale', 'pt-ao90' ).attr( 'data-editable', editable );
+					} );
+					</script>
+					<?php
+				}
+			}
 
-					table.translation-sets tr.variant td:first-child {
-						/*
-						padding-left: 1em;
-						*/
-						color: var( --gp-color-accent-fg );
+			// Add inline CSS to show read-only mode in the translations view.
+			if ( $template === 'translations' ) {
+
+				if ( isset( $args['locale_slug'] ) && $args['locale_slug'] === 'pt-ao90' ) {
+
+					// Check if the the Variant is read-only.
+					if ( GP_CONVERT_PT_AO90_EDIT === false ) {
+						// CSS for variant PT AO90.
+						?>
+						<style media="screen">
+
+							.gp-content .gp-heading h2::after {
+								font-family: dashicons;
+								font-weight: normal;
+								font-size: 0.75em;
+								content: "\f160";
+							}
+
+						</style>
+						<?php
 					}
-
-					table.translation-sets tr.variant td:first-child::before {
-						font-family: dashicons;
-						content: "\f139";
-						vertical-align: middle;
-					}
-
-					table.translation-sets tr.variant[data-editable=false] {
-						background-color: var( --gp-color-secondary-100 );
-					}
-
-					table.translation-sets tr.variant[data-editable=false]:hover {
-						background-color: var( --gp-color-secondary-200 );
-					}
-
-					table.translation-sets tr.variant[data-editable=false] td:first-child::after {
-						font-family: dashicons;
-						content: "\f160";
-						vertical-align: middle;
-					}
-
-				</style>
-				<?php
+				}
 			}
 		}
 
