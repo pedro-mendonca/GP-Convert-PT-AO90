@@ -195,7 +195,11 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 */
 		public static function pre_template_load( $template, &$args ) {
 
+			$is_ptao90 = false;
+
 			if ( isset( $args['locale_slug'] ) && $args['locale_slug'] === 'pt-ao90' ) {
+
+				$is_ptao90 = true;
 
 				// Check if the the Variant is read-only.
 				if ( GP_CONVERT_PT_AO90_EDIT === false ) {
@@ -214,6 +218,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 					}
 				}
 
+				// Customize $args on 'translations' template.
 				if ( $template === 'translations' ) {
 
 					$project = self::gp_project( $args['project'] );
@@ -244,6 +249,8 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 					$args['root_translations']    = $root_translations;
 				}
 			}
+
+			$args['is_ptao90'] = $is_ptao90;
 		}
 
 
