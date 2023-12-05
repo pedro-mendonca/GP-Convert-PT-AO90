@@ -273,8 +273,12 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				?>
 				<script type="text/javascript">
 				jQuery( document ).ready( function( $ ) {
+
+					// Add Locale and Variant info to 'pt/default' and 'pt-ao90/default'.
 					var editable = <?php echo esc_js( GP_CONVERT_PT_AO90_EDIT ? 'true' : 'false' ); // @phpstan-ignore-line ?>;
+					$( 'table.gp-table.translation-sets tr td a[href$="/pt/default/"]' ).closest( 'tr' ).addClass( 'root' ).attr( 'data-locale', 'pt' );
 					$( 'table.gp-table.translation-sets tr td a[href$="/pt-ao90/default/"]' ).closest( 'tr' ).addClass( 'variant' ).attr( 'data-locale', 'pt-ao90' ).attr( 'data-editable', editable );
+
 				} );
 				</script>
 				<?php
