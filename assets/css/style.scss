@@ -57,18 +57,6 @@ table {
 
 			&.variant {
 
-				&[data-editable="false"] {
-
-					background-color: var(--gp-color-secondary-100);
-
-					&:hover {
-
-						background-color: var(--gp-color-secondary-200);
-
-					}
-
-				}
-
 				td {
 
 					&:first-child {
@@ -83,17 +71,35 @@ table {
 							font-family: dashicons;
 							content: "\f139";
 							vertical-align: middle;
+
 						}
+					}
+				}
 
-						a::after {
+				&[data-editable="false"] {
 
-							font-family: dashicons;
-							font-weight: 400;
-							content: "\f160";
-							vertical-align: middle;
-							text-decoration: none;
-							display: inline-block;
+					background-color: var(--gp-color-secondary-100);
 
+					&:hover {
+
+						background-color: var(--gp-color-secondary-200);
+
+					}
+
+					td {
+
+						&:first-child {
+
+							a::after {
+
+								font-family: dashicons;
+								font-weight: 400;
+								content: "\f160";
+								vertical-align: middle;
+								text-decoration: none;
+								display: inline-block;
+
+							}
 						}
 					}
 				}
