@@ -22,4 +22,5 @@ phpcompat.xml.dist
 phpcs.xml.dist
 phpmd.xml.dist
 phpstan.neon
+postcss.config.js
 README.md

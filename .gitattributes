@@ -21,4 +21,5 @@
 /phpcs.xml.dist        export-ignore
 /phpmd.xml.dist        export-ignore
 /phpstan.neon          export-ignore
+/postcss.config.js     export-ignore
 /README.md             export-ignore
