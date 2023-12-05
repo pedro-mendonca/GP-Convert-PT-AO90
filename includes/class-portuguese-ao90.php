@@ -736,5 +736,24 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				),
 			);
 		}
+
+
+		/**
+		 * Check if project is GP_Project.
+		 *
+		 * @since 1.3.4
+		 *
+		 * @param mixed $project   Project obtained from GP::$project->by_path().
+		 *
+		 * @return GP_Project|null   GP_Project instance, or null if not a GP_Project.
+		 */
+		public static function gp_project( $project ) {
+
+			if ( is_object( $project ) && is_a( $project, 'GP_Project' ) ) {
+				return $project;
+			}
+
+			return null;
+		}
 	}
 }
