@@ -269,19 +269,16 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			// Add inline jQuery to show read-only mode in the Project view.
 			if ( $template === 'project' ) {
 
-				// Check if GlotPress version supports the Variants functionality.
-				if ( ! self::supports_variants() ) {
+				// As currently GlotPress doesn't have tr[data-locale] attribute, use this jQuery.
+				?>
+				<script type="text/javascript">
+				jQuery( document ).ready( function( $ ) {
+					var editable = <?php echo esc_js( GP_CONVERT_PT_AO90_EDIT ? 'true' : 'false' ); // @phpstan-ignore-line ?>;
+					$( 'table.gp-table.translation-sets tr td a[href$="/pt-ao90/default/"]' ).closest( 'tr' ).addClass( 'variant' ).attr( 'data-locale', 'pt-ao90' ).attr( 'data-editable', editable );
+				} );
+				</script>
+				<?php
 
-					// If GlotPress doesn't have tr[data-locale] attribute, use this jQuery.
-					?>
-					<script type="text/javascript">
-					jQuery( document ).ready( function( $ ) {
-						var editable = <?php echo esc_js( GP_CONVERT_PT_AO90_EDIT ? 'true' : 'false' ); // @phpstan-ignore-line ?>;
-						$( 'table.gp-table.translation-sets tr td a[href$="/pt-ao90/default/"]' ).closest( 'tr' ).addClass( 'variant' ).attr( 'data-locale', 'pt-ao90' ).attr( 'data-editable', editable );
-					} );
-					</script>
-					<?php
-				}
 			}
 
 			// Add inline CSS to show read-only mode in the translations view.
