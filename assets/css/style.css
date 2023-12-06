@@ -32,10 +32,6 @@ table.translations tr td.translation .translation-text ins {
 }
 
 table.translation-sets tr.variant td:first-child {
-
-	/*
-						padding-left: 1em;
-						*/
 	color: var(--gp-color-accent-fg);
 }
 
