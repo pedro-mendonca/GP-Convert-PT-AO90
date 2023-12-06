@@ -5,7 +5,7 @@ Tags: localization, translation, glotpress, ao90, portuguese
 Requires at least: 5.3
 Tested up to: 6.4
 Requires PHP: 7.4
-Stable tag: 1.3.3
+Stable tag: 1.4.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -127,10 +127,10 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 
 == Changelog ==
 
-= Unreleased =
+= 1.4.0 =
 
-*   New filter: Use `gp_convert_pt_ao90_showdiff` to optionally disable the conversion diff highlight.
 *   New: Supports the current GlotPress 4.0.0, without the real variants and fallback feature.
+*   New filter: Use `gp_convert_pt_ao90_showdiff` to optionally disable the conversion diff highlight.
 *   Fix: Schedule Traduttore language-pack build for the converted variant.
 
 = 1.3.3 =

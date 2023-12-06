@@ -148,10 +148,10 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 
 ## Changelog
 
-### Unreleased
+### 1.4.0
 
-* New filter: Use `gp_convert_pt_ao90_showdiff` to optionally disable the conversion diff highlight.
 * New: Supports the current GlotPress 4.0.0, without the real variants and fallback feature.
+* New filter: Use `gp_convert_pt_ao90_showdiff` to optionally disable the conversion diff highlight.
 * Fix: Schedule Traduttore build for the converted variant.
 
 ### 1.3.3
