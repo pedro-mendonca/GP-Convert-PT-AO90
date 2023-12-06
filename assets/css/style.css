@@ -1,0 +1,59 @@
+/**
+ * Temporary override while GlotPress with Variants doesn't have this CSS.
+ */
+table.translations tr td.original,
+table.translations tr td.translation {
+	width: 45%;
+	vertical-align: middle;
+}
+
+table.translations tr td.original small,
+table.translations tr td.translation small {
+	font-size: 0.75rem;
+}
+
+table.translations tr td.original ul,
+table.translations tr td.translation ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+table.translations tr td.original ul li:not(:last-child),
+table.translations tr td.translation ul li:not(:last-child) {
+	padding-bottom: 0.25em;
+	border-bottom: 1px solid #e4e4e4;
+}
+
+table.translations tr td.translation .translation-text ins {
+	background-color: #68de7c;
+	text-decoration: none;
+	display: inline-block;
+}
+
+table.translation-sets tr.variant td:first-child {
+	color: var(--gp-color-accent-fg);
+}
+
+table.translation-sets tr.variant td:first-child::before {
+	font-family: dashicons;
+	content: "\f139";
+	vertical-align: middle;
+}
+
+table.translation-sets tr[data-editable="false"] {
+	background-color: var(--gp-color-secondary-100);
+}
+
+table.translation-sets tr[data-editable="false"]:hover {
+	background-color: var(--gp-color-secondary-200);
+}
+
+table.translation-sets tr[data-editable="false"] td:first-child a::after {
+	font-family: dashicons;
+	font-weight: 400;
+	content: "\f160";
+	vertical-align: middle;
+	text-decoration: none;
+	display: inline-block;
+}

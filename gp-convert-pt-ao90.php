@@ -77,12 +77,17 @@ define( 'GP_CONVERT_PT_AO90_FILE', plugin_basename( __FILE__ ) );
  * add_filter( 'gp_convert_pt_ao90_always_create_variant_translation', '__return_true' );
  */
 
-// Define the PT AO90 Locale Variant as writable. Set to false to make it read-only.
+// Set hooks.
 add_action(
 	'wp_loaded',
 	function () {
+		// Define the PT AO90 Locale Variant as writable. Set to false to make it read-only.
 		if ( ! defined( 'GP_CONVERT_PT_AO90_EDIT' ) ) {
 			define( 'GP_CONVERT_PT_AO90_EDIT', apply_filters( 'gp_convert_pt_ao90_edit', true ) );
+		}
+		// Define wether to highlight the conversion diffs.
+		if ( ! defined( 'GP_CONVERT_PT_AO90_SHOWDIFF' ) ) {
+			define( 'GP_CONVERT_PT_AO90_SHOWDIFF', apply_filters( 'gp_convert_pt_ao90_showdiff', true ) );
 		}
 	}
 );

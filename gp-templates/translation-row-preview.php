@@ -13,6 +13,19 @@ $priority_char = array(
 	'1'  => array( '&uarr;', 'transparent', 'green' ),
 );
 
+if ( $is_ptao90 && ! $supports_variants && GP_CONVERT_PT_AO90_SHOWDIFF && $has_root ) {
+
+	$root_translation = null;
+
+	foreach ( $root_translations as $r_translation ) {
+		if ( $translation->original_id === $r_translation->original_id ) {
+			$root_translation = $r_translation;
+			break;
+		}
+	}
+
+}
+
 ?>
 
 <tr class="preview <?php gp_translation_row_classes( $translation ); ?>" id="preview-<?php echo esc_attr( $translation->row_id ); ?>" row="<?php echo esc_attr( $translation->row_id ); ?>">
@@ -73,8 +86,15 @@ $priority_char = array(
 		} elseif ( ! $translation->plural || 1 === $locale->nplurals ) {
 			$singular_translation = esc_translation( $translation->translations[0] );
 			// Check if has root.
-			if ( isset( $translation->root_id ) ) {
-				$singular_translation = GP_Convert_PT_AO90\Portuguese_AO90::highlight_diff( esc_translation( $translation->root_translation_0 ), esc_translation( $translation->translations[0] ) );
+			if ( $is_ptao90 && ( isset( $translation->root_id ) || $has_root ) ) {
+				if ( GP_CONVERT_PT_AO90_SHOWDIFF === true ) {
+					$singular_translation = GP_Convert_PT_AO90\Portuguese_AO90::highlight_diff(
+						esc_translation( $supports_variants ? $translation->root_translation_0 : $root_translation->translations[0] ),
+						esc_translation( $translation->translations[0] )
+					);
+				} else {
+					esc_translation( $translation->translations[0] );
+				}
 			}
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo '<span class="translation-text">' . prepare_original( $singular_translation ) . '</span>';
@@ -90,8 +110,15 @@ $priority_char = array(
 					} else {
 						$singular_translation = esc_translation( $translation->translations[0] );
 						// Check if has root.
-						if ( isset( $translation->root_id ) ) {
-							$singular_translation = GP_Convert_PT_AO90\Portuguese_AO90::highlight_diff( esc_translation( $translation->root_translation_0 ), esc_translation( $translation->translations[0] ) );
+						if ( $is_ptao90 && ( isset( $translation->root_id ) || $has_root ) ) {
+							if ( GP_CONVERT_PT_AO90_SHOWDIFF === true ) {
+								$singular_translation = GP_Convert_PT_AO90\Portuguese_AO90::highlight_diff(
+									esc_translation( $supports_variants ? $translation->root_translation_0 : $root_translation->translations[0] ),
+									esc_translation( $translation->translations[0] )
+								);
+							} else {
+								esc_translation( $translation->translations[0] );
+							}
 						}
 						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 						echo '<span class="translation-text">' . prepare_original( $singular_translation ) . '</span>';
@@ -107,8 +134,15 @@ $priority_char = array(
 					} else {
 						$singular_translation = esc_translation( $translation->translations[1] );
 						// Check if has root.
-						if ( isset( $translation->root_id ) ) {
-							$singular_translation = GP_Convert_PT_AO90\Portuguese_AO90::highlight_diff( esc_translation( $translation->root_translation_1 ), esc_translation( $translation->translations[1] ) );
+						if ( $is_ptao90 && ( isset( $translation->root_id ) || $has_root ) ) {
+							if ( GP_CONVERT_PT_AO90_SHOWDIFF === true ) {
+								$singular_translation = GP_Convert_PT_AO90\Portuguese_AO90::highlight_diff(
+									esc_translation( $supports_variants ? $translation->root_translation_1 : $root_translation->translations[1] ),
+									esc_translation( $translation->translations[1] )
+								);
+							} else {
+								esc_translation( $translation->translations[1] );
+							}
 						}
 						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 						echo '<span class="translation-text">' . prepare_original( $singular_translation ) . '</span>';
@@ -141,8 +175,15 @@ $priority_char = array(
 						} else {
 							$plural_translation = esc_translation( $translation->translations[ $plural_index ] );
 							 // Check if has root.
-							if ( isset( $translation->root_id ) ) {
-								$plural_translation = GP_Convert_PT_AO90\Portuguese_AO90::highlight_diff( esc_translation( $translation->{ 'root_translation_' . $plural_index } ), esc_translation( $translation->translations[ $plural_index ] ) );
+							if ( $is_ptao90 && ( isset( $translation->root_id ) || $has_root ) ) {
+								if ( GP_CONVERT_PT_AO90_SHOWDIFF === true ) {
+									$plural_translation = GP_Convert_PT_AO90\Portuguese_AO90::highlight_diff(
+										esc_translation( $supports_variants ? $translation->{ 'root_translation_' . $plural_index } : $root_translation->translations[ $plural_index ] ),
+										esc_translation( $translation->translations[ $plural_index ] )
+									);
+								} else {
+									esc_translation( $translation->translations[ $plural_index ] );
+								}
 							}
 							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 							echo '<span class="translation-text">' . prepare_original( $plural_translation ) . '</span>';

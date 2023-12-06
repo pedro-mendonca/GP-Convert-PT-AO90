@@ -12,7 +12,9 @@ namespace GP_Convert_PT_AO90;
 use GP;
 use GP_Locale;
 use GP_Locales;
+use GP_Project;
 use GP_Translation;
+use GP_Translation_Set;
 use Convert_PT_AO90;
 
 // Exit if accessed directly.
@@ -52,6 +54,9 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			// Register and enqueue plugin style sheet.
 			add_action( 'wp_enqueue_scripts', array( self::class, 'register_plugin_styles' ) );
 
+			// Register and enqueue plugin scripts.
+			add_action( 'wp_enqueue_scripts', array( self::class, 'register_plugin_scripts' ) );
+
 			/**
 			 * Customize permissions on specific templates to make the Variant read-only.
 			 */
@@ -72,6 +77,11 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			 * The conversion is queued after saving the root translation.
 			 */
 			add_action( 'gp_translation_saved', array( self::class, 'queue_translation_for_conversion' ) );
+
+			/**
+			 * Move the Variant set below the Root translation set.
+			 */
+			add_filter( 'gp_translation_sets_sort', array( self::class, 'sort_translation_sets' ) );
 		}
 
 
@@ -194,13 +204,17 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 */
 		public static function pre_template_load( $template, &$args ) {
 
-			// Check if the the Variant is read-only.
-			if ( GP_CONVERT_PT_AO90_EDIT === false ) {
+			$is_ptao90 = false;
 
-				// Customize $args on 'translations' template, and also on 'translation-row' to override the $can_approve_translation before loading 'translation-row'.
-				if ( $template === 'translations' || $template === 'translation-row' ) {
+			if ( isset( $args['locale_slug'] ) && $args['locale_slug'] === 'pt-ao90' ) {
 
-					if ( isset( $args['locale_slug'] ) && $args['locale_slug'] === 'pt-ao90' ) {
+				$is_ptao90 = true;
+
+				// Check if the the Variant is read-only.
+				if ( GP_CONVERT_PT_AO90_EDIT === false ) {
+
+					// Customize $args on 'translations' template, and also on 'translation-row' to override the $can_approve_translation before loading 'translation-row'.
+					if ( $template === 'translations' || $template === 'translation-row' ) {
 
 						// Disable all the translation editing for the Variant.
 						$args['can_edit']                = false; // Disable translation editor.
@@ -212,12 +226,45 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 					}
 				}
+
+				// Customize $args on 'translations' template.
+				if ( $template === 'translations' ) {
+
+					$project = self::gp_project( $args['project'] );
+
+					if ( is_null( $project ) ) {
+						return;
+					}
+
+					// Check if Variants are supported.
+					$supports_variants = self::supports_variants();
+
+					$root_translation_set = GP::$translation_set->by_project_id_slug_and_locale( $project->id, 'default', 'pt' );
+
+					$has_root = false;
+					// Only set the root translation flag if we have a valid root translation set, otherwise there's no point in querying it later.
+					if ( ! is_null( $root_translation_set ) && $root_translation_set !== false ) {
+						$has_root = true;
+					}
+
+					$root_translations = null;
+					if ( ! $supports_variants && GP_CONVERT_PT_AO90_SHOWDIFF === true && $has_root === true ) {
+						$root_translations = GP::$translation->for_translation( $project, $root_translation_set, gp_get( 'page', strval( $args['page'] ) ) );
+					}
+
+					$args['supports_variants']    = $supports_variants;
+					$args['has_root']             = $has_root;
+					$args['root_translation_set'] = $root_translation_set;
+					$args['root_translations']    = $root_translations;
+				}
 			}
+
+			$args['is_ptao90'] = $is_ptao90;
 		}
 
 
 		/**
-		 * Add inline CSS to show read-only mode in the Project view.
+		 * Add inline CSS in 'translations' to show read-only mode icon on the translation set title.
 		 *
 		 * @since 1.3.2
 		 *
@@ -228,55 +275,28 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 */
 		public static function post_template_load( $template, &$args ) {
 
-			// Destroy.
-			unset( $args );
+			// Add inline CSS to show read-only mode in the translations view.
+			if ( $template === 'translations' ) {
 
-			// Add inline CSS to show read-only mode in the Project view.
-			if ( $template === 'project' ) {
+				if ( isset( $args['locale_slug'] ) && $args['locale_slug'] === 'pt-ao90' ) {
 
-				// If GlotPress doesn't have tr[data-locale] attribute, use this jQuery.
-				?>
-				<script type="text/javascript">
-				jQuery( document ).ready( function( $ ) {
-					var editable = <?php echo esc_js( GP_CONVERT_PT_AO90_EDIT ? 'true' : 'false' ); // @phpstan-ignore-line ?>;
-					$( 'table.gp-table.translation-sets tr td a[href$="/pt-ao90/default/"]' ).closest( 'tr' ).addClass( 'variant' ).attr( 'data-locale', 'pt-ao90' ).attr( 'data-editable', editable );
-				} );
-				</script>
-				<?php
+					// Check if the the Variant is read-only.
+					if ( GP_CONVERT_PT_AO90_EDIT === false ) {
+						// CSS for variant PT AO90.
+						?>
+						<style media="screen">
 
-				// CSS for variant PT AO90.
-				?>
-				<style media="screen">
+							.gp-content .gp-heading h2::after {
+								font-family: dashicons;
+								font-weight: normal;
+								font-size: 0.75em;
+								content: "\f160";
+							}
 
-					table.translation-sets tr.variant td:first-child {
-						/*
-						padding-left: 1em;
-						*/
-						color: var( --gp-color-accent-fg );
+						</style>
+						<?php
 					}
-
-					table.translation-sets tr.variant td:first-child::before {
-						font-family: dashicons;
-						content: "\f139";
-						vertical-align: middle;
-					}
-
-					table.translation-sets tr.variant[data-editable=false] {
-						background-color: var( --gp-color-secondary-100 );
-					}
-
-					table.translation-sets tr.variant[data-editable=false]:hover {
-						background-color: var( --gp-color-secondary-200 );
-					}
-
-					table.translation-sets tr.variant[data-editable=false] td:first-child::after {
-						font-family: dashicons;
-						content: "\f160";
-						vertical-align: middle;
-					}
-
-				</style>
-				<?php
+				}
 			}
 		}
 
@@ -323,21 +343,18 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 */
 		public static function queue_translation_for_conversion( $translation ) {
 
+			// Get root and variant pair of Locales for conversion.
+			$locales = self::locale_root_variant();
+
 			/**
 			 * Set root Locale.
 			 */
-			$root_locale = array(
-				'locale' => 'pt',
-				'slug'   => 'default',
-			);
+			$root_locale = $locales['root'];
 
 			/**
 			 * Set variant Locale.
 			 */
-			$variant_locale = array(
-				'locale' => 'pt-ao90',
-				'slug'   => 'default',
-			);
+			$variant_locale = $locales['variant'];
 
 			/**
 			 * Only process for Portuguese (pt_PT pt/default) root translation set.
@@ -451,6 +468,8 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			if ( ! $variant_translation ) {
 				return;
 			}
+
+			do_action( 'gp_translation_saved', $variant_translation );
 
 			gp_clean_translation_set_cache( $variant_set->id );
 		}
@@ -646,12 +665,49 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 			wp_register_style(
 				'gp-convert-pt-ao90',
-				GP_CONVERT_PT_AO90_DIR_URL . 'assets/css/admin' . $suffix . '.css',
+				GP_CONVERT_PT_AO90_DIR_URL . 'assets/css/style' . $suffix . '.css',
 				array(),
 				GP_CONVERT_PT_AO90_VERSION
 			);
 
 			gp_enqueue_styles( array( 'gp-convert-pt-ao90', 'dashicons' ) );
+		}
+
+
+		/**
+		 * Register and enqueue scripts.
+		 *
+		 * @since 1.4.0
+		 *
+		 * @return void
+		 */
+		public static function register_plugin_scripts() {
+
+			// Check if SCRIPT_DEBUG is true.
+			$suffix = SCRIPT_DEBUG ? '' : '.min';
+
+			wp_register_script(
+				'gp-convert-pt-ao90',
+				GP_CONVERT_PT_AO90_DIR_URL . 'assets/js/scripts' . $suffix . '.js',
+				array(),
+				GP_CONVERT_PT_AO90_VERSION,
+				false
+			);
+
+			gp_enqueue_scripts( 'gp-convert-pt-ao90' );
+
+			$edit = 'true';
+			if ( GP_CONVERT_PT_AO90_EDIT === false ) {
+				$edit = 'false';
+			}
+
+			wp_localize_script(
+				'gp-convert-pt-ao90',
+				'gpConvertPTAO90',
+				array(
+					'edit' => $edit,
+				)
+			);
 		}
 
 
@@ -675,6 +731,137 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			}
 
 			return true;
+		}
+
+
+		/**
+		 * Pair of Locale Root and Variant for conversion.
+		 *
+		 * @since 1.3.4
+		 *
+		 * @return array<string,array<string,string>>
+		 */
+		public static function locale_root_variant() {
+
+			return array(
+				/**
+				 * Set root Locale.
+				 */
+				'root'    => array(
+					'locale' => 'pt',
+					'slug'   => 'default',
+				),
+				/**
+				 * Set variant Locale.
+				 */
+				'variant' => array(
+					'locale' => 'pt-ao90',
+					'slug'   => 'default',
+				),
+			);
+		}
+
+
+		/**
+		 * Check if project is GP_Project.
+		 *
+		 * @since 1.3.4
+		 *
+		 * @param mixed $project   Project obtained from GP::$project->by_path().
+		 *
+		 * @return GP_Project|null   GP_Project instance, or null if not a GP_Project.
+		 */
+		public static function gp_project( $project ) {
+
+			if ( is_object( $project ) && is_a( $project, 'GP_Project' ) ) {
+				return $project;
+			}
+
+			return null;
+		}
+
+
+		/**
+		 * Move the Variant set below the Root translation set.
+		 *
+		 * @since 1.4.0
+		 *
+		 * @param array<int,GP_Translation_Set> $translation_sets   An array of translation sets.
+		 *
+		 * @return array<int,GP_Translation_Set>   The sorted array of translation sets with Variant below Root.
+		 */
+		public static function sort_translation_sets( $translation_sets ) {
+
+			/**
+			 * For GlotPress without Variants.
+			 */
+			if ( ! self::supports_variants() ) {
+
+				$variant_translation_sets = array();
+
+				$root_locale    = 'pt';
+				$variant_locale = 'pt-ao90';
+
+				// Move variants sets below its roots.
+				foreach ( $translation_sets as $key => $translation_set ) {
+
+					$root_translation_set = null;
+
+					if ( $translation_set->locale === $variant_locale ) {
+
+						$root_translation_set = GP::$translation_set->by_project_id_slug_and_locale( $translation_set->project_id, $translation_set->slug, $root_locale );
+
+						// Only set the root translation flag if we have a valid root translation set, otherwise there's no point in querying it later.
+						if ( $root_translation_set ) {
+							$variant_translation_sets[] = $translation_set;
+							unset( $translation_sets[ $key ] );
+						}
+					}
+				}
+
+				// Check if exist any variant.
+				if ( empty( $variant_translation_sets ) ) {
+					return $translation_sets;
+				}
+
+				$translation_sets = array_values( $translation_sets );
+
+				// Sort variant translation sets by slug, descending. Useful for when there will be more than one.
+				usort(
+					$variant_translation_sets,
+					/**
+					 * Sort Translation Sets by Locale.
+					 *
+					 * @param GP_Translation_Set $a   Translation Set.
+					 * @param GP_Translation_Set $b   Translation Set.
+					 *
+					 * @return int
+					 */
+					function ( GP_Translation_Set $a, GP_Translation_Set $b ): int {
+						return intval( $a->locale < $b->locale );
+					}
+				);
+
+				// Move variants sets below its roots.
+				foreach ( $variant_translation_sets as $variant_translation_set ) {
+
+					foreach ( $translation_sets as $root_key => $translation_set ) {
+
+						$insert = null;
+						if ( $translation_set->locale === $root_locale ) {
+							$insert[0] = $variant_translation_set;
+							array_splice(
+								$translation_sets, // Array of Translation Sets.
+								$root_key + 1,     // After the Root set key.
+								0,                 // Lenght to override, 0 to insert without deleting any.
+								$insert            // The actual Variants array.
+							);
+						}
+					}
+				}
+			}
+
+			return $translation_sets;
 		}
 	}
 }

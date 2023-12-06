@@ -8,6 +8,8 @@ tests
 # Exclude files from WP.org
 .distignore
 .editorconfig
+.eslintignore
+.eslintrc.json
 .gitattributes
 .gitignore
 .markdownlint.json
@@ -22,4 +24,5 @@ phpcompat.xml.dist
 phpcs.xml.dist
 phpmd.xml.dist
 phpstan.neon
+postcss.config.js
 README.md
