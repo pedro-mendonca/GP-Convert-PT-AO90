@@ -281,19 +281,27 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				<script type="text/javascript" charset="utf-8">
 					jQuery( document ).ready( function ($) {
 
+						// Set array of Translation Sets.
+						var translationSets = [];
+
 						// Add attribute 'data-locale' to each row.
 						$( 'table.gp-table.translation-sets tr td:first-child a' ).each( function() {
 
-							var match = $( this ).attr( 'href' ).match( /^.*\/(.+)\/(.+)\/$/ );
-							var locale = match[1];
-							var slug = match[2];
+							/**
+							 * Check for Locales in the links.
+							 * Example: ../project-path/pt/default/
+							 */
+							var match  = $( this ).attr( 'href' ).match( /^.*\/(.+)\/(.+)\/$/ );
+							var locale = match[1]; // 'pt'.
+							var slug   = match[2]; // 'default'.
+
+							// Add Locale to the array.
+							translationSets.push( locale );
+
 							$( this ).closest( 'tr' ).attr( 'data-locale', locale );
 
 							// Add class 'variant' to 'pt-ao90' and 'data-editable' status.
 							if ( locale === 'pt-ao90' ) {
-
-								// Add class for tablesorter cssChildRow.
-								$( this ).closest( 'tr' ).addClass( 'variant' );
 
 								// Add editable status.
 								var editable = <?php echo esc_js( GP_CONVERT_PT_AO90_EDIT ? 'true' : 'false' ); // @phpstan-ignore-line ?>;
@@ -301,6 +309,14 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 							}
 
 						});
+
+						// If both root and variant exist, add 'variant' class for tablesorter cssChildRow.
+						if ( translationSets.includes( 'pt' ) && translationSets.includes( 'pt-ao90' ) ) {
+
+							// Add class for tablesorter cssChildRow.
+							$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"] td:first-child a' ).closest( 'tr' ).addClass( 'variant' );
+
+						}
 
 						// Override tablesorter settings to allow adding cssChildRow.
 						$( '.translation-sets' ).tablesorter( {
