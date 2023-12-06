@@ -76,30 +76,31 @@ table {
 					}
 				}
 
-				&[data-editable="false"] {
+			}
 
-					background-color: var(--gp-color-secondary-100);
+			&[data-editable="false"] {
 
-					&:hover {
+				background-color: var(--gp-color-secondary-100);
 
-						background-color: var(--gp-color-secondary-200);
+				&:hover {
 
-					}
+					background-color: var(--gp-color-secondary-200);
 
-					td {
+				}
 
-						&:first-child {
+				td {
 
-							a::after {
+					&:first-child {
 
-								font-family: dashicons;
-								font-weight: 400;
-								content: "\f160";
-								vertical-align: middle;
-								text-decoration: none;
-								display: inline-block;
+						a::after {
 
-							}
+							font-family: dashicons;
+							font-weight: 400;
+							content: "\f160";
+							vertical-align: middle;
+							text-decoration: none;
+							display: inline-block;
+
 						}
 					}
 				}

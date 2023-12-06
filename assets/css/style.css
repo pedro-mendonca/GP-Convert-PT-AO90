@@ -45,15 +45,15 @@ table.translation-sets tr.variant td:first-child::before {
 	vertical-align: middle;
 }
 
-table.translation-sets tr.variant[data-editable="false"] {
+table.translation-sets tr[data-editable="false"] {
 	background-color: var(--gp-color-secondary-100);
 }
 
-table.translation-sets tr.variant[data-editable="false"]:hover {
+table.translation-sets tr[data-editable="false"]:hover {
 	background-color: var(--gp-color-secondary-200);
 }
 
-table.translation-sets tr.variant[data-editable="false"] td:first-child a::after {
+table.translation-sets tr[data-editable="false"] td:first-child a::after {
 	font-family: dashicons;
 	font-weight: 400;
 	content: "\f160";
