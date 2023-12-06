@@ -834,7 +834,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 						$root_translation_set = GP::$translation_set->by_project_id_slug_and_locale( $translation_set->project_id, $translation_set->slug, $root_locale );
 
 						// Only set the root translation flag if we have a valid root translation set, otherwise there's no point in querying it later.
-						if ( ! is_null( $root_translation_set ) ) {
+						if ( $root_translation_set ) {
 							$variant_translation_sets[] = $translation_set;
 							unset( $translation_sets[ $key ] );
 						}
