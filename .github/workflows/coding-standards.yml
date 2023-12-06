@@ -116,15 +116,18 @@ jobs:
       - name: Run CSS/SCSS Lint
         run: npm run lint:css
 
-  # Runs the Markdown coding standards checks.
+  # Runs the JavaScript and Markdown coding standards checks.
+  #
+  # JS violations are not currently reported inline with annotations.
   #
   # Performs the following steps:
   # - Checks out the repository.
   # - Installs NodeJS 16 with caching for NPM.
   # - Logs updated debug information.
   # _ Installs NPM dependencies using install-changed to hash the `package.json` file.
-  md-cs:
-    name: MD coding standards
+  # - Run the WordPress ESLint and Markdownlint checks.
+  js-md-cs:
+    name: JS and MD coding standards
     runs-on: ubuntu-latest
 
     steps:
@@ -144,6 +147,9 @@ jobs:
 
       - name: Install Dependencies
         run: npm ci
+
+      - name: Run JavaScript Lint
+        run: npm run lint:js
 
       - name: Run Markdown Lint
         run: npm run lint:md:docs
