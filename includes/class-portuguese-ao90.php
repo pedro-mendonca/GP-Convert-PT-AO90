@@ -255,7 +255,9 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 
 		/**
-		 * Add inline jQuery and CDD to show read-only mode in the Project and Translations view.
+		 * Add inline jQuery in 'header' to identify root and variant rows on project translation sets.
+		 * Add inline jQuery in 'header' to override tablesorter settings on project translation sets.
+		 * Add inline CSS in 'translations' to show read-only mode icon on the translation set title.
 		 *
 		 * @since 1.3.2
 		 *
@@ -266,23 +268,48 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 */
 		public static function post_template_load( $template, &$args ) {
 
-			// Add inline jQuery to show read-only mode in the Project view.
-			if ( $template === 'project' ) {
+			// Add inline jQuery to 'header'  template.
+			if ( $template === 'header' ) {
 
-				// As currently GlotPress doesn't have tr[data-locale] attribute, use this jQuery.
 				?>
-				<script type="text/javascript">
-				jQuery( document ).ready( function( $ ) {
+				<script type="text/javascript" charset="utf-8">
+					jQuery( document ).ready( function ($) {
 
-					// Add Locale and Variant info to 'pt/default' and 'pt-ao90/default'.
-					var editable = <?php echo esc_js( GP_CONVERT_PT_AO90_EDIT ? 'true' : 'false' ); // @phpstan-ignore-line ?>;
-					$( 'table.gp-table.translation-sets tr td a[href$="/pt/default/"]' ).closest( 'tr' ).addClass( 'root' ).attr( 'data-locale', 'pt' );
-					$( 'table.gp-table.translation-sets tr td a[href$="/pt-ao90/default/"]' ).closest( 'tr' ).addClass( 'variant' ).attr( 'data-locale', 'pt-ao90' ).attr( 'data-editable', editable );
+						// Add attribute 'data-locale' to each row.
+						$( 'table.gp-table.translation-sets tr td:first-child a' ).each( function() {
 
-				} );
+							var match = $( this ).attr( 'href' ).match( /^.*\/(.+)\/(.+)\/$/ );
+							var locale = match[1];
+							var slug = match[2];
+							$( this ).closest( 'tr' ).attr( 'data-locale', locale );
+
+							// Add class 'variant' to 'pt-ao90' and 'data-editable' status.
+							if ( locale === 'pt-ao90' ) {
+
+								// Add class for tablesorter cssChildRow.
+								$( this ).closest( 'tr' ).addClass( 'variant' );
+
+								// Add editable status.
+								var editable = <?php echo esc_js( GP_CONVERT_PT_AO90_EDIT ? 'true' : 'false' ); // @phpstan-ignore-line ?>;
+								$( this ).closest( 'tr' ).attr( 'data-editable', editable );
+							}
+
+						});
+
+						// Override tablesorter settings to allow adding cssChildRow.
+						$( '.translation-sets' ).tablesorter( {
+							theme: 'glotpress',
+							sortList: [[2,1]],
+							cssChildRow: 'variant', // Sets 'variant' row as child of the previous.
+							headers: {
+								0: {
+									sorter: 'text'
+								}
+							}
+						} );
+					} );
 				</script>
 				<?php
-
 			}
 
 			// Add inline CSS to show read-only mode in the translations view.
