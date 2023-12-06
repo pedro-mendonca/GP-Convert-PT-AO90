@@ -12,8 +12,9 @@ namespace GP_Convert_PT_AO90;
 use GP;
 use GP_Locale;
 use GP_Locales;
-use GP_Translation;
 use GP_Project;
+use GP_Translation;
+use GP_Translation_Set;
 use Convert_PT_AO90;
 
 // Exit if accessed directly.
@@ -73,6 +74,11 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			 * The conversion is queued after saving the root translation.
 			 */
 			add_action( 'gp_translation_saved', array( self::class, 'queue_translation_for_conversion' ) );
+
+			/**
+			 * Move the Variant set below the Root translation set.
+			 */
+			add_filter( 'gp_translation_sets_sort', array( self::class, 'sort_translation_sets' ) );
 		}
 
 
@@ -778,6 +784,90 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			}
 
 			return null;
+		}
+
+
+		/**
+		 * Move the Variant set below the Root translation set.
+		 *
+		 * @since 1.4.0
+		 *
+		 * @param array<int,GP_Translation_Set> $translation_sets   An array of translation sets.
+		 *
+		 * @return array<int,GP_Translation_Set>   The sorted array of translation sets with Variant below Root.
+		 */
+		public static function sort_translation_sets( $translation_sets ) {
+
+			/**
+			 * For GlotPress without Variants.
+			 */
+			if ( ! self::supports_variants() ) {
+
+				$variant_translation_sets = array();
+
+				$root_locale    = 'pt';
+				$variant_locale = 'pt-ao90';
+
+				// Move variants sets below its roots.
+				foreach ( $translation_sets as $key => $translation_set ) {
+
+					$root_translation_set = null;
+
+					if ( $translation_set->locale === $variant_locale ) {
+
+						$root_translation_set = GP::$translation_set->by_project_id_slug_and_locale( $translation_set->project_id, $translation_set->slug, $root_locale );
+
+						// Only set the root translation flag if we have a valid root translation set, otherwise there's no point in querying it later.
+						if ( ! is_null( $root_translation_set ) ) {
+							$variant_translation_sets[] = $translation_set;
+							unset( $translation_sets[ $key ] );
+						}
+					}
+				}
+
+				// Check if exist any variant.
+				if ( empty( $variant_translation_sets ) ) {
+					return $translation_sets;
+				}
+
+				$translation_sets = array_values( $translation_sets );
+
+				// Sort variant translation sets by slug, descending. Useful for when there will be more than one.
+				usort(
+					$variant_translation_sets,
+					/**
+					 * Sort Translation Sets by Locale.
+					 *
+					 * @param GP_Translation_Set $a   Translation Set.
+					 * @param GP_Translation_Set $b   Translation Set.
+					 *
+					 * @return int
+					 */
+					function ( GP_Translation_Set $a, GP_Translation_Set $b ): int {
+						return intval( $a->locale < $b->locale );
+					}
+				);
+
+				// Move variants sets below its roots.
+				foreach ( $variant_translation_sets as $variant_translation_set ) {
+
+					foreach ( $translation_sets as $root_key => $translation_set ) {
+
+						$insert = null;
+						if ( $translation_set->locale === $root_locale ) {
+							$insert[0] = $variant_translation_set;
+							array_splice(
+								$translation_sets, // Array of Translation Sets.
+								$root_key + 1,     // After the Root set key.
+								0,                 // Lenght to override, 0 to insert without deleting any.
+								$insert            // The actual Variants array.
+							);
+						}
+					}
+				}
+			}
+
+			return $translation_sets;
 		}
 	}
 }
