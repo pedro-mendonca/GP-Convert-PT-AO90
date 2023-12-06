@@ -78,6 +78,17 @@ If you need a fully independent translation set, for more accurate stats or to b
 add_filter( 'gp_convert_pt_ao90_always_create_variant_translation', '__return_true' );
 ```
 
+= Can I disable the conversion diff highlight?
+Sure!
+The highlight of the conversion differences are usefull if you want to keep track of what changed.
+If you want to disable it, you can use the filter as follows:
+```php
+/**
+ * Always create the Variant translation.
+ */
+add_filter( 'gp_convert_pt_ao90_showdiff', '__return_false' );
+```
+
 = I want my WordPress in Portuguese (Portugal, AO90), does this plugin help?
 No! To use your WordPress in Portuguese (Portugal AO90) you must go to your Settings and select it in the Language field.
 You can also use the plugin [PT AO90](https://wordpress.org/plugins/pt-ao90/) to make sure your site falls back to Portuguese (Portugal) instead of English if there is no translation to Portuguese (Portugal, AO90) for your theme or plugins.
