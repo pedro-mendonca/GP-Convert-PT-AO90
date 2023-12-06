@@ -8,6 +8,8 @@ tests
 # Exclude files from WP.org
 .distignore
 .editorconfig
+.eslintignore
+.eslintrc.json
 .gitattributes
 .gitignore
 .markdownlint.json

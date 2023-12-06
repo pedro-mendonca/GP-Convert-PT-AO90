@@ -54,6 +54,9 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			// Register and enqueue plugin style sheet.
 			add_action( 'wp_enqueue_scripts', array( self::class, 'register_plugin_styles' ) );
 
+			// Register and enqueue plugin scripts.
+			add_action( 'wp_enqueue_scripts', array( self::class, 'register_plugin_scripts' ) );
+
 			/**
 			 * Customize permissions on specific templates to make the Variant read-only.
 			 */
@@ -261,8 +264,6 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 
 		/**
-		 * Add inline jQuery in 'header' to identify root and variant rows on project translation sets.
-		 * Add inline jQuery in 'header' to override tablesorter settings on project translation sets.
 		 * Add inline CSS in 'translations' to show read-only mode icon on the translation set title.
 		 *
 		 * @since 1.3.2
@@ -273,66 +274,6 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 * @return void
 		 */
 		public static function post_template_load( $template, &$args ) {
-
-			// Add inline jQuery to 'header'  template.
-			if ( $template === 'header' ) {
-
-				?>
-				<script type="text/javascript" charset="utf-8">
-					jQuery( document ).ready( function ($) {
-
-						// Set array of Translation Sets.
-						var translationSets = [];
-
-						// Add attribute 'data-locale' to each row.
-						$( 'table.gp-table.translation-sets tr td:first-child a' ).each( function() {
-
-							/**
-							 * Check for Locales in the links.
-							 * Example: ../project-path/pt/default/
-							 */
-							var match  = $( this ).attr( 'href' ).match( /^.*\/(.+)\/(.+)\/$/ );
-							var locale = match[1]; // 'pt'.
-							var slug   = match[2]; // 'default'.
-
-							// Add Locale to the array.
-							translationSets.push( locale );
-
-							$( this ).closest( 'tr' ).attr( 'data-locale', locale );
-
-							// Add class 'variant' to 'pt-ao90' and 'data-editable' status.
-							if ( locale === 'pt-ao90' ) {
-
-								// Add editable status.
-								var editable = <?php echo esc_js( GP_CONVERT_PT_AO90_EDIT ? 'true' : 'false' ); // @phpstan-ignore-line ?>;
-								$( this ).closest( 'tr' ).attr( 'data-editable', editable );
-							}
-
-						});
-
-						// If both root and variant exist, add 'variant' class for tablesorter cssChildRow.
-						if ( translationSets.includes( 'pt' ) && translationSets.includes( 'pt-ao90' ) ) {
-
-							// Add class for tablesorter cssChildRow.
-							$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"] td:first-child a' ).closest( 'tr' ).addClass( 'variant' );
-
-						}
-
-						// Override tablesorter settings to allow adding cssChildRow.
-						$( '.translation-sets' ).tablesorter( {
-							theme: 'glotpress',
-							sortList: [[2,1]],
-							cssChildRow: 'variant', // Sets 'variant' row as child of the previous.
-							headers: {
-								0: {
-									sorter: 'text'
-								}
-							}
-						} );
-					} );
-				</script>
-				<?php
-			}
 
 			// Add inline CSS to show read-only mode in the translations view.
 			if ( $template === 'translations' ) {
@@ -730,6 +671,43 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			);
 
 			gp_enqueue_styles( array( 'gp-convert-pt-ao90', 'dashicons' ) );
+		}
+
+
+		/**
+		 * Register and enqueue scripts.
+		 *
+		 * @since 1.4.0
+		 *
+		 * @return void
+		 */
+		public static function register_plugin_scripts() {
+
+			// Check if SCRIPT_DEBUG is true.
+			$suffix = SCRIPT_DEBUG ? '' : '.min';
+
+			wp_register_script(
+				'gp-convert-pt-ao90',
+				GP_CONVERT_PT_AO90_DIR_URL . 'assets/js/scripts' . $suffix . '.js',
+				array(),
+				GP_CONVERT_PT_AO90_VERSION,
+				false
+			);
+
+			gp_enqueue_scripts( 'gp-convert-pt-ao90' );
+
+			$edit = 'true';
+			if ( GP_CONVERT_PT_AO90_EDIT === false ) {
+				$edit = 'false';
+			}
+
+			wp_localize_script(
+				'gp-convert-pt-ao90',
+				'gpConvertPTAO90',
+				array(
+					'edit' => $edit,
+				)
+			);
 		}
 
 
