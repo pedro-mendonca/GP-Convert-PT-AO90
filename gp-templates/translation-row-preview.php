@@ -13,7 +13,7 @@ $priority_char = array(
 	'1'  => array( '&uarr;', 'transparent', 'green' ),
 );
 
-if ( $is_ptao90 && ! $supports_variants && GP_CONVERT_PT_AO90_SHOWDIFF  ) {
+if ( $is_ptao90 && ! $supports_variants && GP_CONVERT_PT_AO90_SHOWDIFF && $has_root ) {
 
 	$root_translation = null;
 
