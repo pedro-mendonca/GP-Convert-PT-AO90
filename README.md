@@ -148,6 +148,12 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 
 ## Changelog
 
+### 1.4.1
+
+* Update the actual [Convert-PT-AO90](https://github.com/pedro-mendonca/Convert-PT-AO90) tool to v1.3.3.
+* Fix: Strings with trailing spaces converted to null, fixed on the package Convert-PT-AO90.
+* Fix: Warnings on paginated translation tables, on rows with highlighted diffs.
+
 ### 1.4.0
 
 * New: Supports the current GlotPress 4.0.0, without the real variants and fallback feature.

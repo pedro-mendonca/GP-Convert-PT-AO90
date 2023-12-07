@@ -5,7 +5,7 @@ Tags: localization, translation, glotpress, ao90, portuguese
 Requires at least: 5.3
 Tested up to: 6.4
 Requires PHP: 7.4
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -126,6 +126,12 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 2. Variant translation table only with green automatically converted strings, with highlighted conversion diffs
 
 == Changelog ==
+
+= 1.4.1 =
+
+*   Update the actual [Convert-PT-AO90](https://github.com/pedro-mendonca/Convert-PT-AO90) tool to v1.3.3.
+*   Fix: Strings with trailing spaces converted to null, fixed on the package Convert-PT-AO90.
+*   Fix: Warnings on paginated translation tables, on rows with highlighted diffs.
 
 = 1.4.0 =
 
