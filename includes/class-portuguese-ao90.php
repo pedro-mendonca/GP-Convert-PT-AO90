@@ -792,68 +792,68 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 */
 		public static function sort_translation_sets( $translation_sets ) {
 
-				$variant_translation_sets = array();
+			$variant_translation_sets = array();
 
-				$root_locale    = 'pt';
-				$variant_locale = 'pt-ao90';
+			$root_locale    = 'pt';
+			$variant_locale = 'pt-ao90';
 
-				// Move variants sets below its roots.
-				foreach ( $translation_sets as $key => $translation_set ) {
+			// Move variants sets below its roots.
+			foreach ( $translation_sets as $key => $translation_set ) {
 
-					$root_translation_set = null;
+				$root_translation_set = null;
 
-					if ( $translation_set->locale === $variant_locale ) {
+				if ( $translation_set->locale === $variant_locale ) {
 
-						$root_translation_set = GP::$translation_set->by_project_id_slug_and_locale( $translation_set->project_id, $translation_set->slug, $root_locale );
+					$root_translation_set = GP::$translation_set->by_project_id_slug_and_locale( $translation_set->project_id, $translation_set->slug, $root_locale );
 
-						// Only set the root translation flag if we have a valid root translation set, otherwise there's no point in querying it later.
-						if ( $root_translation_set ) {
-							$variant_translation_sets[] = $translation_set;
-							unset( $translation_sets[ $key ] );
-						}
+					// Only set the root translation flag if we have a valid root translation set, otherwise there's no point in querying it later.
+					if ( $root_translation_set ) {
+						$variant_translation_sets[] = $translation_set;
+						unset( $translation_sets[ $key ] );
 					}
 				}
+			}
 
-				// Check if exist any variant.
-				if ( empty( $variant_translation_sets ) ) {
-					return $translation_sets;
+			// Check if exist any variant.
+			if ( empty( $variant_translation_sets ) ) {
+				return $translation_sets;
+			}
+
+			$translation_sets = array_values( $translation_sets );
+
+			// Sort variant translation sets by slug, descending. Useful for when there will be more than one.
+			usort(
+				$variant_translation_sets,
+				/**
+				 * Sort Translation Sets by Locale.
+				 *
+				 * @param GP_Translation_Set $a   Translation Set.
+				 * @param GP_Translation_Set $b   Translation Set.
+				 *
+				 * @return int
+				 */
+				function ( GP_Translation_Set $a, GP_Translation_Set $b ): int {
+					return intval( $a->locale < $b->locale );
 				}
+			);
 
-				$translation_sets = array_values( $translation_sets );
+			// Move variants sets below its roots.
+			foreach ( $variant_translation_sets as $variant_translation_set ) {
 
-				// Sort variant translation sets by slug, descending. Useful for when there will be more than one.
-				usort(
-					$variant_translation_sets,
-					/**
-					 * Sort Translation Sets by Locale.
-					 *
-					 * @param GP_Translation_Set $a   Translation Set.
-					 * @param GP_Translation_Set $b   Translation Set.
-					 *
-					 * @return int
-					 */
-					function ( GP_Translation_Set $a, GP_Translation_Set $b ): int {
-						return intval( $a->locale < $b->locale );
-					}
-				);
+				foreach ( $translation_sets as $root_key => $translation_set ) {
 
-				// Move variants sets below its roots.
-				foreach ( $variant_translation_sets as $variant_translation_set ) {
-
-					foreach ( $translation_sets as $root_key => $translation_set ) {
-
-						$insert = null;
-						if ( $translation_set->locale === $root_locale ) {
-							$insert[0] = $variant_translation_set;
-							array_splice(
-								$translation_sets, // Array of Translation Sets.
-								$root_key + 1,     // After the Root set key.
-								0,                 // Lenght to override, 0 to insert without deleting any.
-								$insert            // The actual Variants array.
-							);
-						}
+					$insert = null;
+					if ( $translation_set->locale === $root_locale ) {
+						$insert[0] = $variant_translation_set;
+						array_splice(
+							$translation_sets, // Array of Translation Sets.
+							$root_key + 1,     // After the Root set key.
+							0,                 // Lenght to override, 0 to insert without deleting any.
+							$insert            // The actual Variants array.
+						);
 					}
 				}
+			}
 
 			return $translation_sets;
 		}
