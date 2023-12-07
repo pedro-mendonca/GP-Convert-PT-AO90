@@ -128,18 +128,18 @@ if ( $is_ptao90 && ! $supports_variants && GP_CONVERT_PT_AO90_SHOWDIFF && $has_r
 						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 						echo $missing_text;
 					} else {
-						$singular_translation = esc_translation( $translation->translations[1] );
+						$plural_translation = esc_translation( $translation->translations[1] );
 						// Check if has root.
 						if ( $is_ptao90 && ( isset( $translation->root_id ) || $has_root ) ) {
 							if ( GP_CONVERT_PT_AO90_SHOWDIFF === true ) {
-								$singular_translation = GP_Convert_PT_AO90\Portuguese_AO90::highlight_diff(
+								$plural_translation = GP_Convert_PT_AO90\Portuguese_AO90::highlight_diff(
 									esc_translation( $supports_variants ? $translation->root_translation_1 : $root_translation->translations[1] ),
 									esc_translation( $translation->translations[1] )
 								);
 							}
 						}
 						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-						echo '<span class="translation-text">' . prepare_original( $singular_translation ) . '</span>';
+						echo '<span class="translation-text">' . prepare_original( $plural_translation ) . '</span>';
 					}
 					?>
 				</li>
