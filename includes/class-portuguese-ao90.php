@@ -792,11 +792,6 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 */
 		public static function sort_translation_sets( $translation_sets ) {
 
-			/**
-			 * For GlotPress without Variants.
-			 */
-			if ( ! self::supports_variants() ) {
-
 				$variant_translation_sets = array();
 
 				$root_locale    = 'pt';
@@ -859,7 +854,6 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 						}
 					}
 				}
-			}
 
 			return $translation_sets;
 		}
