@@ -577,7 +577,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 *
 		 * @return void
 		 */
-		public function convert_project() {
+		public static function convert_project() {
 
 
 			wp_die();
