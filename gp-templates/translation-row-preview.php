@@ -92,8 +92,6 @@ if ( $is_ptao90 && ! $supports_variants && GP_CONVERT_PT_AO90_SHOWDIFF && $has_r
 						esc_translation( $supports_variants ? $translation->root_translation_0 : $root_translation->translations[0] ),
 						esc_translation( $translation->translations[0] )
 					);
-				} else {
-					esc_translation( $translation->translations[0] );
 				}
 			}
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -116,8 +114,6 @@ if ( $is_ptao90 && ! $supports_variants && GP_CONVERT_PT_AO90_SHOWDIFF && $has_r
 									esc_translation( $supports_variants ? $translation->root_translation_0 : $root_translation->translations[0] ),
 									esc_translation( $translation->translations[0] )
 								);
-							} else {
-								esc_translation( $translation->translations[0] );
 							}
 						}
 						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -140,8 +136,6 @@ if ( $is_ptao90 && ! $supports_variants && GP_CONVERT_PT_AO90_SHOWDIFF && $has_r
 									esc_translation( $supports_variants ? $translation->root_translation_1 : $root_translation->translations[1] ),
 									esc_translation( $translation->translations[1] )
 								);
-							} else {
-								esc_translation( $translation->translations[1] );
 							}
 						}
 						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -181,8 +175,6 @@ if ( $is_ptao90 && ! $supports_variants && GP_CONVERT_PT_AO90_SHOWDIFF && $has_r
 										esc_translation( $supports_variants ? $translation->{ 'root_translation_' . $plural_index } : $root_translation->translations[ $plural_index ] ),
 										esc_translation( $translation->translations[ $plural_index ] )
 									);
-								} else {
-									esc_translation( $translation->translations[ $plural_index ] );
 								}
 							}
 							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
