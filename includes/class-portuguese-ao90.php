@@ -666,7 +666,9 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			wp_register_style(
 				'gp-convert-pt-ao90',
 				GP_CONVERT_PT_AO90_DIR_URL . 'assets/css/style' . $suffix . '.css',
-				array(),
+				array(
+					'buttons',
+				),
 				GP_CONVERT_PT_AO90_VERSION
 			);
 
@@ -705,7 +707,8 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				'gp-convert-pt-ao90',
 				'gpConvertPTAO90',
 				array(
-					'edit' => $edit,
+					'edit'  => $edit,
+					'admin' => GP::$permission->current_user_can( 'admin' ),
 				)
 			);
 		}
