@@ -58,9 +58,11 @@
     "compat:php": "phpcs -v --standard=phpcompat.xml.dist",
     "format:php": "phpcbf -v --standard=phpcs.xml.dist",
     "compile": [
-			"@compile:js"
+			"@compile:js",
+      "@build:css"
 		],
 		"compile:js": "npm run compile:js",
+    "build:css": "npm run build:css",
     "lint": [
       "@lint:php",
       "@compat:php",
