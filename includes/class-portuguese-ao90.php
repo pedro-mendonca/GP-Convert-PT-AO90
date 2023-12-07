@@ -249,7 +249,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 					$root_translations = null;
 					if ( ! $supports_variants && GP_CONVERT_PT_AO90_SHOWDIFF === true && $has_root === true ) {
-						$root_translations = GP::$translation->for_translation( $project, $root_translation_set, gp_get( 'page', strval( $args['page'] ) ) );
+						$root_translations = GP::$translation->for_translation( $project, $root_translation_set, 'no-limit', gp_get( 'filters', array( 'status' => 'current' ) ) );
 					}
 
 					$args['supports_variants']    = $supports_variants;
