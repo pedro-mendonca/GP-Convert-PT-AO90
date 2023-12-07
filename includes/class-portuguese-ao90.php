@@ -82,6 +82,11 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			 * Move the Variant set below the Root translation set.
 			 */
 			add_filter( 'gp_translation_sets_sort', array( self::class, 'sort_translation_sets' ) );
+
+			/**
+			 * Force convert the whole project again.
+			 */
+			add_action( 'wp_ajax_convert_project', array( self::class, 'convert_project' ) );
 		}
 
 
@@ -566,6 +571,20 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 
 		/**
+		 * Force convert the whole project.
+		 *
+		 * @since 1.4.2
+		 *
+		 * @return void
+		 */
+		public function convert_project() {
+
+
+			wp_die();
+		}
+
+
+		/**
 		 * Highlight the differences between the root and converted variant translations.
 		 *
 		 * Create the text diff inspired on wp_text_diff() but removing the unecessary table HTML.
@@ -707,8 +726,11 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				'gp-convert-pt-ao90',
 				'gpConvertPTAO90',
 				array(
-					'edit'  => $edit,
-					'admin' => GP::$permission->current_user_can( 'admin' ),
+					'edit'           => $edit,
+					'admin'          => GP::$permission->current_user_can( 'admin' ),
+					'gp_url'         => gp_url(), // /glotpress/.
+					'gp_url_project' => gp_url_project(), // /glotpress/projects/.
+					'ajaxurl'        => admin_url( 'admin-ajax.php' ),
 				)
 			);
 		}

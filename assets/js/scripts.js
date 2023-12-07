@@ -7,17 +7,29 @@ jQuery( document ).ready( function( $ ) {
 	// Check if user is has GlotPress Admin previleges.
 	var glotpressAdmin = gpConvertPTAO90.admin;
 
+	// Check if user is has GlotPress Admin previleges.
+	var gpUrlProject = gpConvertPTAO90.gp_url_project;
+
+	var projectPath = null;
+
+	console.log( gpUrlProject );
+
 	// Add attribute 'data-locale' to each row.
 	$( 'table.gp-table.translation-sets tr td:first-child a' ).each( function() {
+		// Create a regular expression pattern with the variable
+		var regexPattern = new RegExp( '^' + gpUrlProject + '(.*).*\/(.+)\/.+\/$' );
+
 		/**
-		 * Check for Locales in the links.
-		 * Example: ../project-path/pt/default/
+		 * Check for project path and Locale in the link.
+		 * Example: ../glotpress/projects/plugins/hello-dolly/pt/default/
 		 */
-		var match = $( this ).attr( 'href' ).match( /^.*\/(.+)\/(.+)\/$/ );
-		var locale = match[1]; // 'pt'.
+		var match = $( this ).attr( 'href' ).match( regexPattern );
+		var locale = match[2]; // 'pt'.
 
 		// Get edit status of the variant.
 		var editable = gpConvertPTAO90.edit;
+
+		projectPath = match[1]; // 'plugins/hello-dolly'.
 
 		// Add Locale to the array.
 		translationSets.push( locale );
@@ -41,6 +53,12 @@ jQuery( document ).ready( function( $ ) {
 		}
 	}
 
+	// Action on click Convert button.
+	$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"] td:first-child span.gp-convert-pt-ao90-update button.gp-convert-pt-ao90-update-button' ).on( 'click', function() {
+		var locale = $( this ).closest( 'tr' ).attr( 'data-locale' );
+		convertProject( projectPath, locale );
+	} );
+
 	// Override tablesorter settings to allow adding cssChildRow.
 	$( '.translation-sets' ).tablesorter( {
 		theme: 'glotpress',
@@ -52,4 +70,49 @@ jQuery( document ).ready( function( $ ) {
 			},
 		},
 	} );
+
+	/**
+	 * Convert project Root translation set to Variant translation set.
+	 *
+	 * @param {string} projectPath : Path ot the GP_Project.
+	 * @param {string} locale      : Locale of the GP_Translation_Set.
+	 */
+	function convertProject( projectPath, locale ) {
+		console.log( 'Clicked to convert project "' + projectPath + '" locale "' + locale + '"' );
+
+		$.ajax( {
+
+			url: gpConvertPTAO90.ajaxurl,
+			type: 'POST',
+			data: {
+				action: 'convert_project',
+				projectPath: projectPath,
+				locale: locale,
+			},
+			beforeSend: function() {
+				console.log( 'Ajax request is starting...' );
+			},
+			/*success: function ( response, textStatus, jqXHR ) {
+				var response_data = response.data.data;
+				var response_data = response;
+				if ( response_data != "" || response_data.length != 0) {
+				console.log( response_data );
+				// write your code here
+				} else {
+				// write your code here
+				}
+			},*/
+
+		} ).done( function( html, textStatus, jqXHR ) {
+			console.log( 'Ajax request has been completed (' + textStatus + '). Status: ' + jqXHR.status + ' ' + jqXHR.statusText );
+			console.log( html );
+			console.log( textStatus );
+			console.log( jqXHR );
+		} ).fail( function( jqXHR, textStatus ) {
+			// Show the Error notice.
+			console.log( 'Ajax request has failed (' + textStatus + '). Status: ' + jqXHR.status + ' ' + jqXHR.statusText );
+		} ).always( function() {
+			console.log( 'Ajax end.' );
+		} );
+	}
 } );
