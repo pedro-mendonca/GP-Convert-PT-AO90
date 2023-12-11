@@ -17,7 +17,7 @@ jQuery( document ).ready( function( $ ) {
 	// Add attribute 'data-locale' to each row.
 	$( 'table.gp-table.translation-sets tr td:first-child a' ).each( function() {
 		// Create a regular expression pattern with the variable
-		var regexPattern = new RegExp( '^' + gpUrlProject + '(.*).*\/(.+)\/.+\/$' );
+		var regexPattern = new RegExp( '^' + gpUrlProject + '(.*).*\/(.+)\/(.+)\/$' );
 
 		/**
 		 * Check for project path and Locale in the link.
@@ -25,6 +25,7 @@ jQuery( document ).ready( function( $ ) {
 		 */
 		var match = $( this ).attr( 'href' ).match( regexPattern );
 		var locale = match[2]; // 'pt'.
+		var slug = match[3]; // 'default'.
 
 		// Get edit status of the variant.
 		var editable = gpConvertPTAO90.edit;
@@ -35,6 +36,7 @@ jQuery( document ).ready( function( $ ) {
 		translationSets.push( locale );
 
 		$( this ).closest( 'tr' ).attr( 'data-locale', locale );
+		$( this ).closest( 'tr' ).attr( 'data-slug', slug );
 
 		// Add class 'variant' to 'pt-ao90' and 'data-editable' status.
 		if ( locale === 'pt-ao90' ) {
@@ -49,14 +51,15 @@ jQuery( document ).ready( function( $ ) {
 		$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"] td:first-child a' ).closest( 'tr' ).addClass( 'variant' );
 
 		if ( glotpressAdmin ) {
-			$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"] td:first-child' ).children().last().after( '<span class="gp-convert-pt-ao90-update wp-core-ui"><span class="translation-set-icon edit-status dashicons dashicons-lock"></span><button class="translation-set-icon handlediv button-link gp-convert-pt-ao90-update-button" type="button" aria-expanded="true"><span class="dashicons dashicons-update"></span><span class="screen-reader-text">' + wp.i18n.__( 'Convert', 'gp-convert-pt-ao90' ) + '</span></span>' );
+			$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td:first-child' ).children().last().after( '<span class="gp-convert-pt-ao90-update wp-core-ui"><span class="translation-set-icon edit-status dashicons dashicons-lock"></span><button class="translation-set-icon handlediv button-link gp-convert-pt-ao90-update-button" type="button" aria-expanded="true"><span class="dashicons dashicons-update"></span><span class="screen-reader-text">' + wp.i18n.__( 'Convert', 'gp-convert-pt-ao90' ) + '</span></span>' );
 		}
 	}
 
 	// Action on click Convert button.
-	$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"] td:first-child span.gp-convert-pt-ao90-update button.gp-convert-pt-ao90-update-button' ).on( 'click', function() {
+	$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td:first-child span.gp-convert-pt-ao90-update button.gp-convert-pt-ao90-update-button' ).on( 'click', function() {
 		var locale = $( this ).closest( 'tr' ).attr( 'data-locale' );
-		convertProject( projectPath, locale );
+		var slug = $( this ).closest( 'tr' ).attr( 'data-slug' );
+		convertProject( projectPath, locale, slug );
 	} );
 
 	// Override tablesorter settings to allow adding cssChildRow.
@@ -76,9 +79,10 @@ jQuery( document ).ready( function( $ ) {
 	 *
 	 * @param {string} projectPath : Path ot the GP_Project.
 	 * @param {string} locale      : Locale of the GP_Translation_Set.
+	 * @param {string} slug        : Slug of the GP_Translation_Set.
 	 */
-	function convertProject( projectPath, locale ) {
-		console.log( 'Clicked to convert project "' + projectPath + '" locale "' + locale + '"' );
+	function convertProject( projectPath, locale, slug ) {
+		console.log( 'Clicked to convert project "' + projectPath + '" locale "' + locale + '/' + slug + '"' );
 
 		$.ajax( {
 
@@ -88,6 +92,8 @@ jQuery( document ).ready( function( $ ) {
 				action: 'convert_project',
 				projectPath: projectPath,
 				locale: locale,
+				slug: slug,
+				nonce: gpConvertPTAO90.nonce,
 			},
 			beforeSend: function() {
 				console.log( 'Ajax request is starting...' );

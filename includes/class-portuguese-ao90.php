@@ -579,6 +579,67 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 */
 		public static function convert_project() {
 
+			check_ajax_referer( 'gp-convert-pt-ao90-nonce', 'nonce' );
+
+			// Initialize variables.
+			$project_path = '';
+			$locale       = '';
+
+			if ( isset( $_POST['projectPath'] ) ) {
+				$project_path = sanitize_key( $_POST['projectPath'] );
+			}
+
+			if ( isset( $_POST['locale'] ) ) {
+				$locale = sanitize_key( $_POST['locale'] );
+			}
+
+			if ( isset( $_POST['slug'] ) ) {
+				$slug = sanitize_key( $_POST['slug'] );
+			}
+
+			// Get root and variant pair of Locales for conversion.
+			$locales = self::locale_root_variant();
+
+			/**
+			 * Set root Locale.
+			 */
+			$root_locale = $locales['root'];
+
+			/**
+			 * Set variant Locale.
+			 */
+			$variant_locale = $locales['variant'];
+
+			$locale_root_variant = self::locale_root_variant();
+
+			if ( $locale === $variant_locale['locale'] && $slug === $variant_locale['slug'] ) {
+
+				// Get the GP_Project.
+				$project = GP::$project->by_path( $project_path );
+
+				// Get the Root Translation_Set.
+				$root_translation_set = GP::$translation_set->by_project_id_slug_and_locale( $project->id, $root_locale['slug'], $root_locale['locale'] );
+
+				// Get the Variant Translation_Set.
+				$variant_translation_set = GP::$translation_set->by_project_id_slug_and_locale( $project->id, $variant_locale['slug'], $variant_locale['locale'] );
+
+			}
+
+			if ( $root_translation_set !== false ) {
+				echo $root_translation_set->name;
+				//var_dump( $root_translation_set );
+
+				$root_translations = GP::$translation->for_translation( $project, $root_translation_set, 'no-limit', gp_get( 'filters', array( 'status' => 'current' ) ) );
+				//var_dump( $root_translations );
+			}
+
+			foreach ( $root_translations as $root_translation ) {
+				// Create translation on the variant set.
+				self::create( $root_translation, $project, $variant_translation_set );
+			}
+
+
+
 
 			wp_die();
 		}
@@ -731,6 +792,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 					'gp_url'         => gp_url(), // /glotpress/.
 					'gp_url_project' => gp_url_project(), // /glotpress/projects/.
 					'ajaxurl'        => admin_url( 'admin-ajax.php' ),
+					'nonce'          => wp_create_nonce( 'gp-convert-pt-ao90-nonce' ),
 				)
 			);
 		}
