@@ -625,18 +625,35 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 			}
 
-			if ( $root_translation_set !== false ) {
-				echo $root_translation_set->name;
-				//var_dump( $root_translation_set );
-
-				$root_translations = GP::$translation->for_translation( $project, $root_translation_set, 'no-limit', gp_get( 'filters', array( 'status' => 'current' ) ) );
-				//var_dump( $root_translations );
+			if ( $variant_translation_set !== false ) {
+				$variant_translations = GP::$translation->for_translation( $project, $variant_translation_set, 'no-limit', gp_get( 'filters', array( 'status' => 'current' ) ) );
 			}
 
+			if ( $root_translation_set !== false ) {
+				$root_translations = GP::$translation->for_translation( $project, $root_translation_set, 'no-limit', gp_get( 'filters', array( 'status' => 'current' ) ) );
+			}
+
+			// Bulk convert all translations from root to variant.
+			/*
 			foreach ( $root_translations as $root_translation ) {
 				// Create translation on the variant set.
 				self::create( $root_translation, $project, $variant_translation_set );
 			}
+			*/
+
+			// Bulk convert all translations from root to variant.
+			foreach ( $variant_translations as $variant_translation ) {
+
+				// var_dump( $variant_translation );
+
+				// $variant_translation->reject();
+				//self::delete( $variant_translation, $project, $variant_translation_set, true );
+
+				// Create translation on the variant set.
+				self::create( $root_translation, $project, $variant_translation_set );
+			}
+
+
 
 
 
