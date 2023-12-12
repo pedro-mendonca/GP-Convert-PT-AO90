@@ -127,8 +127,9 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 
 == Changelog ==
 
-= Unreleased =
+= 1.4.2 =
 
+*   New: A Sync button for GlotPress administrators to force convert the complete translation from root set to variant set.
 *   Fix: Keep variant below root translation set while sorting in GlotPress 3.x with variants support.
 
 = 1.4.1 =
