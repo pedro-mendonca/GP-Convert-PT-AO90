@@ -31,17 +31,17 @@ table.translations tr td.translation .translation-text ins {
 	display: inline-block;
 }
 
-table.translation-sets tr td:first-child span.gp-convert-pt-ao90-update button.translation-set-icon,
+table.translation-sets tr th.gp-column-locale {
+	min-width: 400px;
+	width: 45%;
+}
+
 table.translation-sets tr td:first-child span.gp-convert-pt-ao90-update span.translation-set-icon {
-	color: var(--gp-color-primary-100);
 	margin-left: 0.5em;
 	vertical-align: middle;
 	font-size: 1em;
 	display: inline-block;
 	line-height: normal;
-}
-
-table.translation-sets tr td:first-child span.gp-convert-pt-ao90-update span.translation-set-icon {
 	color: var(--gp-color-fg-muted);
 }
 
@@ -50,26 +50,59 @@ table.translation-sets tr td:first-child span.gp-convert-pt-ao90-update span.tra
 }
 
 table.translation-sets tr td:first-child span.gp-convert-pt-ao90-update button.gp-convert-pt-ao90-update-button {
-	display: inline-block;
-	text-decoration: none;
-	line-height: normal;
-	outline: none;
-	box-shadow: none;
+	margin-left: 0.5em;
+	vertical-align: bottom;
 }
 
-table.translation-sets tr td:first-child span.gp-convert-pt-ao90-update button.gp-convert-pt-ao90-update-button span {
-	color: var(--gp-color-btn-primary-bg);
+table.translation-sets tr td:first-child span.gp-convert-pt-ao90-update button.gp-convert-pt-ao90-update-button:not(:disabled):hover span.icon,
+table.translation-sets tr td:first-child span.gp-convert-pt-ao90-update button.gp-convert-pt-ao90-update-button:not(:disabled):focus span.icon,
+table.translation-sets tr td:first-child span.gp-convert-pt-ao90-update button.gp-convert-pt-ao90-update-button:not(:disabled).active span.icon {
+	color: var(--gp-color-btn-hover-text);
+	transform: rotateZ(180deg);
+}
+
+table.translation-sets tr td:first-child span.gp-convert-pt-ao90-update button.gp-convert-pt-ao90-update-button:disabled {
+	color: var(--gp-color-fg-default) !important;
+}
+
+table.translation-sets tr td:first-child span.gp-convert-pt-ao90-update button.gp-convert-pt-ao90-update-button span.icon {
 	-webkit-transition: all 600ms cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
 	-moz-transition: all 600ms cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
 	-o-transition: all 600ms cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
 	transition: all 600ms cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
 }
 
-table.translation-sets tr td:first-child span.gp-convert-pt-ao90-update button.gp-convert-pt-ao90-update-button:hover span,
-table.translation-sets tr td:first-child span.gp-convert-pt-ao90-update button.gp-convert-pt-ao90-update-button:focus span,
-table.translation-sets tr td:first-child span.gp-convert-pt-ao90-update button.gp-convert-pt-ao90-update-button.active span {
-	color: var(--gp-color-btn-primary-hover-bg);
-	transform: rotateZ(180deg);
+table.translation-sets tr td:first-child span.gp-convert-pt-ao90-update button.gp-convert-pt-ao90-update-button span.label {
+	margin-left: 0.5em;
+	margin-right: 0.5em;
+	vertical-align: middle;
+	text-align: left;
+	display: inline-block;
+	line-height: normal;
+}
+
+table.translation-sets tr td:first-child span.gp-convert-pt-ao90-update button.gp-convert-pt-ao90-update-button.updating span.icon {
+	color: var(--gp-color-dark-orange);
+	animation: rotation 2s infinite linear;
+}
+
+@keyframes rotation {
+
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+table.translation-sets tr td:first-child span.gp-convert-pt-ao90-update button.gp-convert-pt-ao90-update-button.success span.icon {
+	color: var(--gp-color-green);
+}
+
+table.translation-sets tr td:first-child span.gp-convert-pt-ao90-update button.gp-convert-pt-ao90-update-button.fail span.icon {
+	color: var(--gp-color-red);
 }
 
 table.translation-sets tr.variant td:first-child {
