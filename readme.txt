@@ -127,6 +127,10 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 
 == Changelog ==
 
+= 1.4.3 =
+
+*   Fix missing JavaScript translation.
+
 = 1.4.2 =
 
 *   New: A Sync button for GlotPress administrators to force convert the complete translation from root set to variant set.

@@ -814,6 +814,11 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				$edit = 'false';
 			}
 
+			wp_set_script_translations(
+				'gp-convert-pt-ao90',
+				'gp-convert-pt-ao90'
+			);
+
 			wp_localize_script(
 				'gp-convert-pt-ao90',
 				'gpConvertPTAO90',
