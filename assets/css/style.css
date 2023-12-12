@@ -31,6 +31,80 @@ table.translations tr td.translation .translation-text ins {
 	display: inline-block;
 }
 
+table.translation-sets tr th.gp-column-locale {
+	min-width: 400px;
+	width: 45%;
+}
+
+table.translation-sets tr td:first-child span.gp-convert-pt-ao90-update span.translation-set-icon {
+	margin-left: 0.5em;
+	vertical-align: middle;
+	font-size: 1em;
+	display: inline-block;
+	line-height: normal;
+	color: var(--gp-color-fg-muted);
+}
+
+table.translation-sets tr td:first-child span.gp-convert-pt-ao90-update span.translation-set-icon.edit-status {
+	display: none;
+}
+
+table.translation-sets tr td:first-child span.gp-convert-pt-ao90-update button.gp-convert-pt-ao90-update-button {
+	margin-left: 0.5em;
+	vertical-align: bottom;
+}
+
+table.translation-sets tr td:first-child span.gp-convert-pt-ao90-update button.gp-convert-pt-ao90-update-button:not(:disabled):hover span.icon,
+table.translation-sets tr td:first-child span.gp-convert-pt-ao90-update button.gp-convert-pt-ao90-update-button:not(:disabled):focus span.icon,
+table.translation-sets tr td:first-child span.gp-convert-pt-ao90-update button.gp-convert-pt-ao90-update-button:not(:disabled).active span.icon {
+	color: var(--gp-color-btn-hover-text);
+	transform: rotateZ(180deg);
+}
+
+table.translation-sets tr td:first-child span.gp-convert-pt-ao90-update button.gp-convert-pt-ao90-update-button:disabled {
+	color: var(--gp-color-fg-default) !important;
+}
+
+table.translation-sets tr td:first-child span.gp-convert-pt-ao90-update button.gp-convert-pt-ao90-update-button span.icon {
+	-webkit-transition: all 600ms cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+	-moz-transition: all 600ms cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+	-o-transition: all 600ms cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+	transition: all 600ms cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+}
+
+table.translation-sets tr td:first-child span.gp-convert-pt-ao90-update button.gp-convert-pt-ao90-update-button span.label {
+	margin-left: 0.5em;
+	margin-right: 0.5em;
+	vertical-align: middle;
+	text-align: left;
+	display: inline-block;
+	line-height: normal;
+}
+
+table.translation-sets tr td:first-child span.gp-convert-pt-ao90-update button.gp-convert-pt-ao90-update-button.updating span.icon {
+	color: var(--gp-color-dark-orange);
+	animation: rotation 2s infinite linear;
+}
+
+@keyframes rotation {
+
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+table.translation-sets tr td:first-child span.gp-convert-pt-ao90-update button.gp-convert-pt-ao90-update-button.success span.icon {
+	color: var(--gp-color-green);
+}
+
+table.translation-sets tr td:first-child span.gp-convert-pt-ao90-update button.gp-convert-pt-ao90-update-button.fail span.icon {
+	color: var(--gp-color-red);
+}
+
 table.translation-sets tr.variant td:first-child {
 	color: var(--gp-color-accent-fg);
 }
@@ -49,11 +123,6 @@ table.translation-sets tr[data-editable="false"]:hover {
 	background-color: var(--gp-color-secondary-200);
 }
 
-table.translation-sets tr[data-editable="false"] td:first-child a::after {
-	font-family: dashicons;
-	font-weight: 400;
-	content: "\f160";
-	vertical-align: middle;
-	text-decoration: none;
+table.translation-sets tr[data-editable="false"] td:first-child span.gp-convert-pt-ao90-update span.translation-set-icon.edit-status {
 	display: inline-block;
 }

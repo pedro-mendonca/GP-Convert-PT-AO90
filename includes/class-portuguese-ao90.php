@@ -16,6 +16,7 @@ use GP_Project;
 use GP_Translation;
 use GP_Translation_Set;
 use Convert_PT_AO90;
+use WP_Error;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -82,6 +83,11 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			 * Move the Variant set below the Root translation set.
 			 */
 			add_filter( 'gp_translation_sets_sort', array( self::class, 'sort_translation_sets' ) );
+
+			/**
+			 * Force convert the whole project again.
+			 */
+			add_action( 'wp_ajax_convert_project', array( self::class, 'convert_project' ) );
 		}
 
 
@@ -337,7 +343,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param \GP_Translation $translation   Created/updated translation.
+		 * @param GP_Translation $translation   Created/updated translation.
 		 *
 		 * @return void
 		 */
@@ -405,9 +411,9 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 * @since 1.0.0
 		 * @since 1.3.3   The new filter 'gp_convert_pt_ao90_always_create_variant_translation' allows to force create translations on the variant, even if the conversion doesn't produce any changes. This makes the variant entirely translated, without fallback to the root locale.
 		 *
-		 * @param \GP_Translation     $translation   Created/updated translation.
-		 * @param \GP_Project         $project       GlotPress project.
-		 * @param \GP_Translation_Set $variant_set   GlotPress translation set of the variant.
+		 * @param GP_Translation     $translation   Created/updated translation.
+		 * @param GP_Project         $project       GlotPress project.
+		 * @param GP_Translation_Set $variant_set   GlotPress translation set of the variant.
 		 *
 		 * @return void
 		 */
@@ -481,10 +487,10 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param \GP_Translation     $translation   Created/updated translation.
-		 * @param \GP_Project         $project       GlotPress project.
-		 * @param \GP_Translation_Set $variant_set   GlotPress variant translation set.
-		 * @param bool                $all           Delete all translations or just the last for performance. Defaults to false.
+		 * @param GP_Translation     $translation   Created/updated translation.
+		 * @param GP_Project         $project       GlotPress project.
+		 * @param GP_Translation_Set $variant_set   GlotPress variant translation set.
+		 * @param bool               $all           Delete all translations or just the last for performance. Defaults to false.
 		 *
 		 * @return void
 		 */
@@ -519,8 +525,8 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param \GP_Translation     $translation   GlotPress translation.
-		 * @param \GP_Translation_Set $variant_set   GlotPress variant set.
+		 * @param GP_Translation     $translation   GlotPress translation.
+		 * @param GP_Translation_Set $variant_set   GlotPress variant set.
 		 *
 		 * @return object|false   Returns a converted translation, or false if the result remains unchanged.
 		 */
@@ -562,6 +568,111 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			}
 
 			return $translation_ao90;
+		}
+
+
+		/**
+		 * Force convert the whole project.
+		 *
+		 * @since 1.4.2
+		 *
+		 * @return void
+		 */
+		public static function convert_project() {
+
+			check_ajax_referer( 'gp-convert-pt-ao90-nonce', 'nonce' );
+
+			// Initialize variables.
+			$project_path = '';
+			$locale       = '';
+			$slug         = '';
+
+			if ( isset( $_POST['projectPath'] ) ) {
+				$project_path = sanitize_key( $_POST['projectPath'] );
+			} else {
+				wp_die();
+			}
+
+			if ( isset( $_POST['locale'] ) ) {
+				$locale = sanitize_key( $_POST['locale'] );
+			} else {
+				wp_die();
+			}
+
+			if ( isset( $_POST['slug'] ) ) {
+				$slug = sanitize_key( $_POST['slug'] );
+			} else {
+				wp_die();
+			}
+
+			// Get root and variant pair of Locales for conversion.
+			$locales = self::locale_root_variant();
+
+			/**
+			 * Set root Locale.
+			 */
+			$root_locale = $locales['root'];
+
+			/**
+			 * Set variant Locale.
+			 */
+			$variant_locale = $locales['variant'];
+
+			if ( $locale === $variant_locale['locale'] && $slug === $variant_locale['slug'] ) {
+
+				// Get the GP_Project.
+				$project = GP::$project->by_path( $project_path );
+
+				// Get the Variant Translation_Set.
+				$variant_translation_set = GP::$translation_set->by_project_id_slug_and_locale( $project->id, $variant_locale['slug'], $variant_locale['locale'] );
+
+				// Get root set translations for further deletion.
+				$variant_translations = array();
+				if ( $variant_translation_set !== false ) {
+					$variant_translations = GP::$translation->for_translation( $project, $variant_translation_set, 'no-limit', gp_get( 'filters', array( 'status' => 'current' ) ) );
+				}
+
+				// Bulk delete all translations existing in the variant set.
+				foreach ( $variant_translations as $variant_translation ) {
+
+					// Delete variant translation.
+					self::delete( $variant_translation, $project, $variant_translation_set, true );
+				}
+
+				// Get the Root Translation_Set.
+				$root_translation_set = GP::$translation_set->by_project_id_slug_and_locale( $project->id, $root_locale['slug'], $root_locale['locale'] );
+
+				// Get root set translations for further conversion.
+				$root_translations = array();
+				if ( $root_translation_set !== false ) {
+					$root_translations = GP::$translation->for_translation( $project, $root_translation_set, 'no-limit', gp_get( 'filters', array( 'status' => 'current' ) ) );
+				}
+
+				foreach ( $root_translations as $root_translation ) {
+
+					$variant_translation = GP::$translation->create( $root_translation );
+					if ( is_object( $variant_translation ) && is_a( $variant_translation, 'GP_Translation' ) ) {
+						$variant_translation->set_status( 'current' );
+
+						// Create translation on the variant set.
+						self::create( $variant_translation, $project, $variant_translation_set );
+					}
+				}
+
+				// Send JSON response.
+				wp_send_json_success(
+					array(
+						'percent'      => $variant_translation_set->percent_translated(),
+						'current'      => $variant_translation_set->current_count(),
+						'fuzzy'        => $variant_translation_set->fuzzy_count(),
+						'untranslated' => $variant_translation_set->untranslated_count(),
+						'waiting'      => $variant_translation_set->waiting_count(),
+					)
+				);
+
+			}
+
+			wp_die();
 		}
 
 
@@ -666,7 +777,9 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			wp_register_style(
 				'gp-convert-pt-ao90',
 				GP_CONVERT_PT_AO90_DIR_URL . 'assets/css/style' . $suffix . '.css',
-				array(),
+				array(
+					'buttons',
+				),
 				GP_CONVERT_PT_AO90_VERSION
 			);
 
@@ -705,7 +818,12 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				'gp-convert-pt-ao90',
 				'gpConvertPTAO90',
 				array(
-					'edit' => $edit,
+					'edit'           => $edit,
+					'admin'          => GP::$permission->current_user_can( 'admin' ),
+					'gp_url'         => gp_url(), // /glotpress/.
+					'gp_url_project' => gp_url_project(), // /glotpress/projects/.
+					'ajaxurl'        => admin_url( 'admin-ajax.php' ),
+					'nonce'          => wp_create_nonce( 'gp-convert-pt-ao90-nonce' ),
 				)
 			);
 		}
@@ -792,71 +910,65 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 */
 		public static function sort_translation_sets( $translation_sets ) {
 
-			/**
-			 * For GlotPress without Variants.
-			 */
-			if ( ! self::supports_variants() ) {
+			$variant_translation_sets = array();
 
-				$variant_translation_sets = array();
+			$root_locale    = 'pt';
+			$variant_locale = 'pt-ao90';
 
-				$root_locale    = 'pt';
-				$variant_locale = 'pt-ao90';
+			// Move variants sets below its roots.
+			foreach ( $translation_sets as $key => $translation_set ) {
 
-				// Move variants sets below its roots.
-				foreach ( $translation_sets as $key => $translation_set ) {
+				$root_translation_set = null;
 
-					$root_translation_set = null;
+				if ( $translation_set->locale === $variant_locale ) {
 
-					if ( $translation_set->locale === $variant_locale ) {
+					$root_translation_set = GP::$translation_set->by_project_id_slug_and_locale( $translation_set->project_id, $translation_set->slug, $root_locale );
 
-						$root_translation_set = GP::$translation_set->by_project_id_slug_and_locale( $translation_set->project_id, $translation_set->slug, $root_locale );
-
-						// Only set the root translation flag if we have a valid root translation set, otherwise there's no point in querying it later.
-						if ( $root_translation_set ) {
-							$variant_translation_sets[] = $translation_set;
-							unset( $translation_sets[ $key ] );
-						}
+					// Only set the root translation flag if we have a valid root translation set, otherwise there's no point in querying it later.
+					if ( $root_translation_set ) {
+						$variant_translation_sets[] = $translation_set;
+						unset( $translation_sets[ $key ] );
 					}
 				}
+			}
 
-				// Check if exist any variant.
-				if ( empty( $variant_translation_sets ) ) {
-					return $translation_sets;
+			// Check if exist any variant.
+			if ( empty( $variant_translation_sets ) ) {
+				return $translation_sets;
+			}
+
+			$translation_sets = array_values( $translation_sets );
+
+			// Sort variant translation sets by slug, descending. Useful for when there will be more than one.
+			usort(
+				$variant_translation_sets,
+				/**
+				 * Sort Translation Sets by Locale.
+				 *
+				 * @param GP_Translation_Set $a   Translation Set.
+				 * @param GP_Translation_Set $b   Translation Set.
+				 *
+				 * @return int
+				 */
+				function ( GP_Translation_Set $a, GP_Translation_Set $b ): int {
+					return intval( $a->locale < $b->locale );
 				}
+			);
 
-				$translation_sets = array_values( $translation_sets );
+			// Move variants sets below its roots.
+			foreach ( $variant_translation_sets as $variant_translation_set ) {
 
-				// Sort variant translation sets by slug, descending. Useful for when there will be more than one.
-				usort(
-					$variant_translation_sets,
-					/**
-					 * Sort Translation Sets by Locale.
-					 *
-					 * @param GP_Translation_Set $a   Translation Set.
-					 * @param GP_Translation_Set $b   Translation Set.
-					 *
-					 * @return int
-					 */
-					function ( GP_Translation_Set $a, GP_Translation_Set $b ): int {
-						return intval( $a->locale < $b->locale );
-					}
-				);
+				foreach ( $translation_sets as $root_key => $translation_set ) {
 
-				// Move variants sets below its roots.
-				foreach ( $variant_translation_sets as $variant_translation_set ) {
-
-					foreach ( $translation_sets as $root_key => $translation_set ) {
-
-						$insert = null;
-						if ( $translation_set->locale === $root_locale ) {
-							$insert[0] = $variant_translation_set;
-							array_splice(
-								$translation_sets, // Array of Translation Sets.
-								$root_key + 1,     // After the Root set key.
-								0,                 // Lenght to override, 0 to insert without deleting any.
-								$insert            // The actual Variants array.
-							);
-						}
+					$insert = null;
+					if ( $translation_set->locale === $root_locale ) {
+						$insert[0] = $variant_translation_set;
+						array_splice(
+							$translation_sets, // Array of Translation Sets.
+							$root_key + 1,     // After the Root set key.
+							0,                 // Lenght to override, 0 to insert without deleting any.
+							$insert            // The actual Variants array.
+						);
 					}
 				}
 			}
