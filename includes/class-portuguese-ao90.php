@@ -802,7 +802,9 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			wp_register_script(
 				'gp-convert-pt-ao90',
 				GP_CONVERT_PT_AO90_DIR_URL . 'assets/js/scripts' . $suffix . '.js',
-				array(),
+				array(
+					'tablesorter', // Currently used only for Translation Sets table.
+				),
 				GP_CONVERT_PT_AO90_VERSION,
 				false
 			);
