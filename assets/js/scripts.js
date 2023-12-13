@@ -143,17 +143,14 @@ jQuery( document ).ready( function( $ ) {
 				} else {
 					console.log( 'Add Bubble ' + percent + '%' );
 
-					$( '<span class="bubble morethan90" style="margin-left: 0.25em;">' + percent + '%' + '</span>' ).insertAfter( button.closest( 'td' ).find( 'strong') );
+					$( '<span class="bubble morethan90" style="margin-left: 0.25em;">' + percent + '%' + '</span>' ).insertAfter( button.closest( 'td' ).find( 'strong' ) );
 				}
-			} else {
 
-				// Check if there is a bubble to remove.
-				if ( bubbleMoreThan90 ) {
-					// Remove Bubble.
-					$( button ).closest( 'td' ).children( 'span.bubble.morethan90' ).remove();
-				}
+			// Check if there is a bubble to remove.
+			} else if ( bubbleMoreThan90 ) {
+				// Remove Bubble.
+				$( button ).closest( 'td' ).children( 'span.bubble.morethan90' ).remove();
 			}
-
 
 			// Change button status to 'Synced'.
 			button.children( 'span.icon.dashicons' ).hide().removeClass( 'dashicons-update' ).addClass( 'dashicons-yes' ).show();
