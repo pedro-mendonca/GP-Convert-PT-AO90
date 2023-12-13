@@ -116,18 +116,46 @@ jQuery( document ).ready( function( $ ) {
 
 		} ).done( function( response, textStatus, jqXHR ) {
 			// Set translation set data.
-			var percent = response.data.percent + '%';
+			var percent = response.data.percent;
 			var current = response.data.current;
 			var fuzzy = response.data.fuzzy;
 			var untranslated = response.data.untranslated;
 			var waiting = response.data.waiting;
 
+			// Check if bubble of more than 90% exist.
+			var bubbleMoreThan90 = button.closest( 'td' ).children( 'span.bubble.morethan90' ).length;
+
 			// Set translation set row data.
-			$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.percent' ).text( percent );
+			$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.percent' ).text( percent + '%' );
 			$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.translated a' ).text( current );
 			$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.fuzzy a' ).text( fuzzy );
 			$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.untranslated a' ).text( untranslated );
 			$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.waiting a' ).text( waiting );
+
+			// Add Bubble of more than 90% if currently doesn't exist.
+			if ( percent >= 90 ) {
+				console.log( 'Setting percentage in the morethan90 Bubble: ' + percent + '%' );
+
+				// Update current Bubble.
+				if ( bubbleMoreThan90 ) {
+					console.log( 'Change Bubble from ' + button.closest( 'td' ).children( 'span.bubble.morethan90' ).text() + ' to ' + percent + '%' );
+					$( button ).closest( 'td' ).children( 'span.bubble.morethan90' ).text( percent + '%' );
+
+				// Add new Bubble.
+				} else {
+					console.log( 'Add Bubble ' + percent + '%' );
+
+					$( '<span class="bubble morethan90" style="margin-left: 0.25em;">' + percent + '%' + '</span>' ).insertAfter( button.closest( 'td' ).find( 'strong') );
+				}
+			} else {
+
+				// Check if there is a bubble to remove.
+				if ( bubbleMoreThan90 ) {
+					// Remove Bubble.
+					$( button ).closest( 'td' ).children( 'span.bubble.morethan90' ).remove();
+				}
+			}
+
 
 			// Change button status to 'Synced'.
 			button.children( 'span.icon.dashicons' ).hide().removeClass( 'dashicons-update' ).addClass( 'dashicons-yes' ).show();
