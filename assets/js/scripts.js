@@ -10,8 +10,6 @@ jQuery( document ).ready( function( $ ) {
 	// Check if user is has GlotPress Admin previleges.
 	var gpUrlProject = gpConvertPTAO90.gp_url_project;
 
-	console.log( gpUrlProject );
-
 	// Add attribute 'data-locale' to each row.
 	$( 'table.gp-table.translation-sets tr td:first-child a' ).each( function() {
 		// Create a regular expression pattern with the variable
