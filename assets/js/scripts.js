@@ -13,7 +13,7 @@ jQuery( document ).ready( function( $ ) {
 	// Add attribute 'data-locale' to each row.
 	$( 'table.gp-table.translation-sets tr td:first-child a' ).each( function() {
 		// Create a regular expression pattern with the variable
-		var regexPattern = new RegExp( '^' + gpUrlProject + '(.*).*\/(.+)\/(.+)\/$' );
+		var regexPattern = new RegExp( '^' + gpUrlProject + '(.*).*/(.+)/(.+)/$' );
 
 		/**
 		 * Check for Locale and Slug in the link.
