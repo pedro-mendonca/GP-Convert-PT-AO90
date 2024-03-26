@@ -588,7 +588,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			$slug         = '';
 
 			if ( isset( $_POST['projectPath'] ) ) {
-				$project_path = sanitize_key( $_POST['projectPath'] );
+				$project_path = sanitize_text_field( wp_unslash( $_POST['projectPath'] ) );
 			} else {
 				wp_die();
 			}
