@@ -153,8 +153,9 @@ jQuery( document ).ready( function( $ ) {
 			}
 
 			// Change button status to 'Synced'.
+			button.removeClass( 'updating' ).addClass( 'success' );
 			button.children( 'span.icon.dashicons' ).hide().removeClass( 'dashicons-update' ).addClass( 'dashicons-yes' ).show();
-			button.removeClass( 'updating' ).addClass( 'success' ).children( 'span.label' ).text( wp.i18n.__( 'Synced!', 'gp-convert-pt-ao90' ) );
+			button.children( 'span.label' ).text( wp.i18n.__( 'Synced!', 'gp-convert-pt-ao90' ) );
 
 			console.log( 'Ajax request has been completed (' + textStatus + '). Status: ' + jqXHR.status + ' ' + jqXHR.statusText );
 			console.log( response );
@@ -162,8 +163,9 @@ jQuery( document ).ready( function( $ ) {
 			console.log( jqXHR );
 		} ).fail( function( jqXHR, textStatus ) {
 			// Change button status to 'Failed'.
+			button.removeClass( 'updating' ).addClass( 'fail' );
 			button.children( 'span.icon.dashicons' ).hide().removeClass( 'dashicons-update' ).addClass( 'dashicons-warning' ).show();
-			button.removeClass( 'updating' ).addClass( 'fail' ).children( 'span.label' ).text( wp.i18n.__( 'Failed!', 'gp-convert-pt-ao90' ) );
+			button.children( 'span.label' ).text( wp.i18n.__( 'Failed!', 'gp-convert-pt-ao90' ) );
 
 			// Show the Error notice.
 			console.log( 'Ajax request has failed (' + textStatus + '). Status: ' + jqXHR.status + ' ' + jqXHR.statusText );
@@ -171,8 +173,9 @@ jQuery( document ).ready( function( $ ) {
 			// Change button status back to default.
 			setTimeout(
 				function() {
+					button.attr( 'disabled', false ).removeClass( 'success fail' );
 					button.children( 'span.icon.dashicons' ).hide().removeClass( 'dashicons-yes dashicons-warning' ).addClass( 'dashicons-update' ).show();
-					button.attr( 'disabled', false ).removeClass( 'success fail' ).children( 'span.label' ).text( wp.i18n.__( 'Sync', 'gp-convert-pt-ao90' ) );
+					button.children( 'span.label' ).text( wp.i18n.__( 'Sync', 'gp-convert-pt-ao90' ) );
 				},
 				3000 // Wait 3 Seconds.
 			);
