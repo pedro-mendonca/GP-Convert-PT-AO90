@@ -626,18 +626,12 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				// Get the Variant Translation_Set.
 				$variant_translation_set = GP::$translation_set->by_project_id_slug_and_locale( $project->id, $variant_locale['slug'], $variant_locale['locale'] );
 
-				// Get root set translations for further deletion.
-				$variant_translations = array();
-				if ( $variant_translation_set !== false ) {
-					$variant_translations = GP::$translation->for_translation( $project, $variant_translation_set, 'no-limit', gp_get( 'filters', array( 'status' => 'current' ) ) );
-				}
-
 				// Bulk delete all translations existing in the variant set.
-				foreach ( $variant_translations as $variant_translation ) {
-
-					// Delete variant translation.
-					self::delete( $variant_translation, $project, $variant_translation_set, true );
-				}
+				GP::$translation->delete_many(
+					array(
+						'translation_set_id' => $variant_translation_set->id
+					)
+				);
 
 				// Get the Root Translation_Set.
 				$root_translation_set = GP::$translation_set->by_project_id_slug_and_locale( $project->id, $root_locale['slug'], $root_locale['locale'] );
