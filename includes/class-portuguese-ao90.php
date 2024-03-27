@@ -661,6 +661,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 				foreach ( $root_translations as $root_translation ) {
 
+					$root_translation->translation_set_id = $variant_translation_set->id;
 					$variant_translation = GP::$translation->create( $root_translation );
 					if ( is_object( $variant_translation ) && is_a( $variant_translation, 'GP_Translation' ) ) {
 						$variant_translation->set_status( 'current' );
