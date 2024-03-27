@@ -639,7 +639,15 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				// Get root set translations for further conversion.
 				$root_translations = array();
 				if ( $root_translation_set !== false ) {
-					$root_translations = GP::$translation->for_translation( $project, $root_translation_set, 'no-limit', gp_get( 'filters', array( 'status' => 'current' ) ) );
+					$root_translations = GP::$translation->for_translation(
+						$project,
+						$root_translation_set,
+						'no-limit',
+						array(
+							'status'   => 'current',
+							'warnings' => 'no',
+						)
+					);
 				}
 
 				foreach ( $root_translations as $root_translation ) {
