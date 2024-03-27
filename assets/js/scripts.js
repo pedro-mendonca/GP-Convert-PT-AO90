@@ -119,6 +119,7 @@ jQuery( document ).ready( function( $ ) {
 			var fuzzy = response.data.fuzzy;
 			var untranslated = response.data.untranslated;
 			var waiting = response.data.waiting;
+			var warnings = response.data.warnings; // For compatibility with GP Toolbox where this column might be shown.
 
 			// Check if bubble of more than 90% exist.
 			var bubbleMoreThan90 = button.closest( 'td' ).children( 'span.bubble.morethan90' ).length;
@@ -129,6 +130,7 @@ jQuery( document ).ready( function( $ ) {
 			$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.fuzzy a' ).text( fuzzy );
 			$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.untranslated a' ).text( untranslated );
 			$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.waiting a' ).text( waiting );
+			$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.warnings a' ).text( warnings );
 
 			// Add Bubble of more than 90% if currently doesn't exist.
 			if ( percent >= 90 ) {

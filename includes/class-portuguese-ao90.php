@@ -255,7 +255,17 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 					$root_translations = null;
 					if ( ! $supports_variants && GP_CONVERT_PT_AO90_SHOWDIFF === true && $has_root === true ) {
-						$root_translations = GP::$translation->for_translation( $project, $root_translation_set, 'no-limit', gp_get( 'filters', array( 'status' => 'current' ) ) );
+						$root_translations = GP::$translation->for_translation(
+							$project,
+							$root_translation_set,
+							'no-limit',
+							gp_get(
+								'filters',
+								array(
+									'status' => 'current', // Only current translations.
+								)
+							)
+						);
 					}
 
 					$args['supports_variants']    = $supports_variants;
@@ -393,8 +403,8 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				return;
 			}
 
-			// Process if root translation is set to current without warnings.
-			if ( $translation->status === 'current' && empty( $translation->warnings ) ) {
+			// Process if root translation is set to current.
+			if ( $translation->status === 'current' ) {
 				// Create translation on the variant set.
 				self::create( $translation, $project, $variant_set );
 			} else {
@@ -644,8 +654,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 						$root_translation_set,
 						'no-limit',
 						array(
-							'status'   => 'current',
-							'warnings' => 'no',
+							'status' => 'current', // Only current translations.
 						)
 					);
 				}
@@ -669,6 +678,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 						'fuzzy'        => $variant_translation_set->fuzzy_count(),
 						'untranslated' => $variant_translation_set->untranslated_count(),
 						'waiting'      => $variant_translation_set->waiting_count(),
+						'warnings'     => $variant_translation_set->warnings_count(),
 					)
 				);
 
