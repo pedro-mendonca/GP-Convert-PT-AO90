@@ -157,7 +157,7 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 
 ## Changelog
 
-### Unreleased
+### 1.4.4
 
 * New: Action hook `gpConvertPTAO90AfterSuccessfullSync` that fires after successful sync.
 * New: Add, update and remove 90% bubble on AJAX update.

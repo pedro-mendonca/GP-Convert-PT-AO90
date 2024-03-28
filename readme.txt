@@ -3,10 +3,10 @@ Contributors: pedromendonca
 Donate link: https://github.com/sponsors/pedro-mendonca
 Tags: localization, translation, glotpress, ao90, portuguese
 Requires at least: 5.3
-Tested up to: 6.4
+Tested up to: 6.5
 Requires PHP: 7.4
 Requires Plugins: glotpress
-Stable tag: 1.4.3
+Stable tag: 1.4.4
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -135,7 +135,7 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 
 == Changelog ==
 
-= Unreleased =
+= 1.4.4 =
 
 *   New: Action hook `gpConvertPTAO90AfterSuccessfullSync` that fires after successful sync.
 *   New: Add, update and remove 90% bubble on AJAX update.
