@@ -39,6 +39,7 @@ The language conversion uses the open source tool [Convert PT AO90](https://gith
 * Convert `current` Portuguese (Portugal) root translations and add to the Portuguese (Portugal, AO90) variant translations.
 * Delete variant unused translations instead of keeping as `rejected`, `fuzzy`, `old`.
 * Delete `current` variant translation if a new root translation (same `original_id`) is added and doesn't need conversion.
+* Sync button for GlotPress administrators to force convert the complete translation from root set to variant set.
 * Highlight the differences in the automatically converted texts.
 * Read-only mode: Use the filter `gp_convert_pt_ao90_edit` to disable editing, approval and importing translations in the `pt-ao90` variant.
 * Optionally you can always save the translations to the Variant, this overrides the fallback to the root Locale. Return `true` in the new filter `gp_convert_pt_ao90_always_create_variant_translation`.
@@ -49,8 +50,8 @@ The language conversion uses the open source tool [Convert PT AO90](https://gith
 
 ## Requirements
 
-* [GlotPress 3.0.0-alpha](https://github.com/GlotPress/GlotPress/releases/tag/3.0.0-alpha.4) with Variants support.
-* [GlotPress 4.0.0-alpha](https://github.com/GlotPress/GlotPress/releases/tag/4.0.0-alpha.11) without Variants support.
+* [GlotPress 3.0.0-alpha.4](https://github.com/GlotPress/GlotPress/releases/tag/3.0.0-alpha.4) with Variants support.
+* [GlotPress 4.0.0](https://github.com/GlotPress/GlotPress/releases/tag/4.0.0) without Variants support.
 
 * Translation set (root): `Portuguese (Portugal)`
   * Locale = `pt`;
@@ -132,6 +133,13 @@ This plugin is intended to be a proof of concept to use and test this workflow.
 
 The Variants feature was introduced in [GlotPress 3.0.0-alpha](https://github.com/GlotPress/GlotPress/releases/tag/3.0.0-alpha.4).  
 Later, on [GlotPress 3.0.0-beta](https://github.com/GlotPress/GlotPress/releases/tag/3.0.0-beta.1) the Variants feature [was removed temporarily](https://github.com/GlotPress/GlotPress/pull/1327), so for now the GlotPress alpha version is the only Variants compatible version, and you must install it for this plugin to do its magic.  
+You can use it with GlotPress 4.0.x without the real variants fallback support, the plugin will convert/sync all the strings.
+
+### The translated strings of both locales don't match, can I force convert the translated strings?
+
+The conversion process occurs while saving the translation or importing translations. For that both the root and variant locales must exist for a project and the plugin must be active.  
+If you've added the translations before having the variant locale added to the project, or somehow while this plugin was inactive, the conversion won't happen.  
+Since version 1.4.2 you can force the conversion anytime. Go to the project page, and on the variant locale you can click on the Sync button.  
 
 ### Can I contribute to this plugin?
 
