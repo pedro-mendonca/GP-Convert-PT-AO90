@@ -5,6 +5,7 @@ Tags: localization, translation, glotpress, ao90, portuguese
 Requires at least: 5.3
 Tested up to: 6.4
 Requires PHP: 7.4
+Requires Plugins: glotpress
 Stable tag: 1.4.3
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -126,6 +127,20 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 2. Variant translation table only with green automatically converted strings, with highlighted conversion diffs
 
 == Changelog ==
+
+= Unreleased =
+
+*   New: Action hook `gpConvertPTAO90AfterSuccessfullSync` that fires after successful sync.
+*   New: Add, update and remove 90% bubble on AJAX update.
+*   Fix: Error on project_path sanitization for Syncing subprojects.
+*   Fix: Saving old translations in the root locale on Sync action.
+*   Fix: Sync button icon CSS issue.
+*   Allow converting `current` translations with warnings.
+*   Improve Syncing performance by deleting the existing variant translations with delete_many().
+*   Set dependency header for GlotPress according WP 6.5.
+*   Tested up to WP 6.5.
+*   Test with PHP 8.3.
+*   Update dependencies.
 
 = 1.4.3 =
 

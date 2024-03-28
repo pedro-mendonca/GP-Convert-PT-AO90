@@ -10,12 +10,10 @@ jQuery( document ).ready( function( $ ) {
 	// Check if user is has GlotPress Admin previleges.
 	var gpUrlProject = gpConvertPTAO90.gp_url_project;
 
-	console.log( gpUrlProject );
-
 	// Add attribute 'data-locale' to each row.
 	$( 'table.gp-table.translation-sets tr td:first-child a' ).each( function() {
 		// Create a regular expression pattern with the variable
-		var regexPattern = new RegExp( '^' + gpUrlProject + '(.*).*\/(.+)\/(.+)\/$' );
+		var regexPattern = new RegExp( '^' + gpUrlProject + '(.*).*/(.+)/(.+)/$' );
 
 		/**
 		 * Check for Locale and Slug in the link.
@@ -116,22 +114,53 @@ jQuery( document ).ready( function( $ ) {
 
 		} ).done( function( response, textStatus, jqXHR ) {
 			// Set translation set data.
-			var percent = response.data.percent + '%';
+			var percent = response.data.percent;
 			var current = response.data.current;
 			var fuzzy = response.data.fuzzy;
 			var untranslated = response.data.untranslated;
 			var waiting = response.data.waiting;
+			var warnings = response.data.warnings; // For compatibility with GP Toolbox where this column might be shown.
+
+			// Check if bubble of more than 90% exist.
+			var bubbleMoreThan90 = button.closest( 'td' ).children( 'span.bubble.morethan90' ).length;
 
 			// Set translation set row data.
-			$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.percent' ).text( percent );
+			$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.percent' ).text( percent + '%' );
 			$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.translated a' ).text( current );
 			$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.fuzzy a' ).text( fuzzy );
 			$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.untranslated a' ).text( untranslated );
 			$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.waiting a' ).text( waiting );
+			$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.warnings a' ).text( warnings );
+
+			// Add Bubble of more than 90% if currently doesn't exist.
+			if ( percent >= 90 ) {
+				console.log( 'Setting percentage in the morethan90 Bubble: ' + percent + '%' );
+
+				// Update current Bubble.
+				if ( bubbleMoreThan90 ) {
+					console.log( 'Change Bubble from ' + button.closest( 'td' ).children( 'span.bubble.morethan90' ).text() + ' to ' + percent + '%' );
+					$( button ).closest( 'td' ).children( 'span.bubble.morethan90' ).text( percent + '%' );
+
+				// Add new Bubble.
+				} else {
+					console.log( 'Add Bubble ' + percent + '%' );
+
+					$( '<span class="bubble morethan90" style="margin-left: 0.25em;">' + percent + '%' + '</span>' ).insertAfter( button.closest( 'td' ).find( 'strong' ) );
+				}
+
+			// Check if there is a bubble to remove.
+			} else if ( bubbleMoreThan90 ) {
+				// Remove Bubble.
+				$( button ).closest( 'td' ).children( 'span.bubble.morethan90' ).remove();
+			}
 
 			// Change button status to 'Synced'.
+			button.removeClass( 'updating' ).addClass( 'success' );
 			button.children( 'span.icon.dashicons' ).hide().removeClass( 'dashicons-update' ).addClass( 'dashicons-yes' ).show();
-			button.removeClass( 'updating' ).addClass( 'success' ).children( 'span.label' ).text( wp.i18n.__( 'Synced!', 'gp-convert-pt-ao90' ) );
+			button.children( 'span.label' ).text( wp.i18n.__( 'Synced!', 'gp-convert-pt-ao90' ) );
+
+			// Do actions after successful sync.
+			wp.hooks.doAction( 'gpConvertPTAO90AfterSuccessfullSync' );
 
 			console.log( 'Ajax request has been completed (' + textStatus + '). Status: ' + jqXHR.status + ' ' + jqXHR.statusText );
 			console.log( response );
@@ -139,8 +168,9 @@ jQuery( document ).ready( function( $ ) {
 			console.log( jqXHR );
 		} ).fail( function( jqXHR, textStatus ) {
 			// Change button status to 'Failed'.
+			button.removeClass( 'updating' ).addClass( 'fail' );
 			button.children( 'span.icon.dashicons' ).hide().removeClass( 'dashicons-update' ).addClass( 'dashicons-warning' ).show();
-			button.removeClass( 'updating' ).addClass( 'fail' ).children( 'span.label' ).text( wp.i18n.__( 'Failed!', 'gp-convert-pt-ao90' ) );
+			button.children( 'span.label' ).text( wp.i18n.__( 'Failed!', 'gp-convert-pt-ao90' ) );
 
 			// Show the Error notice.
 			console.log( 'Ajax request has failed (' + textStatus + '). Status: ' + jqXHR.status + ' ' + jqXHR.statusText );
@@ -148,8 +178,9 @@ jQuery( document ).ready( function( $ ) {
 			// Change button status back to default.
 			setTimeout(
 				function() {
+					button.attr( 'disabled', false ).removeClass( 'success fail' );
 					button.children( 'span.icon.dashicons' ).hide().removeClass( 'dashicons-yes dashicons-warning' ).addClass( 'dashicons-update' ).show();
-					button.attr( 'disabled', false ).removeClass( 'success fail' ).children( 'span.label' ).text( wp.i18n.__( 'Sync', 'gp-convert-pt-ao90' ) );
+					button.children( 'span.label' ).text( wp.i18n.__( 'Sync', 'gp-convert-pt-ao90' ) );
 				},
 				3000 // Wait 3 Seconds.
 			);

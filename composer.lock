@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e451d5b3465b475e0e30d33fdc4b01cb",
+    "content-hash": "0d2fb9f2fd7c11cf89fa81a0f6bfcfc2",
     "packages": [
         {
             "name": "pedro-mendonca/convert-pt-ao90",

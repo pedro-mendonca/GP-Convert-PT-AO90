@@ -255,7 +255,17 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 					$root_translations = null;
 					if ( ! $supports_variants && GP_CONVERT_PT_AO90_SHOWDIFF === true && $has_root === true ) {
-						$root_translations = GP::$translation->for_translation( $project, $root_translation_set, 'no-limit', gp_get( 'filters', array( 'status' => 'current' ) ) );
+						$root_translations = GP::$translation->for_translation(
+							$project,
+							$root_translation_set,
+							'no-limit',
+							gp_get(
+								'filters',
+								array(
+									'status' => 'current', // Only current translations.
+								)
+							)
+						);
 					}
 
 					$args['supports_variants']    = $supports_variants;
@@ -393,8 +403,8 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				return;
 			}
 
-			// Process if root translation is set to current without warnings.
-			if ( $translation->status === 'current' && empty( $translation->warnings ) ) {
+			// Process if root translation is set to current.
+			if ( $translation->status === 'current' ) {
 				// Create translation on the variant set.
 				self::create( $translation, $project, $variant_set );
 			} else {
@@ -588,7 +598,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			$slug         = '';
 
 			if ( isset( $_POST['projectPath'] ) ) {
-				$project_path = sanitize_key( $_POST['projectPath'] );
+				$project_path = sanitize_text_field( wp_unslash( $_POST['projectPath'] ) );
 			} else {
 				wp_die();
 			}
@@ -626,18 +636,12 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				// Get the Variant Translation_Set.
 				$variant_translation_set = GP::$translation_set->by_project_id_slug_and_locale( $project->id, $variant_locale['slug'], $variant_locale['locale'] );
 
-				// Get root set translations for further deletion.
-				$variant_translations = array();
-				if ( $variant_translation_set !== false ) {
-					$variant_translations = GP::$translation->for_translation( $project, $variant_translation_set, 'no-limit', gp_get( 'filters', array( 'status' => 'current' ) ) );
-				}
-
 				// Bulk delete all translations existing in the variant set.
-				foreach ( $variant_translations as $variant_translation ) {
-
-					// Delete variant translation.
-					self::delete( $variant_translation, $project, $variant_translation_set, true );
-				}
+				GP::$translation->delete_many(
+					array(
+						'translation_set_id' => $variant_translation_set->id,
+					)
+				);
 
 				// Get the Root Translation_Set.
 				$root_translation_set = GP::$translation_set->by_project_id_slug_and_locale( $project->id, $root_locale['slug'], $root_locale['locale'] );
@@ -645,10 +649,20 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				// Get root set translations for further conversion.
 				$root_translations = array();
 				if ( $root_translation_set !== false ) {
-					$root_translations = GP::$translation->for_translation( $project, $root_translation_set, 'no-limit', gp_get( 'filters', array( 'status' => 'current' ) ) );
+					$root_translations = GP::$translation->for_translation(
+						$project,
+						$root_translation_set,
+						'no-limit',
+						array(
+							'status' => 'current', // Only current translations.
+						)
+					);
 				}
 
 				foreach ( $root_translations as $root_translation ) {
+
+					// Change the translation set ID.
+					$root_translation->translation_set_id = $variant_translation_set->id;
 
 					$variant_translation = GP::$translation->create( $root_translation );
 					if ( is_object( $variant_translation ) && is_a( $variant_translation, 'GP_Translation' ) ) {
@@ -667,6 +681,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 						'fuzzy'        => $variant_translation_set->fuzzy_count(),
 						'untranslated' => $variant_translation_set->untranslated_count(),
 						'waiting'      => $variant_translation_set->waiting_count(),
+						'warnings'     => $variant_translation_set->warnings_count(),
 					)
 				);
 
@@ -802,7 +817,9 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			wp_register_script(
 				'gp-convert-pt-ao90',
 				GP_CONVERT_PT_AO90_DIR_URL . 'assets/js/scripts' . $suffix . '.js',
-				array(),
+				array(
+					'tablesorter', // Currently used only for Translation Sets table.
+				),
 				GP_CONVERT_PT_AO90_VERSION,
 				false
 			);
