@@ -639,7 +639,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				// Bulk delete all translations existing in the variant set.
 				GP::$translation->delete_many(
 					array(
-						'translation_set_id' => $variant_translation_set->id
+						'translation_set_id' => $variant_translation_set->id,
 					)
 				);
 
@@ -661,7 +661,9 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 				foreach ( $root_translations as $root_translation ) {
 
+					// Change the translation set ID.
 					$root_translation->translation_set_id = $variant_translation_set->id;
+
 					$variant_translation = GP::$translation->create( $root_translation );
 					if ( is_object( $variant_translation ) && is_a( $variant_translation, 'GP_Translation' ) ) {
 						$variant_translation->set_status( 'current' );
