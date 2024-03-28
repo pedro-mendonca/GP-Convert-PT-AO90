@@ -132,6 +132,7 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 
 1. Translation table with gray root translations and green automatically converted strings, with highlighted conversion diffs
 2. Variant translation table only with green automatically converted strings, with highlighted conversion diffs
+3. Sync button to force convert the complete translation from root set to variant set
 
 == Changelog ==
 
