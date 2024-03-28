@@ -158,7 +158,7 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 3. Sync button to force convert the complete translation from root set to variant set
 
    ![screenshot-3](./.wordpress-org/screenshot-3.png)
-	  
+
 ## Changelog
 
 ### 1.4.4
