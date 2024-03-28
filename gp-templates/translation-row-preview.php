@@ -50,14 +50,14 @@ if ( $is_ptao90 && ! $supports_variants && GP_CONVERT_PT_AO90_SHOWDIFF && $has_r
 		<?php
 		if ( ! $translation->plural ) {
 			?>
-			<span class="original-text"><?php echo prepare_original( $translation_singular ); ?></span>
+			<span class="original-text"><?php echo wp_kses_post( prepare_original( $translation_singular ) ); ?></span>
 			<?php
 		} else {
-			$translation_plural = isset( $translation->plural_glossary_markup ) ? $translation->plural_glossary_markup : prepare_original( esc_translation( $translation->plural ) );
+			$translation_plural = isset( $translation->plural_glossary_markup ) ? $translation->plural_glossary_markup : wp_kses_post( prepare_original( esc_translation( $translation->plural ) ) );
 			?>
 			<ul>
-				<li><small><?php esc_html_e( 'Singular:', 'glotpress' ); ?></small><br><span class="original-text"><?php echo prepare_original( $translation_singular ); ?></span></li>
-				<li><small><?php esc_html_e( 'Plural:', 'glotpress' ); ?></small><br><span class="original-text"><?php echo prepare_original( $translation_plural ); ?></span></li>
+				<li><small><?php esc_html_e( 'Singular:', 'glotpress' ); ?></small><br><span class="original-text"><?php echo wp_kses_post( prepare_original( $translation_singular ) ); ?></span></li>
+				<li><small><?php esc_html_e( 'Plural:', 'glotpress' ); ?></small><br><span class="original-text"><?php echo wp_kses_post( prepare_original( $translation_plural ) ); ?></span></li>
 			</ul>
 			<?php
 		}
@@ -191,6 +191,6 @@ if ( $is_ptao90 && ! $supports_variants && GP_CONVERT_PT_AO90_SHOWDIFF && $has_r
 		?>
 	</td>
 	<td class="actions">
-		<a href="#" class="action edit"><?php _e( 'Details', 'glotpress' ); ?></a>
+		<a href="#" class="action edit"><?php esc_html_e( 'Details', 'glotpress' ); ?></a>
 	</td>
 </tr>
