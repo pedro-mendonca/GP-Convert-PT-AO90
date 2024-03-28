@@ -159,6 +159,9 @@ jQuery( document ).ready( function( $ ) {
 			button.children( 'span.icon.dashicons' ).hide().removeClass( 'dashicons-update' ).addClass( 'dashicons-yes' ).show();
 			button.children( 'span.label' ).text( wp.i18n.__( 'Synced!', 'gp-convert-pt-ao90' ) );
 
+			// Do actions after successful sync.
+			wp.hooks.doAction( 'gpConvertPTAO90AfterSuccessfullSync' );
+
 			console.log( 'Ajax request has been completed (' + textStatus + '). Status: ' + jqXHR.status + ' ' + jqXHR.statusText );
 			console.log( response );
 			console.log( textStatus );
