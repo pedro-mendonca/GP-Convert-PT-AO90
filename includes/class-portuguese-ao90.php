@@ -56,7 +56,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			add_action( 'wp_enqueue_scripts', array( self::class, 'register_plugin_styles' ) );
 
 			// Register and enqueue plugin scripts.
-			add_action( 'wp_enqueue_scripts', array( self::class, 'register_plugin_scripts' ) );
+			add_action( 'wp_enqueue_scripts', array( self::class, 'register_plugin_scripts' ), 20 );
 
 			/**
 			 * Customize permissions on specific templates to make the Variant read-only.
