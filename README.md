@@ -13,6 +13,7 @@ Language tool for GlotPress to convert text according to the Portuguese Language
 
 [![Coding Standards](https://github.com/pedro-mendonca/GP-Convert-PT-AO90/actions/workflows/coding-standards.yml/badge.svg)](https://github.com/pedro-mendonca/GP-Convert-PT-AO90/actions/workflows/coding-standards.yml)
 [![Static Analysis](https://github.com/pedro-mendonca/GP-Convert-PT-AO90/actions/workflows/static-analysis.yml/badge.svg)](https://github.com/pedro-mendonca/GP-Convert-PT-AO90/actions/workflows/static-analysis.yml)
+[![WP Plugin Check](https://github.com/pedro-mendonca/GP-Convert-PT-AO90/actions/workflows/plugin-check.yml/badge.svg)](https://github.com/pedro-mendonca/GP-Convert-PT-AO90/actions/workflows/plugin-check.yml)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/545e6b6d121a439498a0d16f72c93851)](https://www.codacy.com/gh/pedro-mendonca/GP-Convert-PT-AO90/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=pedro-mendonca/GP-Convert-PT-AO90&amp;utm_campaign=Badge_Grade)
 
 ## Description
@@ -150,10 +151,17 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 
 ### Unreleased
 
-* Fix project_path sanitization for Syncing subprojects.
-* Fix saving old translations in the root locale on Sync action.
+* New: Action hook `gpConvertPTAO90AfterSuccessfullSync` that fires after successful sync.
+* New: Add, update and remove 90% bubble on AJAX update.
+* Fix: Error on project_path sanitization for Syncing subprojects.
+* Fix: Saving old translations in the root locale on Sync action.
+* Fix: Sync button icon CSS issue.
 * Allow converting `current` translations with warnings.
-* Add action hook `gpConvertPTAO90AfterSuccessfullSync` that fires after successful sync.
+* Improve Syncing performance by deleting the existing variant translations with delete_many().
+* Set dependency header for GlotPress according WP 6.5.
+* Tested up to WP 6.5.
+* Test with PHP 8.3.
+* Update dependencies.
 
 ### 1.4.3
 

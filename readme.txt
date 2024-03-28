@@ -130,10 +130,17 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 
 = Unreleased =
 
-*   Fix project_path sanitization for Syncing subprojects.
-*   Fix saving old translations in the root locale on Sync action.
+*   New: Action hook `gpConvertPTAO90AfterSuccessfullSync` that fires after successful sync.
+*   New: Add, update and remove 90% bubble on AJAX update.
+*   Fix: Error on project_path sanitization for Syncing subprojects.
+*   Fix: Saving old translations in the root locale on Sync action.
+*   Fix: Sync button icon CSS issue.
 *   Allow converting `current` translations with warnings.
-*   Add action hook `gpConvertPTAO90AfterSuccessfullSync` that fires after successful sync.
+*   Improve Syncing performance by deleting the existing variant translations with delete_many().
+*   Set dependency header for GlotPress according WP 6.5.
+*   Tested up to WP 6.5.
+*   Test with PHP 8.3.
+*   Update dependencies.
 
 = 1.4.3 =
 
