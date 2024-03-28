@@ -161,6 +161,11 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 
 ## Changelog
 
+### 1.4.7
+
+* Fix: Error of undefined variables on template-row when no root translation exist and variant is edited directly.
+* Fix: Change script priority to fix tablesorter conflict with active GP Toolbox.
+
 ### 1.4.6
 
 * New: Hook in GP Toolbox, if available, to update all the projects stats columns highlights and buttons accordingly.
