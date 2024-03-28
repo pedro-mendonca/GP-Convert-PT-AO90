@@ -119,7 +119,11 @@ jQuery( document ).ready( function( $ ) {
 			var fuzzy = response.data.fuzzy;
 			var untranslated = response.data.untranslated;
 			var waiting = response.data.waiting;
-			var warnings = response.data.warnings; // For compatibility with GP Toolbox where this column might be shown.
+
+			// For compatibility with GP Toolbox where these columns might be shown.
+			var old = response.data.old;
+			var rejected = response.data.rejected;
+			var warnings = response.data.warnings;
 
 			// Check if bubble of more than 90% exist.
 			var bubbleMoreThan90 = button.closest( 'td' ).children( 'span.bubble.morethan90' ).length;
@@ -130,6 +134,8 @@ jQuery( document ).ready( function( $ ) {
 			$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.fuzzy a' ).text( fuzzy );
 			$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.untranslated a' ).text( untranslated );
 			$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.waiting a' ).text( waiting );
+			$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.old a' ).text( old );
+			$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.rejected a' ).text( rejected );
 			$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.warnings a' ).text( warnings );
 
 			// Add Bubble of more than 90% if currently doesn't exist.
