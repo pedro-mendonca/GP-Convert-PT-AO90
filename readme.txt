@@ -127,6 +127,13 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 
 == Changelog ==
 
+= Unreleased =
+
+*   Fix project_path sanitization for Syncing subprojects.
+*   Fix saving old translations in the root locale on Sync action.
+*   Allow converting `current` translations with warnings.
+*   Add action hook `gpConvertPTAO90AfterSuccessfullSync` that fires after successful sync.
+
 = 1.4.3 =
 
 *   Fix missing JavaScript translation.
