@@ -125,6 +125,9 @@ jQuery( document ).ready( function( $ ) {
 			var rejected = response.data.rejected;
 			var warnings = response.data.warnings;
 
+			// Check if GP Toolbox is available.
+			var gpToolboxUpdateHighlight = wp.hooks.hasAction( 'gpToolboxUpdateHighlight', 'update_highlight_action' );
+
 			// Check if bubble of more than 90% exist.
 			var bubbleMoreThan90 = button.closest( 'td' ).children( 'span.bubble.morethan90' ).length;
 
@@ -134,9 +137,18 @@ jQuery( document ).ready( function( $ ) {
 			$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.fuzzy a' ).text( fuzzy );
 			$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.untranslated a' ).text( untranslated );
 			$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.waiting a' ).text( waiting );
-			$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.old a' ).text( old );
-			$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.rejected a' ).text( rejected );
-			$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.warnings a' ).text( warnings );
+
+			// Do if GP Toolbox update highlight hook is available.
+			if ( gpToolboxUpdateHighlight ) {
+				console.log( 'GP Toolbox gpToolboxUpdateHighlight action is available:', gpToolboxUpdateHighlight );
+				// Set translation set row data.
+				$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.old a' ).text( old );
+				$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.rejected a' ).text( rejected );
+				$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.warnings a' ).text( warnings );
+
+				// Trigger the Update Highlight function from GP Toolbox.
+				wp.hooks.doAction( 'gpToolboxUpdateHighlight' );
+			}
 
 			// Add Bubble of more than 90% if currently doesn't exist.
 			if ( percent >= 90 ) {
@@ -164,9 +176,6 @@ jQuery( document ).ready( function( $ ) {
 			button.removeClass( 'updating' ).addClass( 'success' );
 			button.children( 'span.icon.dashicons' ).hide().removeClass( 'dashicons-update' ).addClass( 'dashicons-yes' ).show();
 			button.children( 'span.label' ).text( wp.i18n.__( 'Synced!', 'gp-convert-pt-ao90' ) );
-
-			// Trigger the Update Highlight function from GP Toolbox, if exists.
-			wp.hooks.doAction( 'gpToolboxUpdateHighlight' );
 
 			console.log( 'Ajax request has been completed (' + textStatus + '). Status: ' + jqXHR.status + ' ' + jqXHR.statusText );
 			console.log( response );
