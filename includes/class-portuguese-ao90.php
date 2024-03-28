@@ -233,8 +233,8 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 					}
 				}
 
-				// Customize $args on 'translations' template.
-				if ( $template === 'translations' ) {
+				// Customize $args on 'translations' template, and also on 'translation-row' for when is loaded through ajax..
+				if ( $template === 'translations' || $template === 'translation-row'  ) {
 
 					$project = self::gp_project( $args['project'] );
 
