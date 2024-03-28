@@ -233,8 +233,8 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 					}
 				}
 
-				// Customize $args on 'translations' template.
-				if ( $template === 'translations' ) {
+				// Customize $args on 'translations' template, and also on 'translation-row' for when is loaded through ajax..
+				if ( $template === 'translations' || $template === 'translation-row' ) {
 
 					$project = self::gp_project( $args['project'] );
 
@@ -681,6 +681,8 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 						'fuzzy'        => $variant_translation_set->fuzzy_count(),
 						'untranslated' => $variant_translation_set->untranslated_count(),
 						'waiting'      => $variant_translation_set->waiting_count(),
+						'old'          => $variant_translation_set->old_count,
+						'rejected'     => $variant_translation_set->rejected_count,
 						'warnings'     => $variant_translation_set->warnings_count(),
 					)
 				);

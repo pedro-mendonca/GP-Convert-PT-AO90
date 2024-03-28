@@ -161,13 +161,17 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 
 ## Changelog
 
+### 1.4.6
+
+* New: Hook in GP Toolbox, if available, to update all the projects stats columns highlights and buttons accordingly.
+* Fix: Error of undefined variables on template-row when loaded through ajax updating translation.
+
 ### 1.4.5
 
 * Fix: Build the minified JS.
 
 ### 1.4.4
 
-* New: Action hook `gpConvertPTAO90AfterSuccessfullSync` that fires after successful sync.
 * New: Add, update and remove 90% bubble on AJAX update.
 * Fix: Error on project_path sanitization for Syncing subprojects.
 * Fix: Saving old translations in the root locale on Sync action.
