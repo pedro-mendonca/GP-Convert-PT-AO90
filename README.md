@@ -161,6 +161,10 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 
 ## Changelog
 
+### 1.4.5
+
+* Fix: Build the minified JS.
+
 ### 1.4.4
 
 * New: Action hook `gpConvertPTAO90AfterSuccessfullSync` that fires after successful sync.
