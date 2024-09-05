@@ -3,7 +3,7 @@ Contributors: pedromendonca
 Donate link: https://github.com/sponsors/pedro-mendonca
 Tags: localization, translation, glotpress, ao90, portuguese
 Requires at least: 5.3
-Tested up to: 6.5
+Tested up to: 6.6
 Requires PHP: 7.4
 Requires Plugins: glotpress
 Stable tag: 1.4.7
