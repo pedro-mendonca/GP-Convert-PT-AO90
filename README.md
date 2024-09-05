@@ -161,6 +161,12 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 
 ## Changelog
 
+### 1.4.8
+
+* Tested up to WP 6.5.
+* Update dependencies.
+* Add license file.
+
 ### 1.4.7
 
 * Fix: Error of undefined variables on template-row when no root translation exist and variant is edited directly.
