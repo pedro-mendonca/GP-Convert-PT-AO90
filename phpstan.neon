@@ -1,6 +1,8 @@
 parameters:
 	level: 9
 	inferPrivatePropertyTypeFromConstructor: true
+	WPCompat:
+		requiresAtLeast: '6.6'
 	scanFiles:
 		# GlotPress Stubs
 		- %rootDir%/../../pedro-mendonca/glotpress-stubs/glotpress-stubs.php
