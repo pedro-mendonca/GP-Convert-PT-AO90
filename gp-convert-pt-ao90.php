@@ -16,8 +16,6 @@
  * @wordpress-plugin
  * Plugin Name:       Convert PT AO90 for GlotPress
  * Plugin URI:        https://wordpress.org/plugins/gp-convert-pt-ao90/
- * GitHub Plugin URI: https://github.com/pedro-mendonca/GP-Convert-PT-AO90
- * Primary Branch:    main
  * Description:       Language tool for GlotPress to convert text according to the Portuguese Language Orthographic Agreement of 1990 (PT AO90).
  * Version:           1.4.8
  * Requires at least: 5.3

@@ -2,7 +2,7 @@ parameters:
 	level: 9
 	inferPrivatePropertyTypeFromConstructor: true
 	WPCompat:
-		requiresAtLeast: '6.6'
+		pluginFile: gp-convert-pt-ao90.php
 	scanFiles:
 		# GlotPress Stubs
 		- %rootDir%/../../pedro-mendonca/glotpress-stubs/glotpress-stubs.php

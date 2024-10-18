@@ -23,7 +23,6 @@ if ( $is_ptao90 && ! $supports_variants && GP_CONVERT_PT_AO90_SHOWDIFF && $has_r
 			break;
 		}
 	}
-
 }
 
 ?>
@@ -40,7 +39,7 @@ if ( $is_ptao90 && ! $supports_variants && GP_CONVERT_PT_AO90_SHOWDIFF && $has_r
 		<?php
 	}
 	?>
-	<td class="priority" title="<?php echo esc_attr( sprintf( /* translators: %s: Priority of original */ __( 'Priority: %s', 'glotpress' ), gp_array_get( GP::$original->get_static( 'priorities' ), $translation->priority ) ) ); ?>">
+	<td class="priority" title="<?php echo esc_attr( sprintf( /* translators: %s: Priority of original */ __( 'Priority: %s', 'gp-convert-pt-ao90' ), gp_array_get( GP::$original->get_static( 'priorities' ), $translation->priority ) ) ); ?>">
 		<?php
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo $priority_char[ $translation->priority ][0];
@@ -56,34 +55,34 @@ if ( $is_ptao90 && ! $supports_variants && GP_CONVERT_PT_AO90_SHOWDIFF && $has_r
 			$translation_plural = isset( $translation->plural_glossary_markup ) ? $translation->plural_glossary_markup : wp_kses_post( prepare_original( esc_translation( $translation->plural ) ) );
 			?>
 			<ul>
-				<li><small><?php esc_html_e( 'Singular:', 'glotpress' ); ?></small><br><span class="original-text"><?php echo wp_kses_post( prepare_original( $translation_singular ) ); ?></span></li>
-				<li><small><?php esc_html_e( 'Plural:', 'glotpress' ); ?></small><br><span class="original-text"><?php echo wp_kses_post( prepare_original( $translation_plural ) ); ?></span></li>
+				<li><small><?php esc_html_e( 'Singular:', 'gp-convert-pt-ao90' ); ?></small><br><span class="original-text"><?php echo wp_kses_post( prepare_original( $translation_singular ) ); ?></span></li>
+				<li><small><?php esc_html_e( 'Plural:', 'gp-convert-pt-ao90' ); ?></small><br><span class="original-text"><?php echo wp_kses_post( prepare_original( $translation_plural ) ); ?></span></li>
 			</ul>
 			<?php
 		}
 
 		if ( $translation->context ) {
 			?>
-			<span class="context bubble" title="<?php echo esc_attr( sprintf( /* translators: %s: Context of original */ __( 'Context: %s', 'glotpress' ), $translation->context ) ); ?>"><?php echo esc_html( $translation->context ); ?></span>
+			<span class="context bubble" title="<?php echo esc_attr( sprintf( /* translators: %s: Context of original */ __( 'Context: %s', 'gp-convert-pt-ao90' ), $translation->context ) ); ?>"><?php echo esc_html( $translation->context ); ?></span>
 			<?php
 		}
-	 	?>
+		?>
 	</td>
 	<td class="translation foreign-text">
 		<?php
 		if ( $can_edit ) {
-			$edit_text = __( 'Double-click to add', 'glotpress' );
+			$edit_text = __( 'Double-click to add', 'gp-convert-pt-ao90' );
 		} elseif ( is_user_logged_in() ) {
-			$edit_text = __( 'You are not allowed to add a translation.', 'glotpress' );
+			$edit_text = __( 'You are not allowed to add a translation.', 'gp-convert-pt-ao90' );
 		} else {
-			$edit_text = sprintf( /* translators: %s: URL. */ __( 'You <a href="%s">have to log in</a> to add a translation.', 'glotpress' ), esc_url( wp_login_url( gp_url_current() ) ) );
+			$edit_text = sprintf( /* translators: %s: URL. */ __( 'You <a href="%s">have to log in</a> to add a translation.', 'gp-convert-pt-ao90' ), esc_url( wp_login_url( gp_url_current() ) ) );
 		}
 
 		$missing_text = "<span class='missing'>$edit_text</span>";
 		if ( ! count( array_filter( $translation->translations, 'gp_is_not_null' ) ) ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo $missing_text;
-		} elseif ( ! $translation->plural || 1 === $locale->nplurals ) {
+		} elseif ( ! $translation->plural || $locale->nplurals === 1 ) {
 			$singular_translation = esc_translation( $translation->translations[0] );
 			// Check if has root.
 			if ( $is_ptao90 && ( isset( $translation->root_id ) || $has_root ) ) {
@@ -96,11 +95,11 @@ if ( $is_ptao90 && ! $supports_variants && GP_CONVERT_PT_AO90_SHOWDIFF && $has_r
 			}
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo '<span class="translation-text">' . prepare_original( $singular_translation ) . '</span>';
-		} elseif ( $translation->plural && 2 === $locale->nplurals && 'n != 1' === $locale->plural_expression ) {
+		} elseif ( $translation->plural && $locale->nplurals === 2 && $locale->plural_expression === 'n != 1' ) {
 			?>
 			<ul>
 				<li>
-					<small><?php esc_html_e( 'Singular:', 'glotpress' ); ?></small><br>
+					<small><?php esc_html_e( 'Singular:', 'gp-convert-pt-ao90' ); ?></small><br>
 					<?php
 					if ( ! isset( $translation->translations[0] ) || gp_is_empty_string( $translation->translations[0] ) ) {
 						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -122,7 +121,7 @@ if ( $is_ptao90 && ! $supports_variants && GP_CONVERT_PT_AO90_SHOWDIFF && $has_r
 					?>
 				</li>
 				<li>
-					<small><?php esc_html_e( 'Plural:', 'glotpress' ); ?></small><br>
+					<small><?php esc_html_e( 'Plural:', 'gp-convert-pt-ao90' ); ?></small><br>
 					<?php
 					if ( ! isset( $translation->translations[1] ) || gp_is_empty_string( $translation->translations[1] ) ) {
 						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -157,7 +156,7 @@ if ( $is_ptao90 && ! $supports_variants && GP_CONVERT_PT_AO90_SHOWDIFF && $has_r
 							<?php
 							printf(
 								/* translators: %s: Plural form. */
-								esc_html__( '%s:', 'glotpress' ),
+								esc_html__( '%s:', 'gp-convert-pt-ao90' ),
 								esc_html( $plural_string )
 							);
 							?>
@@ -168,7 +167,7 @@ if ( $is_ptao90 && ! $supports_variants && GP_CONVERT_PT_AO90_SHOWDIFF && $has_r
 							echo $missing_text;
 						} else {
 							$plural_translation = esc_translation( $translation->translations[ $plural_index ] );
-							 // Check if has root.
+							// Check if has root.
 							if ( $is_ptao90 && ( isset( $translation->root_id ) || $has_root ) ) {
 								if ( GP_CONVERT_PT_AO90_SHOWDIFF === true ) {
 									$plural_translation = GP_Convert_PT_AO90\Portuguese_AO90::highlight_diff(
@@ -191,6 +190,6 @@ if ( $is_ptao90 && ! $supports_variants && GP_CONVERT_PT_AO90_SHOWDIFF && $has_r
 		?>
 	</td>
 	<td class="actions">
-		<a href="#" class="action edit"><?php esc_html_e( 'Details', 'glotpress' ); ?></a>
+		<a href="#" class="action edit"><?php esc_html_e( 'Details', 'gp-convert-pt-ao90' ); ?></a>
 	</td>
 </tr>

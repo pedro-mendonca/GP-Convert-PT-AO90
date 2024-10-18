@@ -8,7 +8,6 @@
 	<!-- Exclude paths. -->
 	<exclude-pattern>*/node_modules/*</exclude-pattern>
 	<exclude-pattern>*/vendor/*</exclude-pattern>
-	<exclude-pattern>gp-templates/*</exclude-pattern>
 
 	<!-- Only scan PHP files. -->
 	<arg name="extensions" value="php"/>
@@ -66,5 +65,9 @@
 
 	<!-- VariableAnalysis. -->
 	<rule ref="VariableAnalysis"/>
+
+	<rule ref="VariableAnalysis.CodeAnalysis.VariableAnalysis">
+		<exclude-pattern>gp-templates/*</exclude-pattern>
+	</rule>
 
 </ruleset>

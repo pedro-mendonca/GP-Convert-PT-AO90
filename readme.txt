@@ -136,6 +136,13 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 
 == Changelog ==
 
+= Unreleased =
+
+*   Tested up to WP 6.6.
+*   Update dependencies.
+*   Fix text domains in GlotPress custom template.
+*   Include maps for minified assets.
+
 = 1.4.8 =
 
 *   Tested up to WP 6.5.
