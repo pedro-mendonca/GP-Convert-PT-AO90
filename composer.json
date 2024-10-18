@@ -54,15 +54,12 @@
 	"scripts": {
 		"build": [
 			"@lint",
-			"@compile"
+			"@build:css",
+			"@build:js"
 		],
 		"build:css": "npm run build:css",
+		"build:js": "npm run build:js",
 		"compat:php": "phpcs -v --standard=phpcompat.xml.dist",
-		"compile": [
-			"@compile:js",
-			"@build:css"
-		],
-		"compile:js": "npm run compile:js",
 		"format:php": "phpcbf -v --standard=phpcs.xml.dist",
 		"lint": [
 			"@lint:php",
