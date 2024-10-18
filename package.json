@@ -24,21 +24,28 @@
 		"url": "https://github.com/pedro-mendonca/GP-Convert-PT-AO90/issues"
 	},
 	"devDependencies": {
-		"@wordpress/scripts": "^30.3.0",
-		"node-sass": "^9.0.0",
+		"@wordpress/scripts": "^29.0.0",
 		"postcss-cli": "^11.0.0",
+		"postcss-preset-env": "^9.1.3",
+		"sass": "^1.80.1",
 		"uglify-js": "^3.19.3"
 	},
 	"scripts": {
-		"build": "npm run compile:js & npm run compile:css & npm run build:css",
-		"compile:css": "node-sass assets/css/ -o assets/css/ && stylelint assets/css/*.css --fix",
-		"build:css": "npm run build:css:style",
-		"build:css:style": "postcss assets/css/style.css > assets/css/style.min.css",
-		"compile:js": "npm run compile:js:scripts.js",
-		"compile:js:scripts.js": "uglifyjs assets/js/scripts.js --compress drop_console=true -o assets/js/scripts.min.js",
+		"build": "npm run build:js & npm run build:css",
+		"build:css": "npm run compile:css && npm run lint:css:fix && npm run build:css:prefix && npm run build:css:minify",
+		"compile:css": "sass assets/css/ --color --no-source-map --verbose",
+		"build:css:prefix": "postcss assets/css/style.css --replace --verbose",
+		"build:css:minify": "postcss assets/css/style.css -o assets/css/style.min.css --map --use cssnano --verbose",
+		"build:js": "npm run build:js:scripts",
+		"build:js:scripts": "uglifyjs assets/js/scripts.js -o assets/js/scripts.min.js --compress drop_console=true --source-map base=assets/js,url=scripts.min.js.map",
 		"lint:css": "wp-scripts lint-style",
+		"lint:css:fix": "npm run lint:css -- --fix",
 		"lint:js": "wp-scripts lint-js",
+		"lint:js:fix": "npm run lint:js -- --fix",
 		"lint:md:docs": "wp-scripts lint-md-docs",
 		"lint:pkg-json": "wp-scripts lint-pkg-json"
-	}
+	},
+	"browserslist": [
+		"last 3 versions"
+	]
 }
