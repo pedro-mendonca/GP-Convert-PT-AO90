@@ -161,7 +161,7 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 
 ## Changelog
 
-### Unreleased
+### 1.4.9
 
 * Tested up to WP 6.6.
 * Update dependencies.
