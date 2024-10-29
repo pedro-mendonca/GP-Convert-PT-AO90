@@ -3,7 +3,7 @@ Contributors: pedromendonca
 Donate link: https://github.com/sponsors/pedro-mendonca
 Tags: localization, translation, glotpress, ao90, portuguese
 Requires at least: 5.3
-Tested up to: 6.6
+Tested up to: 6.7
 Requires PHP: 7.4
 Requires Plugins: glotpress
 Stable tag: 1.4.9
@@ -135,6 +135,10 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 3. Sync button to force convert the complete translation from root set to variant set
 
 == Changelog ==
+
+= Unreleased =
+
+*   Tested up to WP 6.7.
 
 = 1.4.9 =
 
