@@ -164,6 +164,8 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 ### Unreleased
 
 * Tested up to WP 6.7.
+* Fix diff error on single translation.
+* Remove unnecessary queries causing huge load on variant table.
 
 ### 1.4.9
 
