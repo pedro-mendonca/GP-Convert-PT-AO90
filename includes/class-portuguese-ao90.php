@@ -268,6 +268,11 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 							$filters['term'] = $filters['term_scope'] === 'scope_both' ? '' : $filters['term'];
 							$filters['term'] = $filters['term_scope'] === 'scope_any' ? '' : $filters['term'];
 						}
+
+						// If the search is by original_id.
+						if ( isset( $filters['original_id'] ) ) {
+							unset( $filters['translation_id'] ); // Unset the variant translation ID to allow getting the root translation.
+						}
 					}
 
 					if ( ! $supports_variants && GP_CONVERT_PT_AO90_SHOWDIFF === true && $has_root === true ) {
