@@ -233,8 +233,8 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 					}
 				}
 
-				// Customize $args on 'translations' template, and also on 'translation-row' for when is loaded through ajax.
-				if ( $template === 'translations' || $template === 'translation-row' ) {
+				// Customize $args on 'translations' template.
+				if ( $template === 'translations' ) {
 
 					$project = self::gp_project( $args['project'] );
 
@@ -254,16 +254,92 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 					}
 
 					$root_translations = null;
+
+					$filters = gp_get( 'filters' );
+
+					if ( is_array( $filters ) ) {
+
+						// Only get current root translations.
+						$filters['status'] = 'current';
+
+						// If the search scope includes translations, clean up and look for all, to also match root translations that might be converted.
+						if ( isset( $filters['term_scope'] ) ) {
+							$filters['term'] = $filters['term_scope'] === 'scope_translations' ? '' : $filters['term'];
+							$filters['term'] = $filters['term_scope'] === 'scope_both' ? '' : $filters['term'];
+							$filters['term'] = $filters['term_scope'] === 'scope_any' ? '' : $filters['term'];
+						}
+					}
+
+					if ( ! $supports_variants && GP_CONVERT_PT_AO90_SHOWDIFF === true && $has_root === true ) {
+
+						$translations = (array) $args['translations'];
+
+						if ( count( $translations ) !== 0 ) {
+
+							$originals = array();
+
+							foreach ( $translations as $translation ) {
+
+								$translation = (object) $translation;
+
+								if ( property_exists( $translation, 'original_id' ) ) {
+									$originals[] = $translation->original_id;
+								}
+							}
+
+							$root_translations = GP::$translation->for_translation(
+								$project,
+								$root_translation_set,
+								'no-limit',
+								$filters
+							);
+
+							// Unset unrelated root translations.
+							foreach ( $root_translations as $key => $root_translation ) {
+								if ( ! in_array( $root_translation->original_id, $originals, true ) ) {
+									unset( $root_translations[ $key ] );
+								}
+							}
+						}
+					}
+
+					$args['supports_variants']    = $supports_variants;
+					$args['has_root']             = $has_root;
+					$args['root_translation_set'] = $root_translation_set;
+					$args['root_translations']    = $root_translations;
+				}
+
+				// Customize $args on 'translation-row' for if the variables weren't set in the template 'translations' (when is loaded through ajax).
+				if ( $template === 'translation-row' && ! isset( $args['supports_variants'] ) && ! isset( $args['has_root'] ) && ! isset( $args['root_translation_set'] ) && ! isset( $args['root_translations'] ) ) {
+
+					$project = self::gp_project( $args['project'] );
+
+					if ( is_null( $project ) ) {
+						return;
+					}
+
+					// Check if Variants are supported.
+					$supports_variants = self::supports_variants();
+
+					$root_translation_set = GP::$translation_set->by_project_id_slug_and_locale( $project->id, 'default', 'pt' );
+
+					$has_root = false;
+					// Only set the root translation flag if we have a valid root translation set, otherwise there's no point in querying it later.
+					if ( ! is_null( $root_translation_set ) && $root_translation_set !== false ) {
+						$has_root = true;
+					}
+
+					$root_translations = null;
+
 					if ( ! $supports_variants && GP_CONVERT_PT_AO90_SHOWDIFF === true && $has_root === true ) {
 						$root_translations = GP::$translation->for_translation(
 							$project,
 							$root_translation_set,
 							'no-limit',
-							gp_get(
-								'filters',
-								array(
-									'status' => 'current', // Only current translations.
-								)
+							// Get the current root translation for the row original.
+							array(
+								'status'      => 'current',
+								'original_id' => $args['original_id'],
 							)
 						);
 					}
