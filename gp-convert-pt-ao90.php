@@ -19,7 +19,7 @@
  * Description:       Language tool for GlotPress to convert text according to the Portuguese Language Orthographic Agreement of 1990 (PT AO90).
  * Version:           1.4.9
  * Requires at least: 5.3
- * Tested up to:      6.6
+ * Tested up to:      6.7
  * Requires PHP:      7.4
  * Requires Plugins:  glotpress
  * Author:            Pedro Mendonça

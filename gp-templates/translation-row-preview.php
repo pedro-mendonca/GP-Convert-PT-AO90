@@ -70,19 +70,30 @@ if ( $is_ptao90 && ! $supports_variants && GP_CONVERT_PT_AO90_SHOWDIFF && $has_r
 	</td>
 	<td class="translation foreign-text">
 		<?php
+
 		if ( $can_edit ) {
 			$edit_text = __( 'Double-click to add', 'gp-convert-pt-ao90' );
 		} elseif ( is_user_logged_in() ) {
 			$edit_text = __( 'You are not allowed to add a translation.', 'gp-convert-pt-ao90' );
 		} else {
-			$edit_text = sprintf( /* translators: %s: URL. */ __( 'You <a href="%s">have to log in</a> to add a translation.', 'gp-convert-pt-ao90' ), esc_url( wp_login_url( gp_url_current() ) ) );
+			$edit_text = sprintf(
+				/* translators: %s: URL. */
+				__( 'You <a href="%s">have to log in</a> to add a translation.', 'gp-convert-pt-ao90' ),
+				esc_url( wp_login_url( gp_url_current() ) )
+			);
 		}
 
 		$missing_text = "<span class='missing'>$edit_text</span>";
+
 		if ( ! count( array_filter( $translation->translations, 'gp_is_not_null' ) ) ) {
+			// Do if no translations found.
+
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo $missing_text;
+
 		} elseif ( ! $translation->plural || $locale->nplurals === 1 ) {
+			// Do if no plurals or number of plurals is 1.
+
 			$singular_translation = esc_translation( $translation->translations[0] );
 			// Check if has root.
 			if ( $is_ptao90 && ( isset( $translation->root_id ) || $has_root ) ) {
@@ -95,7 +106,10 @@ if ( $is_ptao90 && ! $supports_variants && GP_CONVERT_PT_AO90_SHOWDIFF && $has_r
 			}
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo '<span class="translation-text">' . prepare_original( $singular_translation ) . '</span>';
+
 		} elseif ( $translation->plural && $locale->nplurals === 2 && $locale->plural_expression === 'n != 1' ) {
+			// Do if plurals exist, number of plurals is 2 and plural expression is 'n != 1'.
+
 			?>
 			<ul>
 				<li>
@@ -144,7 +158,10 @@ if ( $is_ptao90 && ! $supports_variants && GP_CONVERT_PT_AO90_SHOWDIFF && $has_r
 				</li>
 			</ul>
 			<?php
+
 		} else {
+			// Do elsewhere.
+
 			?>
 			<ul>
 				<?php
@@ -186,7 +203,9 @@ if ( $is_ptao90 && ! $supports_variants && GP_CONVERT_PT_AO90_SHOWDIFF && $has_r
 				?>
 			</ul>
 			<?php
+
 		}
+
 		?>
 	</td>
 	<td class="actions">
