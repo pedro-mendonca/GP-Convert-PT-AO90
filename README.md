@@ -161,11 +161,12 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 
 ## Changelog
 
-### Unreleased
+### 1.4.10
 
 * Tested up to WP 6.7.
-* Fix diff error on single translation.
+* Improve speed of PT AO90 translation table.
 * Remove unnecessary queries causing huge load on variant table.
+* Fix diff error on single translation.
 
 ### 1.4.9
 
