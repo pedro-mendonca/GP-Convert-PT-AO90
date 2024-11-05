@@ -139,6 +139,8 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 = Unreleased =
 
 *   Stricten code.
+*   Analyse GP Template with PHPStan.
+*   Fix original_id error when changing string status.
 
 = 1.4.10 =
 
