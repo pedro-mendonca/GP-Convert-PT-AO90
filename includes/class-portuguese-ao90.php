@@ -203,8 +203,8 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 *
 		 * @since 1.3.0
 		 *
-		 * @param string               $template   The template name.
-		 * @param array<string,string> $args       Arguments passed to the template.
+		 * @param string              $template   The template name.
+		 * @param array<string,mixed> $args       Arguments passed to the template.
 		 *
 		 * @return void
 		 */
@@ -217,7 +217,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				$is_ptao90 = true;
 
 				// Check if the the Variant is read-only.
-				if ( GP_CONVERT_PT_AO90_EDIT === false ) {
+				if ( defined( 'GP_CONVERT_PT_AO90_EDIT' ) && GP_CONVERT_PT_AO90_EDIT === false ) {
 
 					// Customize $args on 'translations' template, and also on 'translation-row' to override the $can_approve_translation before loading 'translation-row'.
 					if ( $template === 'translations' || $template === 'translation-row' ) {
@@ -275,11 +275,11 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 						}
 					}
 
-					if ( ! $supports_variants && GP_CONVERT_PT_AO90_SHOWDIFF === true && $has_root === true ) {
+					if ( ! $supports_variants && defined( 'GP_CONVERT_PT_AO90_SHOWDIFF' ) && GP_CONVERT_PT_AO90_SHOWDIFF === true && $has_root === true ) {
 
-						$translations = (array) $args['translations'];
+						$translations = $args['translations'];
 
-						if ( count( $translations ) !== 0 ) {
+						if ( is_array( $translations ) && $translations !== array() ) {
 
 							$originals = array();
 
@@ -336,7 +336,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 					$root_translations = null;
 
-					if ( ! $supports_variants && GP_CONVERT_PT_AO90_SHOWDIFF === true && $has_root === true ) {
+					if ( ! $supports_variants && defined( 'GP_CONVERT_PT_AO90_SHOWDIFF' ) && GP_CONVERT_PT_AO90_SHOWDIFF === true && $has_root === true ) {
 						$root_translations = GP::$translation->for_translation(
 							$project,
 							$root_translation_set,
@@ -378,7 +378,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				if ( isset( $args['locale_slug'] ) && $args['locale_slug'] === 'pt-ao90' ) {
 
 					// Check if the the Variant is read-only.
-					if ( GP_CONVERT_PT_AO90_EDIT === false ) {
+					if ( defined( 'GP_CONVERT_PT_AO90_EDIT' ) && GP_CONVERT_PT_AO90_EDIT === false ) {
 						// CSS for variant PT AO90.
 						?>
 						<style media="screen">
@@ -465,7 +465,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 			// Get translation original.
 			$original = GP::$original->get( $translation->original_id );
-			if ( ! $original ) {
+			if ( $original === false ) {
 				return;
 			}
 
@@ -480,7 +480,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			}
 
 			$project = GP::$project->get( $variant_set->project_id );
-			if ( ! $project ) {
+			if ( $project === false ) {
 				return;
 			}
 
@@ -545,10 +545,10 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			$translation_changed = self::convert_translation( $translation, $variant_set );
 
 			// Check if the conversion produces changes.
-			if ( ! $translation_changed ) {
+			if ( $translation_changed === false ) {
 
 				// Check wether to always create variant translations or only if differ from root.
-				if ( ! $always_create_variant_translation ) {
+				if ( $always_create_variant_translation === false ) {
 					return;
 				}
 
@@ -562,7 +562,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 			// Add converted translation to the variant translation set and set as current.
 			$variant_translation = GP::$translation->create( $translation_changed );
-			if ( ! $variant_translation ) {
+			if ( $variant_translation === false ) {
 				return;
 			}
 
@@ -601,7 +601,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			// Set the status of the variant translation set as the root translation set for the same original_id.
 			foreach ( $variant_translations as $variant_translation ) {
 				$variant_translation = GP::$translation->get( $variant_translation );
-				if ( ! $variant_translation ) {
+				if ( $variant_translation === false ) {
 					continue;
 				}
 				$variant_translation->delete();
@@ -808,7 +808,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			$renderer      = new \WP_Text_Diff_Renderer_Table( $args );
 			$diff          = $renderer->render( $text_diff );
 
-			if ( ! $diff ) {
+			if ( $diff === '' ) {
 				// Return root translation.
 				return $root_translation;
 			}
@@ -910,7 +910,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			gp_enqueue_scripts( 'gp-convert-pt-ao90' );
 
 			$edit = 'true';
-			if ( GP_CONVERT_PT_AO90_EDIT === false ) {
+			if ( defined( 'GP_CONVERT_PT_AO90_EDIT' ) && GP_CONVERT_PT_AO90_EDIT === false ) {
 				$edit = 'false';
 			}
 
@@ -1038,7 +1038,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			}
 
 			// Check if exist any variant.
-			if ( empty( $variant_translation_sets ) ) {
+			if ( $variant_translation_sets === array() ) {
 				return $translation_sets;
 			}
 
