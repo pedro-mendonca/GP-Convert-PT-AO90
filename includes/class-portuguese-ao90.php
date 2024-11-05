@@ -275,7 +275,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 						}
 					}
 
-					if ( $supports_variants == false && defined( 'GP_CONVERT_PT_AO90_SHOWDIFF' ) && GP_CONVERT_PT_AO90_SHOWDIFF === true && $has_root === true ) {
+					if ( $supports_variants === false && defined( 'GP_CONVERT_PT_AO90_SHOWDIFF' ) && GP_CONVERT_PT_AO90_SHOWDIFF === true && $has_root === true ) {
 
 						$translations = $args['translations'];
 
@@ -477,7 +477,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 			// Get translation original.
 			$original = GP::$original->get( $translation->original_id );
-			if ( $original === false || ! is_a( $original, 'GP_Original' )) {
+			if ( $original === false || ! is_a( $original, 'GP_Original' ) ) {
 				return;
 			}
 
