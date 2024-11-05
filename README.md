@@ -161,6 +161,10 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 
 ## Changelog
 
+### Unreleased
+
+* Stricten code.
+
 ### 1.4.10
 
 * Tested up to WP 6.7.
