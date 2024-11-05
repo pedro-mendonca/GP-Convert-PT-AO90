@@ -804,6 +804,40 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				// Import translations to the variant.
 				$variant_translation_set->import( $translations_for_import );
 
+				// Check for any imported translations with warnings.
+				// TODO: Allow to disable this with a filter.
+				$translations_with_warnings = GP::$translation->for_translation(
+					$project,
+					$variant_translation_set,
+					'no-limit',
+					array(
+						'warnings' => 'yes',
+					)
+				);
+
+				if ( $translations_with_warnings !== array() ) {
+
+					foreach ( $translations_with_warnings as $entry ) {
+
+						$translation_with_warnings = GP::$translation->get( $entry );
+
+						if ( $translation_with_warnings === false ) {
+							continue;
+						}
+
+						if ( is_a( $translation_with_warnings, 'GP_Translation' ) ) {
+							// Remove existing warnings.
+							$translation_with_warnings->warnings = array();
+
+							// Set as current.
+							$translation_with_warnings->set_as_current();
+
+							// Save translation.
+							$translation_with_warnings->save();
+						}
+					}
+				}
+
 				// Send JSON response.
 				wp_send_json_success(
 					array(
