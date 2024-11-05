@@ -16,6 +16,8 @@ use GP_Project;
 use GP_Translation;
 use GP_Translation_Set;
 use Convert_PT_AO90;
+use Translation_Entry;
+use Translations;
 use WP_Error;
 
 // Exit if accessed directly.
@@ -675,6 +677,45 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 
 		/**
+		 * Convert the translations for the variant, including all plurals.
+		 *
+		 * @since 1.5.0
+		 *
+		 * @param array<int,Translation_Entry> $entries   Array of Translation_Entry objects.
+		 *
+		 * @return array<int,Translation_Entry>   Returns an array of converted translations.
+		 */
+		public static function convert_translations( $entries ) {
+
+			// TODO: Check wether to actually add non-changed strings.
+
+			foreach ( $entries as $key_entry => $entry ) {
+
+				foreach ( $entry->translations as $key_translation => $translation ) {
+
+					// Skip if plural don't exist.
+					if ( is_null( $translation ) ) {
+						continue;
+					}
+
+					// Actually try to convert the string.
+					$translation_converted = Convert_PT_AO90\convert_pt_ao90( $translation );
+
+					// Check if the conversion process changes the translation.
+					if ( $translation_converted !== $translation ) {
+
+						// Set converted string as PT AO90 translation.
+						$entries[ $key_entry ]->translations[ $key_translation ] = $translation_converted;
+
+					}
+				}
+			}
+
+			return $entries;
+		}
+
+
+		/**
 		 * Force convert the whole project.
 		 *
 		 * @since 1.4.2
@@ -752,19 +793,16 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 					);
 				}
 
-				foreach ( $root_translations as $root_translation ) {
+				$converted_translations = self::convert_translations( $root_translations );
 
-					// Change the translation set ID.
-					$root_translation->translation_set_id = $variant_translation_set->id;
+				$translations_for_import = new Translations();
 
-					$variant_translation = GP::$translation->create( $root_translation );
-					if ( is_object( $variant_translation ) && is_a( $variant_translation, 'GP_Translation' ) ) {
-						$variant_translation->set_status( 'current' );
-
-						// Create translation on the variant set.
-						self::create( $variant_translation, $project, $variant_translation_set );
-					}
+				foreach ( $converted_translations as $converted_translation ) {
+					$translations_for_import->add_entry( $converted_translation );
 				}
+
+				// Import translations to the variant.
+				$variant_translation_set->import( $translations_for_import );
 
 				// Send JSON response.
 				wp_send_json_success(
