@@ -275,7 +275,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 						}
 					}
 
-					if ( ! $supports_variants && defined( 'GP_CONVERT_PT_AO90_SHOWDIFF' ) && GP_CONVERT_PT_AO90_SHOWDIFF === true && $has_root === true ) {
+					if ( $supports_variants == false && defined( 'GP_CONVERT_PT_AO90_SHOWDIFF' ) && GP_CONVERT_PT_AO90_SHOWDIFF === true && $has_root === true ) {
 
 						$translations = $args['translations'];
 
@@ -336,7 +336,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 					$root_translations = null;
 
-					if ( ! $supports_variants && defined( 'GP_CONVERT_PT_AO90_SHOWDIFF' ) && GP_CONVERT_PT_AO90_SHOWDIFF === true && $has_root === true ) {
+					if ( $supports_variants === false && defined( 'GP_CONVERT_PT_AO90_SHOWDIFF' ) && GP_CONVERT_PT_AO90_SHOWDIFF === true && $has_root === true ) {
 						$root_translations = GP::$translation->for_translation(
 							$project,
 							$root_translation_set,
@@ -459,13 +459,25 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			 * Slug: 'default'
 			 */
 			$root_set = GP::$translation_set->get( $translation->translation_set_id );
-			if ( ! $root_set || $root_locale['locale'] !== $root_set->locale || $root_locale['slug'] !== $root_set->slug ) { // @phpstan-ignore-line
+
+			// Check for the correct root translation set object.
+			if ( $root_set === false || ! is_a( $root_set, 'GP_Translation_Set' ) ) {
+				return;
+			}
+
+			// Check Locale code.
+			if ( $root_locale['locale'] !== $root_set->locale ) {
+				return;
+			}
+
+			// Check Locale slug.
+			if ( $root_locale['slug'] !== $root_set->slug ) {
 				return;
 			}
 
 			// Get translation original.
 			$original = GP::$original->get( $translation->original_id );
-			if ( $original === false ) {
+			if ( $original === false || ! is_a( $original, 'GP_Original' )) {
 				return;
 			}
 
@@ -474,8 +486,8 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			 * Locale: 'pt-ao90'
 			 * Slug: 'default'
 			 */
-			$variant_set = GP::$translation_set->by_project_id_slug_and_locale( $original->project_id, $variant_locale['slug'], $variant_locale['locale'] ); // @phpstan-ignore-line
-			if ( ! $variant_set ) {
+			$variant_set = GP::$translation_set->by_project_id_slug_and_locale( $original->project_id, $variant_locale['slug'], $variant_locale['locale'] );
+			if ( $variant_set === false ) {
 				return;
 			}
 
@@ -654,7 +666,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			}
 
 			// Check if any of the translation plurals have changed.
-			if ( ! $translation_changed ) {
+			if ( $translation_changed === false ) {
 				return false;
 			}
 
