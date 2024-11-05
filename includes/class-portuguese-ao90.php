@@ -344,7 +344,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 							// Get the current root translation for the row original.
 							array(
 								'status'      => 'current',
-								'original_id' => $args['original_id'],
+								'original_id' => $args['translation']->original_id,
 							)
 						);
 					}
