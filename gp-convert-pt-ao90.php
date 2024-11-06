@@ -66,6 +66,9 @@ define( 'GP_CONVERT_PT_AO90_DIR_PATH', plugin_dir_path( __FILE__ ) );
 // Set Convert PT AO90 for GlotPress file path.
 define( 'GP_CONVERT_PT_AO90_FILE', plugin_basename( __FILE__ ) );
 
+// Set the plugin Rest API namespace.
+define( 'GP_CONVERT_PT_AO90_REST_NAMESPACE', 'gp-convert-pt-ao90/v1' );
+
 /**
  * Disable editing translations for PT AO90.
  * add_filter( 'gp_convert_pt_ao90_edit', '__return_false' );
