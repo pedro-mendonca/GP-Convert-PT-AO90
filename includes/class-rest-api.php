@@ -76,6 +76,8 @@ if ( ! class_exists( __NAMESPACE__ . '\Rest_API' ) ) {
 		 * @param WP_REST_Request $request   Request data.
 		 *
 		 * @return mixed   Array of stats and number of deleted translations. Can also be a string with error message.
+		 *
+		 * @phpstan-ignore missingType.generics
 		 */
 		public function translation_set_convert( WP_REST_Request $request ) {
 
