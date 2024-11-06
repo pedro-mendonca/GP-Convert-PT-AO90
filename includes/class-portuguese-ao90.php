@@ -843,6 +843,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 					'tablesorter', // Currently used only for Translation Sets table.
 					'wp-i18n',
 					'wp-api',
+					'wp-api-fetch',
 				),
 				GP_CONVERT_PT_AO90_VERSION,
 				false
@@ -868,7 +869,6 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 					'admin'          => GP::$permission->current_user_can( 'admin' ),           // GlotPress Admin with manage options capability.
 					'gp_url'         => gp_url(),                                               // GlotPress base URL. Defaults to /glotpress/.
 					'gp_url_project' => gp_url_project(),                                       // GlotPress projects base URL. Defaults to /glotpress/projects/.
-					'nonce'          => wp_create_nonce( 'wp_rest' ),                           // Authenticate in the Rest API.
 					'user_locale'    => GP_locales::by_field( 'wp_locale', get_user_locale() ), // Current user Locale.
 				)
 			);

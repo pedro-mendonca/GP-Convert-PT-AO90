@@ -1,4 +1,4 @@
-/* global document, gpConvertPTAO90, Intl, setTimeout, wp, wpApiSettings */
+/* global document, gpConvertPTAO90, Intl, setTimeout, wp */
 
 jQuery( document ).ready( function( $ ) {
 	// Set array of Translation Sets.
@@ -101,15 +101,12 @@ jQuery( document ).ready( function( $ ) {
 
 		button.attr( 'disabled', true ).removeClass( 'success fail' ).addClass( 'updating' ).children( 'span.label' ).text( wp.i18n.__( 'Syncing...', 'gp-convert-pt-ao90' ) );
 
-		$.ajax( {
+		wp.apiFetch( {
+			path: '/gp-convert-pt-ao90/v1/translation-set/' + projectPath + '/' + locale + '/' + slug + '/-convert',
+			method: 'POST',
 
-			url: wpApiSettings.root + 'gp-convert-pt-ao90/v1/translation-set/' + projectPath + '/' + locale + '/' + slug + '/-convert',
-			type: 'POST',
-			data: {
-				_wpnonce: gpConvertPTAO90.nonce,
-			},
-
-			success: function( response ) {
+		} )
+			.then( function( response ) {
 				// Set translation set data.
 				var percent = response.percent;
 				var current = response.current;
@@ -175,9 +172,8 @@ jQuery( document ).ready( function( $ ) {
 				button.children( 'span.label' ).text( wp.i18n.__( 'Synced!', 'gp-convert-pt-ao90' ) );
 
 				console.log( response );
-			},
-
-			error: function( response ) {
+			} )
+			.catch( function( error ) {
 				// Change button status to 'Failed'.
 				button.removeClass( 'updating' ).addClass( 'fail' );
 				button.children( 'span.icon.dashicons' ).hide().removeClass( 'dashicons-update' ).addClass( 'dashicons-warning' ).show();
@@ -185,10 +181,9 @@ jQuery( document ).ready( function( $ ) {
 
 				// Show the Error notice.
 				console.log( 'Failed to convert Translation Set.' );
-				console.log( 'Error message:', response.responseJSON.message );
-			},
-
-			complete: function() {
+				console.log( 'Error:', error.message );
+			} )
+			.finally( function() {
 				// Change button status back to default.
 				setTimeout(
 					function() {
@@ -200,8 +195,6 @@ jQuery( document ).ready( function( $ ) {
 				);
 
 				console.log( 'Request ended.' );
-			},
-
-		} );
+			} );
 	}
 } );
