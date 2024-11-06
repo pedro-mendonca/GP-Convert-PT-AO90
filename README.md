@@ -161,8 +161,9 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 
 ## Changelog
 
-### Unreleased
+### 1.5.0
 
+* Improve speed by using the faster translation_set->import() to bulk convert the entire Translation Set on demand.
 * Use REST API to convert the entire Translation Set on demand.
 * Fix original_id error when changing string status.
 * Fix i18n of updated count numbers.

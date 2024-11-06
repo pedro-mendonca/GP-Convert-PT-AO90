@@ -6,7 +6,7 @@ Requires at least: 5.3
 Tested up to: 6.7
 Requires PHP: 7.4
 Requires Plugins: glotpress
-Stable tag: 1.4.10
+Stable tag: 1.5.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -136,8 +136,9 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 
 == Changelog ==
 
-= Unreleased =
+= 1.5.0 =
 
+*   Improve speed by using the faster translation_set->import() to bulk convert the entire Translation Set on demand.
 *   Use REST API to convert the entire Translation Set on demand.
 *   Fix original_id error when changing string status.
 *   Fix i18n of updated count numbers.
