@@ -865,9 +865,8 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				'gp-convert-pt-ao90',
 				'gpConvertPTAO90',
 				array(
-					'edit'           => $edit,                                                  // Wether the variant is editable. False if read-only.
 					'admin'          => GP::$permission->current_user_can( 'admin' ),           // GlotPress Admin with manage options capability.
-					'gp_url'         => gp_url(),                                               // GlotPress base URL. Defaults to /glotpress/.
+					'edit'           => $edit,                                                  // Wether the variant is editable. False if read-only.
 					'gp_url_project' => gp_url_project(),                                       // GlotPress projects base URL. Defaults to /glotpress/projects/.
 					'user_locale'    => GP_locales::by_field( 'wp_locale', get_user_locale() ), // Current user Locale.
 				)
