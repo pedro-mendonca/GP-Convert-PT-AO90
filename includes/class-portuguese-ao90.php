@@ -864,11 +864,12 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				'gp-convert-pt-ao90',
 				'gpConvertPTAO90',
 				array(
-					'edit'           => $edit,
-					'admin'          => GP::$permission->current_user_can( 'admin' ), // GlotPress Admin with manage options capability.
-					'gp_url'         => gp_url(), // /glotpress/.
-					'gp_url_project' => gp_url_project(), // /glotpress/projects/.
-					'nonce'          => wp_create_nonce( 'wp_rest' ),
+					'edit'           => $edit,                                                  // Wether the variant is editable. False if read-only.
+					'admin'          => GP::$permission->current_user_can( 'admin' ),           // GlotPress Admin with manage options capability.
+					'gp_url'         => gp_url(),                                               // GlotPress base URL. Defaults to /glotpress/.
+					'gp_url_project' => gp_url_project(),                                       // GlotPress projects base URL. Defaults to /glotpress/projects/.
+					'nonce'          => wp_create_nonce( 'wp_rest' ),                           // Authenticate in the Rest API.
+					'user_locale'    => GP_locales::by_field( 'wp_locale', get_user_locale() ), // Current user Locale.
 				)
 			);
 		}

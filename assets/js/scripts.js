@@ -1,8 +1,11 @@
-/* global document, gpConvertPTAO90, setTimeout, wp, wpApiSettings */
+/* global document, gpConvertPTAO90, Intl, setTimeout, wp, wpApiSettings */
 
 jQuery( document ).ready( function( $ ) {
 	// Set array of Translation Sets.
 	var translationSets = [];
+
+	// Get User Locale.
+	var userLocale = gpConvertPTAO90.user_locale;
 
 	// Check if user is has GlotPress Admin previleges.
 	var glotpressAdmin = gpConvertPTAO90.admin;
@@ -127,18 +130,18 @@ jQuery( document ).ready( function( $ ) {
 
 				// Set translation set row data.
 				$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.percent' ).text( percent + '%' );
-				$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.translated a' ).text( current );
-				$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.fuzzy a' ).text( fuzzy );
-				$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.untranslated a' ).text( untranslated );
-				$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.waiting a' ).text( waiting );
+				$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.translated a' ).text( Intl.NumberFormat( userLocale.slug ).format( current ) );
+				$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.fuzzy a' ).text( Intl.NumberFormat( userLocale.slug ).format( fuzzy ) );
+				$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.untranslated a' ).text( Intl.NumberFormat( userLocale.slug ).format( untranslated ) );
+				$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.waiting a' ).text( Intl.NumberFormat( userLocale.slug ).format( waiting ) );
 
 				// Do if GP Toolbox update highlight hook is available.
 				if ( gpToolboxUpdateHighlight ) {
 					console.log( 'GP Toolbox gpToolboxUpdateHighlight action is available:', gpToolboxUpdateHighlight );
 					// Set translation set row data.
-					$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.old a' ).text( old );
-					$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.rejected a' ).text( rejected );
-					$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.warnings a' ).text( warnings );
+					$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.old a' ).text( Intl.NumberFormat( userLocale.slug ).format( old ) );
+					$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.rejected a' ).text( Intl.NumberFormat( userLocale.slug ).format( rejected ) );
+					$( 'table.gp-table.translation-sets tr[data-locale="pt-ao90"][data-slug="default"] td.stats.warnings a' ).text( Intl.NumberFormat( userLocale.slug ).format( warnings ) );
 
 					// Trigger the Update Highlight function from GP Toolbox.
 					wp.hooks.doAction( 'gpToolboxUpdateHighlight' );
