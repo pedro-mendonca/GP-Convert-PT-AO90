@@ -685,9 +685,37 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 */
 		public static function convert_translations( $entries ) {
 
-			// TODO: Check wether to actually add non-changed strings.
+			// Check if GlotPress version supports the Variants functionality.
+			$supports_variants = self::supports_variants();
+
+			// If there is no support for real Variants, always create translation in the variant.
+			$always_create_variant_translation = true;
+
+			// If there is support for real Variants, don't always create translation in the variant, only if is different from root.
+			if ( $supports_variants ) {
+				$always_create_variant_translation = false;
+			}
+
+			/**
+			 * For Real Variants:
+			 *   - GlotPress 3.0.0-alpha.4:               https://github.com/GlotPress/GlotPress/releases/tag/3.0.0-alpha.4
+			 *   - GlotPress 4.0.0-alpha.11 + Variants:   https://github.com/pedro-mendonca/GlotPress/tree/develop-with-variants
+			 * To not populate the Variant Locale with unnecessary translations, exact copies of root Locale, set to False to allow fallback translation to the Root Locale.
+			 * If you still need to have the Variant fully translated, because reasons, set to True, and all the translations will be added, equal or converted from Root Locale.
+			 *
+			 * For Pseudo Variants:
+			 *   - GlotPress current development:   https://github.com/GlotPress/GlotPress/releases/tag/4.0.0-alpha.11
+			 * In this case, it should always create the translation in the variant.
+			 *
+			 * @since 1.3.3
+			 *
+			 * @param bool $always_create_variant_translation   True to force create translations in the variant. False to only create if the conversion produces changes, falling back to real Variant.
+			 */
+			$always_create_variant_translation = apply_filters( 'gp_convert_pt_ao90_always_create_variant_translation', $always_create_variant_translation );
 
 			foreach ( $entries as $key_entry => $entry ) {
+
+				$create_variant_entry = false;
 
 				foreach ( $entry->translations as $key_translation => $translation ) {
 
@@ -699,13 +727,19 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 					// Actually try to convert the string.
 					$translation_converted = Convert_PT_AO90\convert_pt_ao90( $translation );
 
-					// Check if the conversion process changes the translation.
-					if ( $translation_converted !== $translation ) {
+					// Check if the conversion process changes the translation, and wether always create variant translation..
+					if ( $translation_converted !== $translation || $always_create_variant_translation ) {
+
+						$create_variant_entry = true;
 
 						// Set converted string as PT AO90 translation.
 						$entries[ $key_entry ]->translations[ $key_translation ] = $translation_converted;
 
 					}
+				}
+
+				if ( ! $create_variant_entry ) {
+					unset( $entries[ $key_entry ] );
 				}
 			}
 
