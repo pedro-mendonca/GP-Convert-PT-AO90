@@ -136,6 +136,14 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 
 == Changelog ==
 
+= Unreleased =
+
+*   Use REST API to convert the entire Translation Set on demand.
+*   Fix original_id error when changing string status.
+*   Fix i18n of updated count numbers.
+*   Stricten code.
+*   Analyse GP Template with PHPStan.
+
 = 1.4.10 =
 
 *   Tested up to WP 6.7.

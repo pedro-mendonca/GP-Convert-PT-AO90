@@ -9,7 +9,9 @@ parameters:
 	paths:
 		- gp-convert-pt-ao90.php
 		- includes/
-		# - gp-templates/
+		- gp-templates/
 	bootstrapFiles:
 		# PHPStan bootstrap file.
 		- tests/phpstan/bootstrap.php
+	strictRules:
+		noVariableVariables: false

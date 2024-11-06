@@ -25,16 +25,6 @@ if ( ! defined( 'GP_CONVERT_PT_AO90_REQUIRED_PHP' ) ) {
 	define( 'GP_CONVERT_PT_AO90_REQUIRED_PHP', '7.4' );
 }
 
-// Define the PT AO90 Locale Variant as writable. Set to false to make it read-only.
-if ( ! defined( 'GP_CONVERT_PT_AO90_EDIT' ) ) {
-	define( 'GP_CONVERT_PT_AO90_EDIT', false );
-}
-
-// Define wether to highlight the conversion diffs.
-if ( ! defined( 'GP_CONVERT_PT_AO90_SHOWDIFF' ) ) {
-	define( 'GP_CONVERT_PT_AO90_SHOWDIFF', true );
-}
-
 
 // Require plugin main file.
 require_once 'gp-convert-pt-ao90.php';

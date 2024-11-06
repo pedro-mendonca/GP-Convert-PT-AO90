@@ -16,6 +16,8 @@ use GP_Project;
 use GP_Translation;
 use GP_Translation_Set;
 use Convert_PT_AO90;
+use Translation_Entry;
+use Translations;
 use WP_Error;
 
 // Exit if accessed directly.
@@ -84,10 +86,8 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			 */
 			add_filter( 'gp_translation_sets_sort', array( self::class, 'sort_translation_sets' ) );
 
-			/**
-			 * Force convert the whole project again.
-			 */
-			add_action( 'wp_ajax_convert_project', array( self::class, 'convert_project' ) );
+			// Instantiate Rest API.
+			new Rest_API();
 		}
 
 
@@ -203,8 +203,8 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 		 *
 		 * @since 1.3.0
 		 *
-		 * @param string               $template   The template name.
-		 * @param array<string,string> $args       Arguments passed to the template.
+		 * @param string              $template   The template name.
+		 * @param array<string,mixed> $args       Arguments passed to the template.
 		 *
 		 * @return void
 		 */
@@ -217,7 +217,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				$is_ptao90 = true;
 
 				// Check if the the Variant is read-only.
-				if ( GP_CONVERT_PT_AO90_EDIT === false ) {
+				if ( defined( 'GP_CONVERT_PT_AO90_EDIT' ) && GP_CONVERT_PT_AO90_EDIT === false ) {
 
 					// Customize $args on 'translations' template, and also on 'translation-row' to override the $can_approve_translation before loading 'translation-row'.
 					if ( $template === 'translations' || $template === 'translation-row' ) {
@@ -275,11 +275,11 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 						}
 					}
 
-					if ( ! $supports_variants && GP_CONVERT_PT_AO90_SHOWDIFF === true && $has_root === true ) {
+					if ( $supports_variants === false && defined( 'GP_CONVERT_PT_AO90_SHOWDIFF' ) && GP_CONVERT_PT_AO90_SHOWDIFF === true && $has_root === true ) {
 
-						$translations = (array) $args['translations'];
+						$translations = $args['translations'];
 
-						if ( count( $translations ) !== 0 ) {
+						if ( is_array( $translations ) && $translations !== array() ) {
 
 							$originals = array();
 
@@ -336,7 +336,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 					$root_translations = null;
 
-					if ( ! $supports_variants && GP_CONVERT_PT_AO90_SHOWDIFF === true && $has_root === true ) {
+					if ( $supports_variants === false && defined( 'GP_CONVERT_PT_AO90_SHOWDIFF' ) && GP_CONVERT_PT_AO90_SHOWDIFF === true && $has_root === true ) {
 						$root_translations = GP::$translation->for_translation(
 							$project,
 							$root_translation_set,
@@ -344,7 +344,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 							// Get the current root translation for the row original.
 							array(
 								'status'      => 'current',
-								'original_id' => $args['original_id'],
+								'original_id' => $args['translation']->original_id,
 							)
 						);
 					}
@@ -378,7 +378,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				if ( isset( $args['locale_slug'] ) && $args['locale_slug'] === 'pt-ao90' ) {
 
 					// Check if the the Variant is read-only.
-					if ( GP_CONVERT_PT_AO90_EDIT === false ) {
+					if ( defined( 'GP_CONVERT_PT_AO90_EDIT' ) && GP_CONVERT_PT_AO90_EDIT === false ) {
 						// CSS for variant PT AO90.
 						?>
 						<style media="screen">
@@ -459,13 +459,25 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			 * Slug: 'default'
 			 */
 			$root_set = GP::$translation_set->get( $translation->translation_set_id );
-			if ( ! $root_set || $root_locale['locale'] !== $root_set->locale || $root_locale['slug'] !== $root_set->slug ) { // @phpstan-ignore-line
+
+			// Check for the correct root translation set object.
+			if ( $root_set === false || ! is_a( $root_set, 'GP_Translation_Set' ) ) {
+				return;
+			}
+
+			// Check Locale code.
+			if ( $root_locale['locale'] !== $root_set->locale ) {
+				return;
+			}
+
+			// Check Locale slug.
+			if ( $root_locale['slug'] !== $root_set->slug ) {
 				return;
 			}
 
 			// Get translation original.
 			$original = GP::$original->get( $translation->original_id );
-			if ( ! $original ) {
+			if ( $original === false || ! is_a( $original, 'GP_Original' ) ) {
 				return;
 			}
 
@@ -474,13 +486,13 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			 * Locale: 'pt-ao90'
 			 * Slug: 'default'
 			 */
-			$variant_set = GP::$translation_set->by_project_id_slug_and_locale( $original->project_id, $variant_locale['slug'], $variant_locale['locale'] ); // @phpstan-ignore-line
-			if ( ! $variant_set ) {
+			$variant_set = GP::$translation_set->by_project_id_slug_and_locale( $original->project_id, $variant_locale['slug'], $variant_locale['locale'] );
+			if ( $variant_set === false ) {
 				return;
 			}
 
 			$project = GP::$project->get( $variant_set->project_id );
-			if ( ! $project ) {
+			if ( $project === false ) {
 				return;
 			}
 
@@ -545,10 +557,10 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			$translation_changed = self::convert_translation( $translation, $variant_set );
 
 			// Check if the conversion produces changes.
-			if ( ! $translation_changed ) {
+			if ( $translation_changed === false ) {
 
 				// Check wether to always create variant translations or only if differ from root.
-				if ( ! $always_create_variant_translation ) {
+				if ( $always_create_variant_translation === false ) {
 					return;
 				}
 
@@ -562,7 +574,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 			// Add converted translation to the variant translation set and set as current.
 			$variant_translation = GP::$translation->create( $translation_changed );
-			if ( ! $variant_translation ) {
+			if ( $variant_translation === false ) {
 				return;
 			}
 
@@ -601,7 +613,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			// Set the status of the variant translation set as the root translation set for the same original_id.
 			foreach ( $variant_translations as $variant_translation ) {
 				$variant_translation = GP::$translation->get( $variant_translation );
-				if ( ! $variant_translation ) {
+				if ( $variant_translation === false ) {
 					continue;
 				}
 				$variant_translation->delete();
@@ -654,7 +666,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			}
 
 			// Check if any of the translation plurals have changed.
-			if ( ! $translation_changed ) {
+			if ( $translation_changed === false ) {
 				return false;
 			}
 
@@ -663,114 +675,75 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 
 		/**
-		 * Force convert the whole project.
+		 * Convert the translations for the variant, including all plurals.
 		 *
-		 * @since 1.4.2
+		 * @since 1.5.0
 		 *
-		 * @return void
+		 * @param array<int,Translation_Entry> $entries   Array of Translation_Entry objects.
+		 *
+		 * @return array<int,Translation_Entry>   Returns an array of converted translations.
 		 */
-		public static function convert_project() {
+		public static function convert_translations( $entries ) {
 
-			check_ajax_referer( 'gp-convert-pt-ao90-nonce', 'nonce' );
+			// Check if GlotPress version supports the Variants functionality.
+			$supports_variants = self::supports_variants();
 
-			// Initialize variables.
-			$project_path = '';
-			$locale       = '';
-			$slug         = '';
+			// If there is no support for real Variants, always create translation in the variant.
+			$always_create_variant_translation = true;
 
-			if ( isset( $_POST['projectPath'] ) ) {
-				$project_path = sanitize_text_field( wp_unslash( $_POST['projectPath'] ) );
-			} else {
-				wp_die();
+			// If there is support for real Variants, don't always create translation in the variant, only if is different from root.
+			if ( $supports_variants ) {
+				$always_create_variant_translation = false;
 			}
-
-			if ( isset( $_POST['locale'] ) ) {
-				$locale = sanitize_key( $_POST['locale'] );
-			} else {
-				wp_die();
-			}
-
-			if ( isset( $_POST['slug'] ) ) {
-				$slug = sanitize_key( $_POST['slug'] );
-			} else {
-				wp_die();
-			}
-
-			// Get root and variant pair of Locales for conversion.
-			$locales = self::locale_root_variant();
 
 			/**
-			 * Set root Locale.
+			 * For Real Variants:
+			 *   - GlotPress 3.0.0-alpha.4:               https://github.com/GlotPress/GlotPress/releases/tag/3.0.0-alpha.4
+			 *   - GlotPress 4.0.0-alpha.11 + Variants:   https://github.com/pedro-mendonca/GlotPress/tree/develop-with-variants
+			 * To not populate the Variant Locale with unnecessary translations, exact copies of root Locale, set to False to allow fallback translation to the Root Locale.
+			 * If you still need to have the Variant fully translated, because reasons, set to True, and all the translations will be added, equal or converted from Root Locale.
+			 *
+			 * For Pseudo Variants:
+			 *   - GlotPress current development:   https://github.com/GlotPress/GlotPress/releases/tag/4.0.0-alpha.11
+			 * In this case, it should always create the translation in the variant.
+			 *
+			 * @since 1.3.3
+			 *
+			 * @param bool $always_create_variant_translation   True to force create translations in the variant. False to only create if the conversion produces changes, falling back to real Variant.
 			 */
-			$root_locale = $locales['root'];
+			$always_create_variant_translation = apply_filters( 'gp_convert_pt_ao90_always_create_variant_translation', $always_create_variant_translation );
 
-			/**
-			 * Set variant Locale.
-			 */
-			$variant_locale = $locales['variant'];
+			foreach ( $entries as $key_entry => $entry ) {
 
-			if ( $locale === $variant_locale['locale'] && $slug === $variant_locale['slug'] ) {
+				$create_variant_entry = false;
 
-				// Get the GP_Project.
-				$project = GP::$project->by_path( $project_path );
+				foreach ( $entry->translations as $key_translation => $translation ) {
 
-				// Get the Variant Translation_Set.
-				$variant_translation_set = GP::$translation_set->by_project_id_slug_and_locale( $project->id, $variant_locale['slug'], $variant_locale['locale'] );
+					// Skip if plural don't exist.
+					if ( is_null( $translation ) ) {
+						continue;
+					}
 
-				// Bulk delete all translations existing in the variant set.
-				GP::$translation->delete_many(
-					array(
-						'translation_set_id' => $variant_translation_set->id,
-					)
-				);
+					// Actually try to convert the string.
+					$translation_converted = Convert_PT_AO90\convert_pt_ao90( $translation );
 
-				// Get the Root Translation_Set.
-				$root_translation_set = GP::$translation_set->by_project_id_slug_and_locale( $project->id, $root_locale['slug'], $root_locale['locale'] );
+					// Check if the conversion process changes the translation, and wether always create variant translation..
+					if ( $translation_converted !== $translation || $always_create_variant_translation ) {
 
-				// Get root set translations for further conversion.
-				$root_translations = array();
-				if ( $root_translation_set !== false ) {
-					$root_translations = GP::$translation->for_translation(
-						$project,
-						$root_translation_set,
-						'no-limit',
-						array(
-							'status' => 'current', // Only current translations.
-						)
-					);
-				}
+						$create_variant_entry = true;
 
-				foreach ( $root_translations as $root_translation ) {
+						// Set converted string as PT AO90 translation.
+						$entries[ $key_entry ]->translations[ $key_translation ] = $translation_converted;
 
-					// Change the translation set ID.
-					$root_translation->translation_set_id = $variant_translation_set->id;
-
-					$variant_translation = GP::$translation->create( $root_translation );
-					if ( is_object( $variant_translation ) && is_a( $variant_translation, 'GP_Translation' ) ) {
-						$variant_translation->set_status( 'current' );
-
-						// Create translation on the variant set.
-						self::create( $variant_translation, $project, $variant_translation_set );
 					}
 				}
 
-				// Send JSON response.
-				wp_send_json_success(
-					array(
-						'percent'      => $variant_translation_set->percent_translated(),
-						'current'      => $variant_translation_set->current_count(),
-						'fuzzy'        => $variant_translation_set->fuzzy_count(),
-						'untranslated' => $variant_translation_set->untranslated_count(),
-						'waiting'      => $variant_translation_set->waiting_count(),
-						'old'          => $variant_translation_set->old_count,
-						'rejected'     => $variant_translation_set->rejected_count,
-						'warnings'     => $variant_translation_set->warnings_count(),
-					)
-				);
-
+				if ( ! $create_variant_entry ) {
+					unset( $entries[ $key_entry ] );
+				}
 			}
 
-			wp_die();
+			return $entries;
 		}
 
 
@@ -808,7 +781,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			$renderer      = new \WP_Text_Diff_Renderer_Table( $args );
 			$diff          = $renderer->render( $text_diff );
 
-			if ( ! $diff ) {
+			if ( $diff === '' ) {
 				// Return root translation.
 				return $root_translation;
 			}
@@ -902,6 +875,9 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				GP_CONVERT_PT_AO90_DIR_URL . 'assets/js/scripts' . $suffix . '.js',
 				array(
 					'tablesorter', // Currently used only for Translation Sets table.
+					'wp-i18n',
+					'wp-api',
+					'wp-api-fetch',
 				),
 				GP_CONVERT_PT_AO90_VERSION,
 				false
@@ -910,7 +886,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			gp_enqueue_scripts( 'gp-convert-pt-ao90' );
 
 			$edit = 'true';
-			if ( GP_CONVERT_PT_AO90_EDIT === false ) {
+			if ( defined( 'GP_CONVERT_PT_AO90_EDIT' ) && GP_CONVERT_PT_AO90_EDIT === false ) {
 				$edit = 'false';
 			}
 
@@ -923,12 +899,10 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				'gp-convert-pt-ao90',
 				'gpConvertPTAO90',
 				array(
-					'edit'           => $edit,
-					'admin'          => GP::$permission->current_user_can( 'admin' ),
-					'gp_url'         => gp_url(), // /glotpress/.
-					'gp_url_project' => gp_url_project(), // /glotpress/projects/.
-					'ajaxurl'        => admin_url( 'admin-ajax.php' ),
-					'nonce'          => wp_create_nonce( 'gp-convert-pt-ao90-nonce' ),
+					'admin'          => GP::$permission->current_user_can( 'admin' ),           // GlotPress Admin with manage options capability.
+					'edit'           => $edit,                                                  // Wether the variant is editable. False if read-only.
+					'gp_url_project' => gp_url_project(),                                       // GlotPress projects base URL. Defaults to /glotpress/projects/.
+					'user_locale'    => GP_locales::by_field( 'wp_locale', get_user_locale() ), // Current user Locale.
 				)
 			);
 		}
@@ -1038,7 +1012,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			}
 
 			// Check if exist any variant.
-			if ( empty( $variant_translation_sets ) ) {
+			if ( $variant_translation_sets === array() ) {
 				return $translation_sets;
 			}
 
@@ -1079,6 +1053,34 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			}
 
 			return $translation_sets;
+		}
+
+
+		/**
+		 * Check if the current user is logged in, can manage options and has GlotPress admin previleges.
+		 *
+		 * @since 1.5.0
+		 *
+		 * @return bool   Return true or false.
+		 */
+		public static function current_user_is_glotpress_admin() {
+
+			// Check if user is logged in.
+			if ( ! is_user_logged_in() ) {
+				return false;
+			}
+
+			// Check if user can manage options.
+			if ( ! current_user_can( 'manage_options' ) ) {
+				return false;
+			}
+
+			// Check if user has GlotPress admin previleges.
+			if ( ! GP::$permission->current_user_can( 'admin' ) ) {
+				return false;
+			}
+
+			return true;
 		}
 	}
 }
