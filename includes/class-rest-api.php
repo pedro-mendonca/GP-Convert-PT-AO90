@@ -12,6 +12,7 @@ namespace GP_Convert_PT_AO90;
 
 use GP;
 use Translations;
+use WP_Error;
 use WP_REST_Request;
 
 // Exit if accessed directly.
@@ -100,7 +101,12 @@ if ( ! class_exists( __NAMESPACE__ . '\Rest_API' ) ) {
 
 			if ( $locale !== $variant_locale['locale'] || $slug !== $variant_locale['slug'] ) {
 				// Return error.
-				return rest_ensure_response( 'Locales not supported.' );
+				return rest_ensure_response(
+					new WP_Error(
+						'locales-not-supported',
+						__( 'Locales not supported.', 'gp-convert-pt-ao90' )
+					)
+				);
 			}
 
 			// Get the GP_Project.
@@ -108,7 +114,12 @@ if ( ! class_exists( __NAMESPACE__ . '\Rest_API' ) ) {
 
 			if ( $project === false ) {
 				// Return error.
-				return rest_ensure_response( 'Project not found.' );
+				return rest_ensure_response(
+					new WP_Error(
+						'project-not-found',
+						__( 'Project not found.', 'gp-convert-pt-ao90' )
+					)
+				);
 			}
 
 			// Get the Variant Translation_Set.
@@ -116,7 +127,12 @@ if ( ! class_exists( __NAMESPACE__ . '\Rest_API' ) ) {
 
 			if ( $variant_translation_set === false ) {
 				// Return error.
-				return rest_ensure_response( 'Variant Translation Set not found.' );
+				return rest_ensure_response(
+					new WP_Error(
+						'variant-translation-set-not-found',
+						__( 'Variant Translation Set not found.', 'gp-convert-pt-ao90' )
+					)
+				);
 			}
 
 			// Get the Root Translation_Set.
@@ -124,7 +140,12 @@ if ( ! class_exists( __NAMESPACE__ . '\Rest_API' ) ) {
 
 			if ( $root_translation_set === false ) {
 				// Return error.
-				return rest_ensure_response( 'Root Translation Set not found.' );
+				return rest_ensure_response(
+					new WP_Error(
+						'root-translation-set-not-found',
+						__( 'Root Translation Set not found.', 'gp-convert-pt-ao90' )
+					)
+				);
 			}
 
 			// Bulk delete all translations existing in the variant set.
