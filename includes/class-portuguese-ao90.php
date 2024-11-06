@@ -86,10 +86,8 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			 */
 			add_filter( 'gp_translation_sets_sort', array( self::class, 'sort_translation_sets' ) );
 
-			/**
-			 * Force convert the whole project again.
-			 */
-			add_action( 'wp_ajax_convert_project', array( self::class, 'convert_project' ) );
+			// Instantiate Rest API.
+			new Rest_API();
 		}
 
 
@@ -716,149 +714,6 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 
 
 		/**
-		 * Force convert the whole project.
-		 *
-		 * @since 1.4.2
-		 *
-		 * @return void
-		 */
-		public static function convert_project() {
-
-			check_ajax_referer( 'gp-convert-pt-ao90-nonce', 'nonce' );
-
-			// Initialize variables.
-			$project_path = '';
-			$locale       = '';
-			$slug         = '';
-
-			if ( isset( $_POST['projectPath'] ) ) {
-				$project_path = sanitize_text_field( wp_unslash( $_POST['projectPath'] ) );
-			} else {
-				wp_die();
-			}
-
-			if ( isset( $_POST['locale'] ) ) {
-				$locale = sanitize_key( $_POST['locale'] );
-			} else {
-				wp_die();
-			}
-
-			if ( isset( $_POST['slug'] ) ) {
-				$slug = sanitize_key( $_POST['slug'] );
-			} else {
-				wp_die();
-			}
-
-			// Get root and variant pair of Locales for conversion.
-			$locales = self::locale_root_variant();
-
-			/**
-			 * Set root Locale.
-			 */
-			$root_locale = $locales['root'];
-
-			/**
-			 * Set variant Locale.
-			 */
-			$variant_locale = $locales['variant'];
-
-			if ( $locale === $variant_locale['locale'] && $slug === $variant_locale['slug'] ) {
-
-				// Get the GP_Project.
-				$project = GP::$project->by_path( $project_path );
-
-				// Get the Variant Translation_Set.
-				$variant_translation_set = GP::$translation_set->by_project_id_slug_and_locale( $project->id, $variant_locale['slug'], $variant_locale['locale'] );
-
-				// Bulk delete all translations existing in the variant set.
-				GP::$translation->delete_many(
-					array(
-						'translation_set_id' => $variant_translation_set->id,
-					)
-				);
-
-				// Get the Root Translation_Set.
-				$root_translation_set = GP::$translation_set->by_project_id_slug_and_locale( $project->id, $root_locale['slug'], $root_locale['locale'] );
-
-				// Get root set translations for further conversion.
-				$root_translations = array();
-				if ( $root_translation_set !== false ) {
-					$root_translations = GP::$translation->for_translation(
-						$project,
-						$root_translation_set,
-						'no-limit',
-						array(
-							'status' => 'current', // Only current translations.
-						)
-					);
-				}
-
-				$converted_translations = self::convert_translations( $root_translations );
-
-				$translations_for_import = new Translations();
-
-				foreach ( $converted_translations as $converted_translation ) {
-					$translations_for_import->add_entry( $converted_translation );
-				}
-
-				// Import translations to the variant.
-				$variant_translation_set->import( $translations_for_import );
-
-				// Check for any imported translations with warnings.
-				// TODO: Allow to disable this with a filter.
-				$translations_with_warnings = GP::$translation->for_translation(
-					$project,
-					$variant_translation_set,
-					'no-limit',
-					array(
-						'warnings' => 'yes',
-					)
-				);
-
-				if ( $translations_with_warnings !== array() ) {
-
-					foreach ( $translations_with_warnings as $entry ) {
-
-						$translation_with_warnings = GP::$translation->get( $entry );
-
-						if ( $translation_with_warnings === false ) {
-							continue;
-						}
-
-						if ( is_a( $translation_with_warnings, 'GP_Translation' ) ) {
-							// Remove existing warnings.
-							$translation_with_warnings->warnings = array();
-
-							// Set as current.
-							$translation_with_warnings->set_as_current();
-
-							// Save translation.
-							$translation_with_warnings->save();
-						}
-					}
-				}
-
-				// Send JSON response.
-				wp_send_json_success(
-					array(
-						'percent'      => $variant_translation_set->percent_translated(),
-						'current'      => $variant_translation_set->current_count(),
-						'fuzzy'        => $variant_translation_set->fuzzy_count(),
-						'untranslated' => $variant_translation_set->untranslated_count(),
-						'waiting'      => $variant_translation_set->waiting_count(),
-						'old'          => $variant_translation_set->old_count,
-						'rejected'     => $variant_translation_set->rejected_count,
-						'warnings'     => $variant_translation_set->warnings_count(),
-					)
-				);
-
-			}
-
-			wp_die();
-		}
-
-
-		/**
 		 * Highlight the differences between the root and converted variant translations.
 		 *
 		 * Create the text diff inspired on wp_text_diff() but removing the unecessary table HTML.
@@ -986,6 +841,8 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				GP_CONVERT_PT_AO90_DIR_URL . 'assets/js/scripts' . $suffix . '.js',
 				array(
 					'tablesorter', // Currently used only for Translation Sets table.
+					'wp-i18n',
+					'wp-api',
 				),
 				GP_CONVERT_PT_AO90_VERSION,
 				false
@@ -1007,12 +864,12 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 				'gp-convert-pt-ao90',
 				'gpConvertPTAO90',
 				array(
-					'edit'           => $edit,
-					'admin'          => GP::$permission->current_user_can( 'admin' ),
-					'gp_url'         => gp_url(), // /glotpress/.
-					'gp_url_project' => gp_url_project(), // /glotpress/projects/.
-					'ajaxurl'        => admin_url( 'admin-ajax.php' ),
-					'nonce'          => wp_create_nonce( 'gp-convert-pt-ao90-nonce' ),
+					'edit'           => $edit,                                                  // Wether the variant is editable. False if read-only.
+					'admin'          => GP::$permission->current_user_can( 'admin' ),           // GlotPress Admin with manage options capability.
+					'gp_url'         => gp_url(),                                               // GlotPress base URL. Defaults to /glotpress/.
+					'gp_url_project' => gp_url_project(),                                       // GlotPress projects base URL. Defaults to /glotpress/projects/.
+					'nonce'          => wp_create_nonce( 'wp_rest' ),                           // Authenticate in the Rest API.
+					'user_locale'    => GP_locales::by_field( 'wp_locale', get_user_locale() ), // Current user Locale.
 				)
 			);
 		}
@@ -1163,6 +1020,34 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			}
 
 			return $translation_sets;
+		}
+
+
+		/**
+		 * Check if the current user is logged in, can manage options and has GlotPress admin previleges.
+		 *
+		 * @since 1.5.0
+		 *
+		 * @return bool   Return true or false.
+		 */
+		public static function current_user_is_glotpress_admin() {
+
+			// Check if user is logged in.
+			if ( ! is_user_logged_in() ) {
+				return false;
+			}
+
+			// Check if user can manage options.
+			if ( ! current_user_can( 'manage_options' ) ) {
+				return false;
+			}
+
+			// Check if user has GlotPress admin previleges.
+			if ( ! GP::$permission->current_user_can( 'admin' ) ) {
+				return false;
+			}
+
+			return true;
 		}
 	}
 }

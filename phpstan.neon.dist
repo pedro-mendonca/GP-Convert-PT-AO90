@@ -15,3 +15,5 @@ parameters:
 		- tests/phpstan/bootstrap.php
 	strictRules:
 		noVariableVariables: false
+	ignoreErrors:
+		- identifier: missingType.generics
