@@ -138,9 +138,11 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 
 = Unreleased =
 
+*   Use REST API to convert the entire Translation Set on demand.
+*   Fix original_id error when changing string status.
+*   Fix i18n of updated count numbers.
 *   Stricten code.
 *   Analyse GP Template with PHPStan.
-*   Fix original_id error when changing string status.
 
 = 1.4.10 =
 
