@@ -17,6 +17,11 @@
  * @var string                       $translation_singular      The translation singular.
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 $priority_char = array(
 	'-2' => array( '&times;', 'transparent', '#ccc' ),
 	'-1' => array( '&darr;', 'transparent', 'blue' ),
