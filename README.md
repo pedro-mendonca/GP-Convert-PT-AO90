@@ -161,6 +161,16 @@ Sure! You are welcome to report any issues or add feature suggestions on the [Gi
 
 ## Changelog
 
+### 1.5.1
+
+* Tested up to WP 6.9.
+* Test with PHP 8.4 and 8.5.
+* Fix PHPStan access to undefined properties.
+* Fix `create()` parameter type.
+* Prevent direct gp template access.
+* Update the actual [Convert-PT-AO90](https://github.com/pedro-mendonca/Convert-PT-AO90) tool to v1.3.4.
+* Update dependencies.
+
 ### 1.5.0
 
 * Improve speed by using the faster translation_set->import() to bulk convert the entire Translation Set on demand.
