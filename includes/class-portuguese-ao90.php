@@ -573,7 +573,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Portuguese_AO90' ) ) {
 			}
 
 			// Add converted translation to the variant translation set and set as current.
-			$variant_translation = GP::$translation->create( $translation_changed );
+			$variant_translation = GP::$translation->create( (array) $translation_changed );
 			if ( $variant_translation === false ) {
 				return;
 			}
