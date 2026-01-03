@@ -42,9 +42,11 @@ if ( $is_ptao90 && ! $supports_variants && defined( 'GP_CONVERT_PT_AO90_SHOWDIFF
 	}
 }
 
+$translation_row_id = property_exists( $translation, 'row_id' ) ? (string) $translation->row_id : '';
+
 ?>
 
-<tr class="preview <?php gp_translation_row_classes( $translation ); ?>" id="preview-<?php echo esc_attr( $translation->row_id ?? '' ); ?>" row="<?php echo esc_attr( $translation->row_id ?? '' ); ?>">
+<tr class="preview <?php gp_translation_row_classes( $translation ); ?>" id="preview-<?php echo esc_attr( $translation_row_id ); ?>" row="<?php echo esc_attr( $translation_row_id ); ?>">
 	<?php
 	if ( $can_approve_translation ) {
 		?>
@@ -56,7 +58,7 @@ if ( $is_ptao90 && ! $supports_variants && defined( 'GP_CONVERT_PT_AO90_SHOWDIFF
 		<?php
 	}
 
-	$translation_priority_id   = $translation->priority ?? '0';
+	$translation_priority_id   = property_exists( $translation, 'priority' ) ? (string) $translation->priority : '0';
 	$translation_priority_name = is_string( gp_array_get( GP::$original->get_static( 'priorities' ), $translation_priority_id ) ) ? gp_array_get( GP::$original->get_static( 'priorities' ), $translation_priority_id ) : 'normal';
 
 	?>
@@ -72,7 +74,7 @@ if ( $is_ptao90 && ! $supports_variants && defined( 'GP_CONVERT_PT_AO90_SHOWDIFF
 			<span class="original-text"><?php echo wp_kses_post( prepare_original( $translation_singular ) ); ?></span>
 			<?php
 		} else {
-			$translation_plural = isset( $translation->plural_glossary_markup ) ? $translation->plural_glossary_markup : wp_kses_post( prepare_original( esc_translation( $translation->plural ) ) );
+			$translation_plural = property_exists( $translation, 'plural_glossary_markup' ) ? $translation->plural_glossary_markup : wp_kses_post( prepare_original( esc_translation( $translation->plural ) ) );
 			?>
 			<ul>
 				<li><small><?php esc_html_e( 'Singular:', 'gp-convert-pt-ao90' ); ?></small><br><span class="original-text"><?php echo wp_kses_post( prepare_original( $translation_singular ) ); ?></span></li>
@@ -116,7 +118,7 @@ if ( $is_ptao90 && ! $supports_variants && defined( 'GP_CONVERT_PT_AO90_SHOWDIFF
 
 			$singular_translation = esc_translation( $translation->translations[0] );
 			// Check if has root.
-			if ( $is_ptao90 && ( isset( $translation->root_id ) || $has_root ) ) {
+			if ( $is_ptao90 && ( property_exists( $translation, 'root_id' ) || $has_root ) ) {
 				if ( defined( 'GP_CONVERT_PT_AO90_SHOWDIFF' ) && GP_CONVERT_PT_AO90_SHOWDIFF === true ) {
 					$singular_translation = GP_Convert_PT_AO90\Portuguese_AO90::highlight_diff(
 						esc_translation( $supports_variants ? property_exists( $translation, 'root_translation_0' ) && $translation->root_translation_0 : ( ! is_null( $root_translation ) ? $root_translation->translations[0] : '' ) ),
@@ -141,7 +143,7 @@ if ( $is_ptao90 && ! $supports_variants && defined( 'GP_CONVERT_PT_AO90_SHOWDIFF
 					} else {
 						$singular_translation = esc_translation( $translation->translations[0] );
 						// Check if has root.
-						if ( $is_ptao90 && ( isset( $translation->root_id ) || $has_root ) ) {
+						if ( $is_ptao90 && ( property_exists( $translation, 'root_id' ) || $has_root ) ) {
 							if ( defined( 'GP_CONVERT_PT_AO90_SHOWDIFF' ) && GP_CONVERT_PT_AO90_SHOWDIFF === true ) {
 								$singular_translation = GP_Convert_PT_AO90\Portuguese_AO90::highlight_diff(
 									esc_translation( $supports_variants ? property_exists( $translation, 'root_translation_0' ) && $translation->root_translation_0 : ( ! is_null( $root_translation ) ? $root_translation->translations[0] : '' ) ),
@@ -163,7 +165,7 @@ if ( $is_ptao90 && ! $supports_variants && defined( 'GP_CONVERT_PT_AO90_SHOWDIFF
 					} else {
 						$plural_translation = esc_translation( $translation->translations[1] );
 						// Check if has root.
-						if ( $is_ptao90 && ( isset( $translation->root_id ) || $has_root ) ) {
+						if ( $is_ptao90 && ( property_exists( $translation, 'root_id' ) || $has_root ) ) {
 							if ( defined( 'GP_CONVERT_PT_AO90_SHOWDIFF' ) && GP_CONVERT_PT_AO90_SHOWDIFF === true ) {
 								$plural_translation = GP_Convert_PT_AO90\Portuguese_AO90::highlight_diff(
 									esc_translation( $supports_variants ? property_exists( $translation, 'root_translation_1' ) && $translation->root_translation_1 : ( ! is_null( $root_translation ) ? $root_translation->translations[1] : '' ) ),
@@ -205,7 +207,7 @@ if ( $is_ptao90 && ! $supports_variants && defined( 'GP_CONVERT_PT_AO90_SHOWDIFF
 						} else {
 							$plural_translation = esc_translation( $translation->translations[ $plural_index ] );
 							// Check if has root.
-							if ( $is_ptao90 && ( isset( $translation->root_id ) || $has_root ) ) {
+							if ( $is_ptao90 && ( property_exists( $translation, 'root_id' ) || $has_root ) ) {
 								if ( defined( 'GP_CONVERT_PT_AO90_SHOWDIFF' ) && GP_CONVERT_PT_AO90_SHOWDIFF === true ) {
 									$plural_translation = GP_Convert_PT_AO90\Portuguese_AO90::highlight_diff(
 										esc_translation( $supports_variants ? $translation->{ 'root_translation_' . $plural_index } : ( ! is_null( $root_translation ) ? $root_translation->translations[ $plural_index ] : '' ) ),
