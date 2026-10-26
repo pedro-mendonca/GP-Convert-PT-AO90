@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "95b588d89e7ecf16f383afed5c1f789f",
+    "content-hash": "0a22e427a4c3b15bb93d6644a8def160",
     "packages": [
         {
             "name": "pedro-mendonca/convert-pt-ao90",
@@ -771,35 +771,32 @@
         },
         {
             "name": "johnbillion/wp-compat",
-            "version": "1.5.0",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/johnbillion/wp-compat.git",
-                "reference": "2ccebedbbbc6b6eec3fba4a568cff0a4ec05bf6e"
+                "reference": "5bc1ad5c9c953f89271de607c7e3a8de8589371c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/johnbillion/wp-compat/zipball/2ccebedbbbc6b6eec3fba4a568cff0a4ec05bf6e",
-                "reference": "2ccebedbbbc6b6eec3fba4a568cff0a4ec05bf6e",
+                "url": "https://api.github.com/repos/johnbillion/wp-compat/zipball/5bc1ad5c9c953f89271de607c7e3a8de8589371c",
+                "reference": "5bc1ad5c9c953f89271de607c7e3a8de8589371c",
                 "shasum": ""
             },
             "require": {
-                "php": ">= 7.4",
-                "phpstan/phpstan": "^2.0",
-                "wp-hooks/wordpress-core": "^1.12"
+                "php": ">= 7.2.24",
+                "phpstan/phpstan": "^1.12 || ^2.0",
+                "wp-hooks/wordpress-core": "^1.13"
             },
             "require-dev": {
                 "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
-                "johnbillion/plugin-infrastructure": "dev-trunk",
-                "nikic/php-parser": "^5.1",
-                "php-stubs/wordpress-stubs": "~7.0.0",
-                "phpstan/phpstan-deprecation-rules": "2.0.0",
-                "phpstan/phpstan-phpunit": "2.0.1",
-                "phpstan/phpstan-strict-rules": "2.0.0",
-                "phpunit/phpunit": "^9.0",
-                "roots/wordpress-core-installer": "1.100.0",
-                "roots/wordpress-full": "~7.0.0",
-                "wp-coding-standards/wpcs": "3.1.0"
+                "nikic/php-parser": "^4.18 || ^5.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0 || ^2.0",
+                "phpstan/phpstan-phpunit": "^1.0 || ^2.0",
+                "phpstan/phpstan-strict-rules": "^1.0 || ^2.0",
+                "phpunit/phpunit": "^8.5 || ^9.0",
+                "roots/wordpress": "*",
+                "wp-coding-standards/wpcs": "3.4.1"
             },
             "suggest": {
                 "phpstan/phpstan-deprecation-rules": "PHPStan rules for detecting usage of deprecated symbols",
@@ -845,7 +842,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-05-22T14:13:03+00:00"
+            "time": "2026-10-21T20:54:48+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
@@ -1724,11 +1721,11 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.3.1",
+            "version": "2.3.2",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/6155239b488e95d26d1ebd95c6b4bb294d7f09db",
-                "reference": "6155239b488e95d26d1ebd95c6b4bb294d7f09db",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/18bc23a0682f08591529377d271b5c4dfe9ed1dd",
+                "reference": "18bc23a0682f08591529377d271b5c4dfe9ed1dd",
                 "shasum": ""
             },
             "require": {
@@ -1784,7 +1781,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-10-08T21:09:11+00:00"
+            "time": "2026-10-24T11:36:00+00:00"
         },
         {
             "name": "phpstan/phpstan-strict-rules",
@@ -3014,5 +3011,5 @@
     "platform-overrides": {
         "php": "7.4.33"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
